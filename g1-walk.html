@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WASDQE Walk — High-Level Locomotion Controller — Huamin (Lucas) Lu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a class="logo" href="index.html"><span class="prompt">~/</span>lucas_lu<span class="cursor"></span></a>
+    <nav>
+      <ul>
+        <li><a href="index.html">home</a></li>
+        <li><a href="projects.html">all_projects</a></li>
+        <li class="dropdown">
+          <a href="#" class="active">projects</a>
+          <div class="dropdown-menu">
+            <a href="robot-arm.html"><span class="idx">01</span>7-DOF QDD Robot Arm</a>
+            <a href="robot-hand.html"><span class="idx">02</span>10-DOF Dexterous Hand</a>
+            <a href="unitree-g1.html"><span class="idx">03</span>Unitree G1 Humanoid</a>
+            <a href="g1-hand-mimic.html"><span class="idx">3.1</span>&nbsp;&nbsp;Hand Mimic</a>
+            <a href="g1-hand-recorder.html"><span class="idx">3.2</span>&nbsp;&nbsp;Hand Recorder GUI</a>
+            <a href="g1-arm-policy.html"><span class="idx">3.3</span>&nbsp;&nbsp;MuJoCo Arm Policy</a>
+            <a href="g1-arm-recorder.html"><span class="idx">3.4</span>&nbsp;&nbsp;Arm Recorder GUI</a>
+            <a href="g1-walk.html"><span class="idx">3.5</span>&nbsp;&nbsp;WASDQE Walk</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="circuit-edge"></div>
+
+<main>
+
+  <section class="project-header">
+    <p class="crumb"><a href="projects.html">projects</a> / <a href="unitree-g1.html">unitree g1</a> / 05</p>
+    <h1>WASDQE Walk — High-Level Bipedal Locomotion Teleop</h1>
+    <div class="meta">
+      <span>plane <b>high-level velocity RPC</b></span>
+      <span>loop <b>15 Hz</b></span>
+      <span>pulse <b>0.45 s tap-to-inch</b></span>
+      <span>safety clamp <b>1.4 m/s / 2.0 rad/s</b></span>
+    </div>
+    <p class="project-intro">
+      An always-on-top GUI that walks the bipedal G1 with the keyboard. The operator commands
+      a body-velocity setpoint — the robot's onboard whole-body controller owns balance, gait,
+      and leg inverse kinematics.
+    </p>
+  </section>
+
+  <!-- ============ HERO ============ -->
+  <div class="fig-wide">
+    <div class="ph">
+      <div class="ph-icon">⌨</div>
+      <div class="ph-label">[ img: keyboard walk GUI ]</div>
+      <div class="ph-desc">Compact dark 400×540 px window — Q/W/E / A/S/D key grid with yellow highlight on the pressed key, ENABLE switch, SPEED slider at 0.30 m/s, vx/vy/ω readout</div>
+    </div>
+  </div>
+
+  <!-- ============ CONTROL PLANE ============ -->
+  <section class="psection">
+    <h2><span class="num">01</span>High-Level Control Plane</h2>
+
+    <p class="caption" style="margin-bottom:16px">This is the <b>high-level control plane</b>, in contrast to the arm projects — those stream every joint's 5 variables at low level. Here the operator never touches a joint angle: the loop sends <b>3 numbers</b> and the onboard <b>ai_sport</b> stack does footstep planning, balance, and per-joint torque computation.</p>
+
+    <p class="code-label">drive_loop.py</p>
+    <pre><code><span class="cm"># 15 Hz drive loop — one body-velocity setpoint per tick</span>
+code = loco_client.<span class="fn">SetVelocity</span>(vx, vy, omega, duration=<span class="nm">864000.0</span>)
+<span class="cm"># vx = forward/back (m/s), vy = strafe (m/s), omega = yaw rate (rad/s)</span></code></pre>
+
+    <div class="fig-split">
+      <div class="ph">
+        <div class="ph-icon">⚲</div>
+        <div class="ph-label">[ img: G1 walking in lab ]</div>
+        <div class="ph-desc">The G1 walking forward in the robotics lab, bipedal gait mid-stride, teleop GUI visible on a screen in the background</div>
+      </div>
+      <div>
+        <p class="caption"><b>Velocity in, gait out.</b> The onboard whole-body controller receives the setpoint and runs its full gait pipeline — none of that is visible to this project.</p>
+        <p class="caption"><b>WASDQE mapping.</b> W/S drive forward/back, Q/E strafe, A/D turn — familiar game controls for precise floor-level teleop.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MOTION MODEL ============ -->
+  <section class="psection">
+    <h2><span class="num">02</span>Tap-to-Inch Motion Model</h2>
+
+    <ul class="spec-list">
+      <li><span class="k">SPEED_MIN</span><span class="v">0.15 m/s — minimum tap pulse velocity</span></li>
+      <li><span class="k">SPEED_MAX</span><span class="v">1.20 m/s — maximum tap pulse velocity</span></li>
+      <li><span class="k">ANG_RATIO</span><span class="v">1.25 rad/s of turn per 1 m/s linear</span></li>
+      <li><span class="k">PULSE_SECS</span><span class="v">0.45 s — each keypress drives one pulse, then auto-stops</span></li>
+      <li><span class="k">hard clamps</span><span class="v">VMAX_LIN 1.4 m/s · VMAX_ANG 2.0 rad/s</span></li>
+    </ul>
+
+    <div class="fig-split reverse landscape">
+      <div>
+        <p class="caption"><b>Bounded pulses, never momentum.</b> Each keypress fires one velocity pulse for 0.45 s, then auto-stops — <b>speed never accumulates</b>; re-pressing re-fires the same pulse. The SPEED slider scales pulse magnitude, SHIFT boosts 1.6×.</p>
+        <p class="caption"><b>Layered safety.</b> An <b>ENABLE</b> switch gates all motion; SPACE stops immediately, Z damps every joint compliant, ESC cuts to zero torque.</p>
+      </div>
+      <div class="ph">
+        <div class="ph-icon">⏻</div>
+        <div class="ph-label">[ img: interface connection ]</div>
+        <div class="ph-desc">USB-Ethernet dongle (enxa0cec8b8657b) on the workstation, with the 192.168.123.x address shown in ip addr output</div>
+      </div>
+    </div>
+
+    <p class="code-label">fsm_safety.py</p>
+    <pre><code>bot.<span class="fn">SetFsmId</span>(<span class="nm">200</span>)       <span class="cm"># engage gait FSM state 200 (walking mode)</span>
+bot.<span class="fn">SetBalanceMode</span>(<span class="nm">1</span>)   <span class="cm"># continuous gait balance (vs. static hold)</span>
+bot.<span class="fn">StopMove</span>()          <span class="cm"># SPACE key → immediate stop</span>
+bot.<span class="fn">Damp</span>()              <span class="cm"># Z key → all joints go compliant (fall gently)</span>
+bot.<span class="fn">ZeroTorque</span>()        <span class="cm"># ESC → all motors off</span></code></pre>
+  </section>
+
+  <!-- ============ ERROR 3102 ============ -->
+  <section class="psection">
+    <h2><span class="num">03</span>Root-Causing Error 3102</h2>
+
+    <p class="caption" style="margin-bottom:16px">Every walk command failed with error <b>3102 (RPC_ERR_CLIENT_SEND)</b>. Root cause: firmware <b>ai_sport ≥ 8.2.0.0</b> renamed the locomotion RPC service <b>"loco" → "sport"</b>, while the vendored SDK still hardcoded <b>"loco"</b>. A two-line patch fixes it.</p>
+
+    <p class="code-label">service_name_fix.py</p>
+    <pre><code><span class="kw">import</span> unitree_sdk2py.g1.loco.g1_loco_api <span class="kw">as</span> _loco_api
+_loco_api.LOCO_SERVICE_NAME = <span class="st">"sport"</span>   <span class="cm"># override before LocoClient.__init__()</span></code></pre>
+
+    <p class="caption"><b>NIC auto-detection.</b> <span class="fn">_resolve_g1_iface()</span> scans all network interfaces via Linux's <b>SIOCGIFADDR</b> ioctl and returns the one holding a 192.168.123.x address — the G1's wired Ethernet bus, with no hardcoded interface names.</p>
+    <p class="caption"><b>Noise filter.</b> The SDK's lease-renewal thread spams harmless <b>3102</b> errors every second; a <b>_NoiseFilter</b> stdout wrapper intercepts those lines by pattern before they reach the terminal.</p>
+  </section>
+
+  <nav class="project-nav">
+    <a href="g1-arm-recorder.html">← Arm Recorder GUI</a>
+    <a href="unitree-g1.html">Unitree G1 Overview →</a>
+  </nav>
+
+</main>
+
+<div class="circuit-edge bottom"></div>
+
+<footer>
+  <div class="footer-inner">
+    <span>© 2026 Huamin Lu — built with HTML/CSS, no frameworks</span>
+    <span><a href="projects.html">all projects →</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

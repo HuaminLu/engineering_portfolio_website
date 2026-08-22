@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arm Recorder GUI — 14-DOF Joint-Space Animator — Huamin (Lucas) Lu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a class="logo" href="index.html"><span class="prompt">~/</span>lucas_lu<span class="cursor"></span></a>
+    <nav>
+      <ul>
+        <li><a href="index.html">home</a></li>
+        <li><a href="projects.html">all_projects</a></li>
+        <li class="dropdown">
+          <a href="#" class="active">projects</a>
+          <div class="dropdown-menu">
+            <a href="robot-arm.html"><span class="idx">01</span>7-DOF QDD Robot Arm</a>
+            <a href="robot-hand.html"><span class="idx">02</span>10-DOF Dexterous Hand</a>
+            <a href="unitree-g1.html"><span class="idx">03</span>Unitree G1 Humanoid</a>
+            <a href="g1-hand-mimic.html"><span class="idx">3.1</span>&nbsp;&nbsp;Hand Mimic</a>
+            <a href="g1-hand-recorder.html"><span class="idx">3.2</span>&nbsp;&nbsp;Hand Recorder GUI</a>
+            <a href="g1-arm-policy.html"><span class="idx">3.3</span>&nbsp;&nbsp;MuJoCo Arm Policy</a>
+            <a href="g1-arm-recorder.html"><span class="idx">3.4</span>&nbsp;&nbsp;Arm Recorder GUI</a>
+            <a href="g1-walk.html"><span class="idx">3.5</span>&nbsp;&nbsp;WASDQE Walk</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="circuit-edge"></div>
+
+<main>
+
+  <section class="project-header">
+    <p class="crumb"><a href="projects.html">projects</a> / <a href="unitree-g1.html">unitree g1</a> / 04</p>
+    <h1>Arm Recorder GUI — 14-DOF Joint-Space Trajectory Animator</h1>
+    <div class="meta">
+      <span>control <b>LowCmd_ @ 50 Hz</b></span>
+      <span>joints <b>14 arm + 3 waist</b></span>
+      <span>gains <b>kp=60 / kd=1.5</b></span>
+      <span>topic <b>rt/arm_sdk</b></span>
+    </div>
+    <p class="project-intro">
+      A desktop GUI to dial, record, and replay multi-joint arm trajectories on the G1's two
+      7-DOF arms — full position/velocity/torque/stiffness streaming over DDS.
+      The recordings become training data for a continuous arm policy.
+    </p>
+  </section>
+
+  <!-- ============ HERO ============ -->
+  <div class="fig-wide">
+    <div class="ph">
+      <div class="ph-icon">⌇</div>
+      <div class="ph-label">[ img: arm recorder GUI ]</div>
+      <div class="ph-desc">Yellow-black Flet window — 7 vertical sliders per arm (Shoulder Pitch → Wrist Yaw), TAKES list, ARM selector, DIRECTION dropdown, REC/STOP/COMBINE/PLAY/SAVE buttons</div>
+    </div>
+  </div>
+
+  <!-- ============ DDS STREAMING ============ -->
+  <section class="psection">
+    <h2><span class="num">01</span>Low-Level DDS Streaming</h2>
+
+    <p class="caption" style="margin-bottom:16px">Every tick, a full <b>LowCmd_</b> packet is published on <b>rt/arm_sdk</b> at <b>50 Hz</b> — position, velocity, torque, and PD gains for all 14 arm joints simultaneously. The 3 waist joints are locked upright at high stiffness so the torso doesn't droop when arm_sdk takes control.</p>
+
+    <p class="code-label">arm_recorder.py — 50 Hz publish loop</p>
+    <pre><code>KP_STIFF, KD_STIFF = <span class="nm">60.0</span>, <span class="nm">1.5</span>     <span class="cm"># arm joint position gains</span>
+WAIST_IDX = [<span class="nm">12</span>, <span class="nm">13</span>, <span class="nm">14</span>]
+KP_WAIST, KD_WAIST = <span class="nm">200.0</span>, <span class="nm">5.0</span>    <span class="cm"># waist lock gains — torso stays upright</span>
+
+<span class="cm"># arm_sdk enable flag — set every packet</span>
+msg.motor_cmd[<span class="nm">29</span>].q = <span class="nm">1.0</span>
+
+<span class="kw">for</span> i, idx <span class="kw">in</span> <span class="fn">enumerate</span>(LEFT_IDX):   <span class="cm"># [15..21]</span>
+    msg.motor_cmd[idx].q   = cmd_q[i]   <span class="cm"># ramped toward slider target</span>
+    msg.motor_cmd[idx].dq  = <span class="nm">0.0</span>
+    msg.motor_cmd[idx].tau = <span class="nm">0.0</span>
+    msg.motor_cmd[idx].kp  = KP_STIFF
+    msg.motor_cmd[idx].kd  = KD_STIFF</code></pre>
+
+    <div class="fig-split">
+      <div class="ph">
+        <div class="ph-icon">⛶</div>
+        <div class="ph-label">[ img: G1 arm at custom pose ]</div>
+        <div class="ph-desc">Physical robot arm holding a non-default position with the sliders matching — live DDS streaming working</div>
+      </div>
+      <div>
+        <p class="caption"><b>Ramp limiter.</b> The commanded position ramps toward the slider target each tick instead of jumping — a large slider move can never produce a sudden torque spike.</p>
+        <p class="caption"><b>Startup seeding.</b> Before publishing, the GUI subscribes to <b>rt/lowstate</b> and seeds the sliders from the robot's measured joint positions — no snap-to-zero on connect.</p>
+      </div>
+    </div>
+
+    <ul class="spec-list">
+      <li><span class="k">shoulder pitch</span><span class="v">motor 15 (L) / 22 (R)</span></li>
+      <li><span class="k">shoulder roll</span><span class="v">motor 16 (L) / 23 (R)</span></li>
+      <li><span class="k">shoulder yaw (upper arm rotate)</span><span class="v">motor 17 (L) / 24 (R)</span></li>
+      <li><span class="k">elbow</span><span class="v">motor 18 (L) / 25 (R)</span></li>
+      <li><span class="k">wrist roll (forearm rotate)</span><span class="v">motor 19 (L) / 26 (R)</span></li>
+      <li><span class="k">wrist pitch</span><span class="v">motor 20 (L) / 27 (R)</span></li>
+      <li><span class="k">wrist yaw</span><span class="v">motor 21 (L) / 28 (R)</span></li>
+    </ul>
+  </section>
+
+  <!-- ============ SAFETY & ERGONOMICS ============ -->
+  <section class="psection">
+    <h2><span class="num">02</span>Operator Safety &amp; Ergonomics</h2>
+
+    <div class="fig-split reverse landscape">
+      <div>
+        <p class="caption"><b>Damp mode.</b> Setting kp=kd=0 for an arm makes it go limp so the operator can physically hand-guide it into a start pose.</p>
+        <p class="caption"><b>Mirror mode.</b> Left-arm recordings mirror to the right arm; axes {1, 2, 4, 6} — shoulder roll, shoulder yaw, wrist roll, wrist yaw — flip sign due to kinematic chirality.</p>
+        <p class="caption"><b>NIC auto-detection.</b> The GUI scans <b>/sys/class/net</b> for interfaces on <b>192.168.123.x</b> and populates a connection dropdown — no hardcoded USB-Ethernet adapter names.</p>
+      </div>
+      <div class="ph">
+        <div class="ph-icon">▶</div>
+        <div class="ph-label">[ video: trajectory playback ]</div>
+        <div class="ph-desc">Time-lapse of the arm moving smoothly through a recorded "up" trajectory</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ POLICY TRAINING ============ -->
+  <section class="psection">
+    <h2><span class="num">03</span>From Recordings to a Continuous Policy</h2>
+
+    <p class="caption" style="margin-bottom:16px">Recordings are saved as 25 fps joint-space keyframe YAMLs — one 7-value row per frame per arm.</p>
+
+    <p class="code-label">data/trajectories/left/up.yaml</p>
+    <pre><code><span class="nm">gesture</span>: <span class="st">up</span>
+<span class="nm">fps</span>: <span class="nm">25</span>
+<span class="nm">frames</span>:
+  <span class="nm">left</span>:
+    - [<span class="nm">0.0</span>, <span class="nm">0.0</span>, <span class="nm">0.0</span>, <span class="nm">0.0</span>, <span class="nm">0.0</span>, <span class="nm">0.0</span>, <span class="nm">0.0</span>]    <span class="cm"># home</span>
+    - [<span class="nm">0.1</span>, <span class="nm">0.05</span>, <span class="nm">0.0</span>, <span class="nm">-0.1</span>, <span class="nm">0.0</span>, <span class="nm">0.2</span>, <span class="nm">0.0</span>]  <span class="cm"># frame 2</span>
+    - ...                                        <span class="cm"># 25 frames / second</span></code></pre>
+
+    <p class="caption" style="margin-bottom:16px"><b>build_preset_policy.py</b> turns the 6 direction presets (up/down/left/right/forward/back) into training pairs: frame <b>k</b> of direction <b>d</b> teaches command <b>(k / (N−1)) · axis_unit(d) → frame_k − home_pose</b>, so the MLP learns proportional magnitude on a 3-axis command vector, not just 6 discrete poses.</p>
+
+    <p class="code-label">build_preset_policy.py — MLP training</p>
+    <pre><code>model = <span class="fn">MLPRegressor</span>(
+    hidden_layer_sizes=(<span class="nm">32</span>, <span class="nm">32</span>),
+    activation=<span class="st">"relu"</span>,
+    solver=<span class="st">"adam"</span>,
+    max_iter=<span class="nm">400</span>,
+)
+<span class="cm"># Features: [3-axis command] → standardized</span>
+<span class="cm"># Targets:  [7 joint deltas] → StandardScaler applied</span>
+model.<span class="fn">fit</span>(X_scaled, Y_scaled)
+<span class="cm"># Saves bundle with model + scalers + joint limits to arm_policy.joblib</span></code></pre>
+
+    <div class="fig-split">
+      <div class="ph">
+        <div class="ph-icon">⊞</div>
+        <div class="ph-label">[ img: training data CSV ]</div>
+        <div class="ph-desc">Spreadsheet view of training_data_with_waist.csv — direction, start joint angles, end joint angles</div>
+      </div>
+      <div>
+        <p class="caption"><b>Continuous interpolation.</b> The trained MLP maps any blended 3-axis command — like <b>(0.7, 0, 0.3)</b> — to a smooth pose between the recorded presets, not just the 6 discrete ones.</p>
+      </div>
+    </div>
+  </section>
+
+  <nav class="project-nav">
+    <a href="g1-arm-policy.html">← MuJoCo Arm Policy</a>
+    <a href="g1-walk.html">WASDQE Walk →</a>
+  </nav>
+
+</main>
+
+<div class="circuit-edge bottom"></div>
+
+<footer>
+  <div class="footer-inner">
+    <span>© 2026 Huamin Lu — built with HTML/CSS, no frameworks</span>
+    <span><a href="projects.html">all projects →</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

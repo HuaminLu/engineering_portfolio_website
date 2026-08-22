@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>10-DOF Dexterous Hand — Huamin (Lucas) Lu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a class="logo" href="index.html"><span class="prompt">~/</span>lucas_lu<span class="cursor"></span></a>
+    <nav>
+      <ul>
+        <li><a href="index.html">home</a></li>
+        <li><a href="projects.html">all_projects</a></li>
+        <li class="dropdown">
+          <a href="#" class="active">projects</a>
+          <div class="dropdown-menu">
+            <a href="robot-arm.html"><span class="idx">01</span>7-DOF QDD Robot Arm</a>
+            <a href="robot-hand.html"><span class="idx">02</span>10-DOF Dexterous Hand</a>
+            <a href="unitree-g1.html"><span class="idx">03</span>Unitree G1 Humanoid</a>
+            <a href="g1-hand-mimic.html"><span class="idx">3.1</span>&nbsp;&nbsp;Hand Mimic</a>
+            <a href="g1-hand-recorder.html"><span class="idx">3.2</span>&nbsp;&nbsp;Hand Recorder GUI</a>
+            <a href="g1-arm-policy.html"><span class="idx">3.3</span>&nbsp;&nbsp;MuJoCo Arm Policy</a>
+            <a href="g1-arm-recorder.html"><span class="idx">3.4</span>&nbsp;&nbsp;Arm Recorder GUI</a>
+            <a href="g1-walk.html"><span class="idx">3.5</span>&nbsp;&nbsp;WASDQE Walk</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="circuit-edge"></div>
+
+<main>
+
+  <section class="project-header">
+    <p class="crumb"><a href="projects.html">projects</a> / 02</p>
+    <h1>10-DOF Anthropomorphic Dexterous Hand</h1>
+    <div class="meta">
+      <span>actuators <b>MG90S × 10</b></span>
+      <span>controller <b>ESP32 Mini + PCA9685</b></span>
+      <span>servo rail <b>6V @ 10A</b></span>
+      <span>CAD <b>SolidWorks surfacing</b></span>
+    </div>
+    <p class="project-intro">
+      A fully functional 10-degree-of-freedom robotic hand. Advanced CAD surfacing packs
+      10 micro-servos into an ergonomic palm; the power system survives all 10 stalling at once.
+    </p>
+
+    <ul class="achievements">
+      <li><b>Engineered a high-transient power architecture</b> that sustains 10 A simultaneous stall current across 10 independent servos without a single MCU brownout.</li>
+      <li><b>Eliminated PWM jitter</b> by offloading 50 Hz timing to a dedicated I²C hardware driver — RTOS context switching and WiFi tasks never touch the signal.</li>
+      <li><b>Packed 10 actuators into an anthropomorphic palm</b> using advanced boundary surfacing and surface lofts in SolidWorks, with zero mechanical interference.</li>
+    </ul>
+  </section>
+
+  <!-- ============ HERO ============ -->
+  <div class="fig-wide">
+    <div class="ph">
+      <div class="ph-icon">⌇</div>
+      <div class="ph-label">[ img: hand — hero ]</div>
+      <div class="ph-desc">Assembled hand gripping an object, fingers articulated</div>
+    </div>
+  </div>
+
+  <!-- ============ MECHANICAL ============ -->
+  <section class="psection">
+    <h2><span class="num">01</span>Mechanical Design — Surfacing</h2>
+
+    <div class="fig-split">
+      <div class="ph">
+        <div class="ph-icon">▣</div>
+        <div class="ph-label">[ img: palm CAD cross-section ]</div>
+        <div class="ph-desc">Transparent SolidWorks render — 10 servos packed inside the contoured palm</div>
+      </div>
+      <div>
+        <p class="caption"><b>Boundary surfacing + surface lofts.</b> The palm enclosure was modeled with advanced surfacing to create an ergonomic, space-optimized cavity — 10 MG90S servos with zero mechanical interference.</p>
+        <p class="caption"><b>Zero-backlash mounting.</b> Precision pockets for M3 heat-set inserts keep servo brackets rigid under load, so the chassis never separates mid-grip.</p>
+      </div>
+    </div>
+
+    <div class="fig-row">
+      <div>
+        <div class="ph">
+          <div class="ph-icon">⛶</div>
+          <div class="ph-label">[ img: finger linkage ]</div>
+          <div class="ph-desc">Close-up of a printed finger linkage / joint</div>
+        </div>
+        <p class="caption">Each finger is a printed linkage driven by its own servo — two DOF per finger on the primary digits.</p>
+      </div>
+      <div>
+        <div class="ph">
+          <div class="ph-icon">⊞</div>
+          <div class="ph-label">[ img: printed parts ]</div>
+          <div class="ph-desc">All 3D-printed components laid out before assembly</div>
+        </div>
+        <p class="caption">The full part set — palm shells, finger segments, servo brackets — printed and ready for heat-set inserts.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ELECTRICAL ============ -->
+  <section class="psection">
+    <h2><span class="num">02</span>Electrical — Transient-Safe Power</h2>
+
+    <ul class="spec-list">
+      <li><span class="k">supply</span><span class="v">12V 10A DC</span></li>
+      <li><span class="k">servo rail</span><span class="v">6V via XL4015 CC/CV buck converter</span></li>
+      <li><span class="k">worst-case load</span><span class="v">10 servos stalled ≈ 10 A</span></li>
+      <li><span class="k">protection</span><span class="v">10A automotive blade fuse on 12V input</span></li>
+      <li><span class="k">bulk capacitance</span><span class="v">4700 µF electrolytic across 6V rail</span></li>
+      <li><span class="k">decoupling</span><span class="v">0.1 µF ceramics for switching noise</span></li>
+    </ul>
+
+    <div class="fig-split reverse landscape">
+      <div>
+        <p class="caption"><b>Transient suppression.</b> Servos are inductive loads — a sudden grip pulls a current spike that would sag the rail. The 4700 µF bulk cap acts as a local energy reservoir, absorbing back-EMF and feeding instant current.</p>
+        <p class="caption"><b>Logic isolation.</b> The PCA9685 physically separates 3.3V logic power (VCC, from the ESP32) from 6V actuator power (V+, from the buck). A mechanical stall can never brown out the MCU or corrupt the I²C bus.</p>
+      </div>
+      <div class="ph">
+        <div class="ph-icon">⏚</div>
+        <div class="ph-label">[ img: wiring schematic ]</div>
+        <div class="ph-desc">Diagram — 12V supply → fuse → buck → 6V rail + 4700µF cap; ESP32 → PCA9685 with separate VCC / V+</div>
+      </div>
+    </div>
+
+    <div class="fig-wide">
+      <div class="ph">
+        <div class="ph-icon">⌁</div>
+        <div class="ph-label">[ img: bench electronics ]</div>
+        <div class="ph-desc">Top-down photo — power supply, buck converter, bulk cap on the rails, ESP32 wired to PCA9685</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ EMBEDDED ============ -->
+  <section class="psection">
+    <h2><span class="num">03</span>Embedded Control — I²C Offloading</h2>
+
+    <p class="caption" style="margin-bottom:16px">The ESP32's RTOS context switching and WiFi tasks would jitter software PWM. All 10 channels of 50 Hz PWM generation are offloaded to the PCA9685 over I²C — the driver holds pulses in hardware.</p>
+
+    <p class="code-label">hand_control.cpp</p>
+    <pre><code><span class="kw">#include</span> <span class="st">&lt;Wire.h&gt;</span>
+<span class="kw">#include</span> <span class="st">&lt;Adafruit_PWMServoDriver.h&gt;</span>
+
+Adafruit_PWMServoDriver pwm = <span class="fn">Adafruit_PWMServoDriver</span>(<span class="nm">0x40</span>);
+
+<span class="kw">#define</span> SERVO_FREQ <span class="nm">50</span>   <span class="cm">// standard analog servo frequency (Hz)</span>
+<span class="kw">#define</span> SERVOMIN   <span class="nm">150</span>  <span class="cm">// pulse count for 0°   (of 4096)</span>
+<span class="kw">#define</span> SERVOMAX   <span class="nm">600</span>  <span class="cm">// pulse count for 180° (of 4096)</span>
+
+<span class="kw">void</span> <span class="fn">setup</span>() {
+  Wire.begin(<span class="nm">21</span>, <span class="nm">22</span>);              <span class="cm">// ESP32 I2C: SDA=21, SCL=22</span>
+  pwm.begin();
+  pwm.setOscillatorFrequency(<span class="nm">27000000</span>);
+  pwm.setPWMFreq(SERVO_FREQ);       <span class="cm">// hardware-timed 50 Hz</span>
+}
+
+<span class="kw">void</span> <span class="fn">actuateFinger</span>(uint8_t fingerID, uint16_t angle) {
+  uint16_t pulse = map(angle, <span class="nm">0</span>, <span class="nm">180</span>, SERVOMIN, SERVOMAX);
+  pwm.setPWM(fingerID, <span class="nm">0</span>, pulse);   <span class="cm">// jitter-free hardware PWM</span>
+}</code></pre>
+
+    <div class="fig-wide">
+      <div class="ph">
+        <div class="ph-icon">▶</div>
+        <div class="ph-label">[ video: hand demo ]</div>
+        <div class="ph-desc">Video — fingers cycling through grips / counting sequence</div>
+      </div>
+    </div>
+  </section>
+
+  <nav class="project-nav">
+    <a href="robot-arm.html">← 7-DOF QDD Robot Arm</a>
+    <a href="unitree-g1.html">Unitree G1 Humanoid →</a>
+  </nav>
+
+</main>
+
+<div class="circuit-edge bottom"></div>
+
+<footer>
+  <div class="footer-inner">
+    <span>© 2026 Huamin Lu — built with HTML/CSS, no frameworks</span>
+    <span><a href="projects.html">all projects →</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>7-DOF QDD Robot Arm — Huamin (Lucas) Lu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a class="logo" href="index.html"><span class="prompt">~/</span>lucas_lu<span class="cursor"></span></a>
+    <nav>
+      <ul>
+        <li><a href="index.html">home</a></li>
+        <li><a href="projects.html">all_projects</a></li>
+        <li class="dropdown">
+          <a href="#" class="active">projects</a>
+          <div class="dropdown-menu">
+            <a href="robot-arm.html"><span class="idx">01</span>7-DOF QDD Robot Arm</a>
+            <a href="robot-hand.html"><span class="idx">02</span>10-DOF Dexterous Hand</a>
+            <a href="unitree-g1.html"><span class="idx">03</span>Unitree G1 Humanoid</a>
+            <a href="g1-hand-mimic.html"><span class="idx">3.1</span>&nbsp;&nbsp;Hand Mimic</a>
+            <a href="g1-hand-recorder.html"><span class="idx">3.2</span>&nbsp;&nbsp;Hand Recorder GUI</a>
+            <a href="g1-arm-policy.html"><span class="idx">3.3</span>&nbsp;&nbsp;MuJoCo Arm Policy</a>
+            <a href="g1-arm-recorder.html"><span class="idx">3.4</span>&nbsp;&nbsp;Arm Recorder GUI</a>
+            <a href="g1-walk.html"><span class="idx">3.5</span>&nbsp;&nbsp;WASDQE Walk</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="circuit-edge"></div>
+
+<main>
+
+  <section class="project-header">
+    <p class="crumb"><a href="projects.html">projects</a> / 01</p>
+    <h1>7-DOF Quasi-Direct-Drive Collaborative Robot Arm</h1>
+    <div class="meta">
+      <span>payload/weight <b>~1:1</b></span>
+      <span>reach <b>1.11 m</b></span>
+      <span>mass <b>10 kg</b></span>
+      <span>actuators <b>RobStride QDD × 7</b></span>
+    </div>
+    <p class="project-intro">
+      A commercial-grade 7-DOF collaborative arm modeled after cobots like the Flexiv Rizon and UR series.
+      Fully 3D-printed structure, decentralized CAN bus motor control, and a peak payload nearly equal to its own weight.
+    </p>
+
+    <ul class="achievements">
+      <li><b>Elite payload-to-weight ratio:</b> a 10 kg custom 3D-printed arm rated for a ~10 kg peak payload at full 1.11 m horizontal extension, and a 3–5 kg continuous working payload.</li>
+      <li><b>Cut ~2 kg of structural mass</b> through slicer parameter optimization — an isotropic 7% gyroid infill matrix maximizes torsional rigidity per gram.</li>
+      <li><b>Industrial cobot architecture:</b> uniform cylindrical links, spigot structural joints, slip-ring internal routing, and decentralized CAN bus control.</li>
+      <li><b>Managed a 5,000+ component SolidWorks assembly</b> — SpeedPaks and mass-suppression of 600+ fasteners dropped rebuild times from 10 minutes to seconds.</li>
+    </ul>
+  </section>
+
+  <!-- ============ HERO ============ -->
+  <div class="fig-wide">
+    <div class="ph">
+      <div class="ph-icon">⌬</div>
+      <div class="ph-label">[ img: full arm — hero ]</div>
+      <div class="ph-desc">Wide shot of the fully assembled arm, extended horizontally</div>
+    </div>
+  </div>
+
+  <!-- ============ MECHANICAL ============ -->
+  <section class="psection">
+    <h2><span class="num">01</span>Mechanical Design — SolidWorks</h2>
+
+    <div class="fig-split">
+      <div class="ph">
+        <div class="ph-icon">▣</div>
+        <div class="ph-label">[ img: CAD assembly ]</div>
+        <div class="ph-desc">Full isometric SolidWorks render — uniform cylindrical links and joint hubs</div>
+      </div>
+      <div>
+        <p class="caption"><b>Cobot-style uniform links.</b> Uniform cylindrical link diameters instead of legacy tapered arms — power and CAN wiring routes internally through slip rings, base to tool head, with zero external snag points.</p>
+        <p class="caption"><b>Large-assembly management.</b> The 5,000+ component assembly stays responsive through rigid sub-assemblies, geometry defeaturing, and SpeedPaks.</p>
+      </div>
+    </div>
+
+    <div class="fig-split reverse landscape">
+      <div>
+        <p class="caption"><b>Spigot joints.</b> 400 mm links are printed in segments and joined with interlocking male/female spigot joints with a 1 mm alignment lip. The lip carries transverse shear; epoxy and M3/M4 fasteners with heat-set inserts provide axial clamping.</p>
+        <p class="caption">Result: no joint flex, and no shear load on the fasteners themselves.</p>
+      </div>
+      <div class="ph">
+        <div class="ph-icon">⊟</div>
+        <div class="ph-label">[ img: spigot joint cross-section ]</div>
+        <div class="ph-desc">CAD cross-section of the interlocking lip + heat-set inserts</div>
+      </div>
+    </div>
+
+    <div class="fig-split landscape">
+      <div class="ph">
+        <div class="ph-icon">◫</div>
+        <div class="ph-label">[ img: slicer gyroid preview ]</div>
+        <div class="ph-desc">Top-down slicer cross-section — dense 3-loop walls, 3D gyroid wave pattern inside</div>
+      </div>
+      <div>
+        <p class="caption"><b>Mass optimization.</b> Printed in PETG on an Elegoo Centauri Carbon. Iterative slicer testing settled on <b>3 wall loops (1.2 mm shell) + 7% gyroid infill</b> — saving ~2 kg across the arm.</p>
+        <p class="caption"><b>Why gyroid?</b> Rectilinear infill is weak against 45° grain loads. Gyroid's 3D isotropic matrix resists the torsional moments generated by the QDD shoulder actuators in every direction.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CALCULATIONS ============ -->
+  <section class="psection">
+    <h2><span class="num">02</span>Structural &amp; Torque Analysis</h2>
+
+    <ul class="spec-list">
+      <li><span class="k">arm mass (m_arm)</span><span class="v">10 kg</span></li>
+      <li><span class="k">max reach (L)</span><span class="v">1.113 m</span></li>
+      <li><span class="k">center of mass (r_cm)</span><span class="v">≈ 0.555 m (L/2)</span></li>
+      <li><span class="k">shoulder actuator</span><span class="v">RobStride RS04 — 120 Nm peak</span></li>
+    </ul>
+
+    <div class="calc">
+      <p class="calc-title">worst-case: full horizontal extension</p>
+      <p class="eq">τ_arm = m_arm · g · r_cm = 10 × 9.81 × 0.555 ≈ <span class="result">54.4 Nm</span></p>
+      <p class="eq">τ_total = τ_arm + τ_payload ≤ 120 Nm</p>
+      <p class="eq">120 = ((10 × 0.555) + (m_payload × 1.11)) × 9.81</p>
+      <p class="eq">m_payload ≈ <span class="result">~10 kg peak</span> → payload-to-weight ratio ≈ 1:1</p>
+      <p class="note">With inverse kinematics keeping the elbow slightly flexed (shorter moment arm), the arm sustains continuous industrial payloads of 3–5 kg without exceeding the motor’s 40 Nm continuous thermal rating — on par with commercial cobots.</p>
+    </div>
+
+    <div class="fig-wide">
+      <div class="ph">
+        <div class="ph-icon">⟟</div>
+        <div class="ph-label">[ img: arm at full extension ]</div>
+        <div class="ph-desc">Photo of the arm holding a payload at full horizontal reach</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ELECTRICAL ============ -->
+  <section class="psection">
+    <h2><span class="num">03</span>Electrical Architecture — CAN Bus</h2>
+
+    <div class="fig-split landscape">
+      <div class="ph">
+        <div class="ph-icon">⏚</div>
+        <div class="ph-label">[ img: internal wiring ]</div>
+        <div class="ph-desc">CAN + power umbilical routed through the center of the cylindrical joints</div>
+      </div>
+      <div>
+        <p class="caption"><b>Decentralized CAN bus.</b> An ESP32 commands the RobStride actuators (RS04 / RS03 / RS02 / RS00) over differential CAN (CAN-H / CAN-L) — high noise immunity against brushless motor EMI.</p>
+        <p class="caption"><b>Power/data isolation.</b> 24V/48V main power shares the umbilical with CAN data, but stays strictly isolated from logic-level transceiver lines — a transient spike never reaches the MCU.</p>
+      </div>
+    </div>
+
+    <div class="fig-row">
+      <div>
+        <div class="ph">
+          <div class="ph-icon">⌾</div>
+          <div class="ph-label">[ img: robstride actuator ]</div>
+          <div class="ph-desc">Close-up of a RobStride QDD actuator mounted in a joint hub</div>
+        </div>
+        <p class="caption">Quasi-direct-drive: low gear ratio → high backdrivability and torque transparency, the same actuation approach as modern force-controlled cobots.</p>
+      </div>
+      <div>
+        <div class="ph">
+          <div class="ph-icon">⌁</div>
+          <div class="ph-label">[ img: base electronics ]</div>
+          <div class="ph-desc">Base enclosure — ESP32, CAN transceiver, power distribution</div>
+        </div>
+        <p class="caption">Single controller, seven axes — CAN's multi-drop topology means one twisted pair daisy-chains through every joint.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ EMBEDDED ============ -->
+  <section class="psection">
+    <h2><span class="num">04</span>Embedded Control — C++ / ESP32</h2>
+
+    <p class="caption" style="margin-bottom:16px">Each RobStride motor takes an 8-byte CAN frame packing target position, velocity, stiffness (KP), damping (KD), and feed-forward torque — floats scaled into fixed-width integers and bit-packed into the payload.</p>
+
+    <p class="code-label">can_motor_control.cpp</p>
+    <pre><code><span class="cm">// Pack float targets into an 8-byte CAN frame for RobStride QDD actuators</span>
+<span class="kw">#include</span> <span class="st">&lt;ESP32-TWAI-CAN.hpp&gt;</span>
+
+<span class="kw">void</span> <span class="fn">sendMotorCommand</span>(uint16_t motorID, <span class="kw">float</span> pos, <span class="kw">float</span> vel,
+                      <span class="kw">float</span> kp, <span class="kw">float</span> kd, <span class="kw">float</span> torque) {
+  CanFrame frame = { <span class="nm">0</span> };
+  frame.identifier       = motorID;   <span class="cm">// standard IDs 0x01–0x07</span>
+  frame.extd             = <span class="nm">0</span>;
+  frame.data_length_code = <span class="nm">8</span>;
+
+  <span class="cm">// Scale floats into fixed-width ints based on motor limits</span>
+  uint16_t pos_int = float_to_uint(pos, P_MIN, P_MAX, <span class="nm">16</span>);
+  uint16_t vel_int = float_to_uint(vel, V_MIN, V_MAX, <span class="nm">12</span>);
+  uint16_t kp_int  = float_to_uint(kp, KP_MIN, KP_MAX, <span class="nm">12</span>);
+
+  <span class="cm">// Bit-pack into the payload</span>
+  frame.data[<span class="nm">0</span>] = pos_int &gt;&gt; <span class="nm">8</span>;
+  frame.data[<span class="nm">1</span>] = pos_int &amp; <span class="nm">0xFF</span>;
+  frame.data[<span class="nm">2</span>] = vel_int &gt;&gt; <span class="nm">4</span>;
+  frame.data[<span class="nm">3</span>] = ((vel_int &amp; <span class="nm">0xF</span>) &lt;&lt; <span class="nm">4</span>) | (kp_int &gt;&gt; <span class="nm">8</span>);
+  <span class="cm">// ... bytes 4–7 pack KD and feed-forward torque</span>
+
+  ESP32Can.writeFrame(frame);         <span class="cm">// transmit over CAN-H / CAN-L</span>
+}</code></pre>
+
+    <div class="fig-wide">
+      <div class="ph">
+        <div class="ph-icon">▶</div>
+        <div class="ph-label">[ video: arm in motion ]</div>
+        <div class="ph-desc">Video of the arm executing a coordinated multi-joint trajectory</div>
+      </div>
+    </div>
+  </section>
+
+  <nav class="project-nav">
+    <a href="unitree-g1.html">← Unitree G1 Humanoid</a>
+    <a href="robot-hand.html">10-DOF Dexterous Hand →</a>
+  </nav>
+
+</main>
+
+<div class="circuit-edge bottom"></div>
+
+<footer>
+  <div class="footer-inner">
+    <span>© 2026 Huamin Lu — built with HTML/CSS, no frameworks</span>
+    <span><a href="projects.html">all projects →</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

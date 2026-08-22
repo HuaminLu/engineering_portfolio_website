@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MuJoCo PPO Arm Policy — RL Goal Reaching — Huamin (Lucas) Lu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a class="logo" href="index.html"><span class="prompt">~/</span>lucas_lu<span class="cursor"></span></a>
+    <nav>
+      <ul>
+        <li><a href="index.html">home</a></li>
+        <li><a href="projects.html">all_projects</a></li>
+        <li class="dropdown">
+          <a href="#" class="active">projects</a>
+          <div class="dropdown-menu">
+            <a href="robot-arm.html"><span class="idx">01</span>7-DOF QDD Robot Arm</a>
+            <a href="robot-hand.html"><span class="idx">02</span>10-DOF Dexterous Hand</a>
+            <a href="unitree-g1.html"><span class="idx">03</span>Unitree G1 Humanoid</a>
+            <a href="g1-hand-mimic.html"><span class="idx">3.1</span>&nbsp;&nbsp;Hand Mimic</a>
+            <a href="g1-hand-recorder.html"><span class="idx">3.2</span>&nbsp;&nbsp;Hand Recorder GUI</a>
+            <a href="g1-arm-policy.html"><span class="idx">3.3</span>&nbsp;&nbsp;MuJoCo Arm Policy</a>
+            <a href="g1-arm-recorder.html"><span class="idx">3.4</span>&nbsp;&nbsp;Arm Recorder GUI</a>
+            <a href="g1-walk.html"><span class="idx">3.5</span>&nbsp;&nbsp;WASDQE Walk</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="circuit-edge"></div>
+
+<main>
+
+  <section class="project-header">
+    <p class="crumb"><a href="projects.html">projects</a> / <a href="unitree-g1.html">unitree g1</a> / 03</p>
+    <h1>MuJoCo Arm Policy — RL Goal-Reaching Without an IK Solver</h1>
+    <div class="meta">
+      <span>algorithm <b>PPO (SB3)</b></span>
+      <span>training <b>~53M timesteps</b></span>
+      <span>obs/action <b>24-D / 7-D</b></span>
+      <span>deploy <b>DDS rt/arm_sdk</b></span>
+    </div>
+    <p class="project-intro">
+      A PPO agent trained in a MuJoCo simulation of the G1 solves 7-joint inverse kinematics in
+      real time — no analytical IK solver. WASDQE keys move a red goal dot in 3D; pressing R
+      mirrors the sim arm onto the physical robot over DDS.
+    </p>
+  </section>
+
+  <!-- ============ HERO ============ -->
+  <div class="fig-wide">
+    <div class="ph">
+      <div class="ph-icon">◎</div>
+      <div class="ph-label">[ img: MuJoCo viewer — goal reach ]</div>
+      <div class="ph-desc">3D simulation window — G1 with the red goal sphere in space, left arm reaching toward it mid-motion</div>
+    </div>
+  </div>
+
+  <!-- ============ TRAINING ============ -->
+  <section class="psection">
+    <h2><span class="num">01</span>Training Setup — PPO in MuJoCo</h2>
+
+    <p class="caption" style="margin-bottom:16px"><b>PPO via Stable-Baselines3</b> (MlpPolicy) across <b>16 parallel environments</b>, trained for <b>~53 million timesteps</b> on the G1 29-DOF MuJoCo model — waist and unused arm locked so learning focuses entirely on the 7 left-arm joints.</p>
+
+    <ul class="spec-list">
+      <li><span class="k">q (7)</span><span class="v">current joint angles (rad)</span></li>
+      <li><span class="k">dq (7)</span><span class="v">current joint velocities (rad/s)</span></li>
+      <li><span class="k">p_hand (3)</span><span class="v">end-effector position from forward kinematics (m)</span></li>
+      <li><span class="k">p_goal (3)</span><span class="v">goal position (m)</span></li>
+      <li><span class="k">Δp (3)</span><span class="v">p_goal − p_hand error vector</span></li>
+      <li><span class="k">step_frac (1)</span><span class="v">episode progress ∈ [0, 1]</span></li>
+    </ul>
+
+    <div class="fig-split reverse landscape">
+      <div>
+        <p class="caption"><b>Bounded incremental actions.</b> The policy outputs joint deltas Δq ∈ ±0.05 rad per step — not absolute angles — which caps per-timestep motion and prevents sudden jerks.</p>
+        <p class="caption"><b>Focused observation.</b> The 24-D observation gives the network everything it needs to close the loop: joint state, hand and goal positions, the error vector, and time remaining.</p>
+      </div>
+      <div class="ph">
+        <div class="ph-icon">∿</div>
+        <div class="ph-label">[ img: TensorBoard curves ]</div>
+        <div class="ph-desc">TensorBoard reward curves — episode reward mean vs. timesteps, climbing from ~−15 to near 0</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ REWARD ============ -->
+  <section class="psection">
+    <h2><span class="num">02</span>Reward Design — Dense Shaping</h2>
+
+    <p class="code-label">g1_arm_rl_env.py</p>
+    <pre><code>reward = <span class="nm">-5.0</span> * dist - <span class="nm">0.1</span> * <span class="fn">norm</span>(action)
+<span class="cm"># + 1.0 if dist &lt; 0.02 m (goal reached)</span>
+<span class="cm"># − 1.5 * (1 − vertical_alignment)   # grasp orientation regularizer</span>
+<span class="cm"># − 1.5 * horiz_deviation             # palm plane horizontal penalty</span>
+<span class="cm"># − large penalty on self-collision</span></code></pre>
+
+    <p class="caption"><b>Distance dominates.</b> Negative Euclidean distance to the goal (×5) drives reaching; a small action penalty (×0.1) discourages large joint motions; a <b>+1 bonus</b> fires when the hand comes within <b>2 cm</b>.</p>
+    <p class="caption"><b>Orientation regularizers</b> keep the grasping axis vertical and the palm plane level for downstream manipulation. <b>Self-collision terminates</b> the episode at −10. The episode horizon scales with initial distance: ⌈‖Δp₀‖ / 0.05⌉ + 10 steps.</p>
+  </section>
+
+  <!-- ============ SIM-TO-REAL ============ -->
+  <section class="psection">
+    <h2><span class="num">03</span>Sim-to-Real Deployment — DDS Streaming</h2>
+
+    <p class="caption" style="margin-bottom:16px">The controller runs policy inference at <b>~25 Hz</b> against the live MuJoCo state, integrating each delta into the joint targets.</p>
+
+    <p class="code-label">g1_arm_policy_controller.py — inference loop</p>
+    <pre><code>obs = <span class="fn">build_observation</span>(q, dq, p_hand, p_goal)
+action, _ = policy.<span class="fn">predict</span>(obs, deterministic=<span class="kw">True</span>)
+q += action  <span class="cm"># integrate delta</span>
+<span class="fn">mj_forward</span>(model, data)  <span class="cm"># update physics + render</span></code></pre>
+
+    <p class="caption" style="margin-bottom:16px">Pressing <b>R</b> streams the sim joint angles to the physical G1 as <b>LowCmd_</b> packets on the <b>rt/arm_sdk</b> DDS topic — position targets only, with the on-board controller closing the loop.</p>
+
+    <p class="code-label">g1_arm_policy_controller.py — robot streaming (press R)</p>
+    <pre><code><span class="cm"># Builds a Unitree LowCmd_ packet for rt/arm_sdk topic</span>
+<span class="kw">for</span> i, joint_idx <span class="kw">in</span> <span class="fn">enumerate</span>(ARM_JOINT_INDICES):
+    msg.motor_cmd[joint_idx].q   = q_target[i]   <span class="cm"># rad</span>
+    msg.motor_cmd[joint_idx].dq  = <span class="nm">0.0</span>
+    msg.motor_cmd[joint_idx].tau = <span class="nm">0.0</span>
+    msg.motor_cmd[joint_idx].kp  = <span class="nm">40.0</span>   <span class="cm"># position gain</span>
+    msg.motor_cmd[joint_idx].kd  = <span class="nm">1.0</span>    <span class="cm"># damping</span>
+msg.motor_cmd[<span class="nm">29</span>].q = <span class="nm">1.0</span>   <span class="cm"># arm_sdk enable flag</span>
+<span class="cm"># CRC checksum appended, then Write() over DDS</span></code></pre>
+
+    <p class="caption">Each motor's controller runs a PD servo law around the streamed targets:</p>
+
+    <div class="calc">
+      τ_applied = kp·(q_cmd − q_measured) + kd·(dq_cmd − dq_measured) + tau_ff
+    </div>
+
+    <div class="fig-row">
+      <div>
+        <div class="ph">
+          <div class="ph-icon">⇄</div>
+          <div class="ph-label">[ img: sim + real side-by-side ]</div>
+          <div class="ph-desc">MuJoCo arm and the physical G1 arm holding the same pose simultaneously after pressing R</div>
+        </div>
+        <p class="caption">Sim-to-real mirror — the physical arm matches the policy's simulated pose over the DDS link.</p>
+      </div>
+      <div>
+        <div class="ph">
+          <div class="ph-icon">▶</div>
+          <div class="ph-label">[ video: goal tracking ]</div>
+          <div class="ph-desc">Red dot moved to three different positions, the arm tracking each one in sequence</div>
+        </div>
+        <p class="caption">Live goal tracking — WASDQE moves the target, the policy re-solves the reach in real time.</p>
+      </div>
+    </div>
+  </section>
+
+  <nav class="project-nav">
+    <a href="g1-hand-recorder.html">← Hand Recorder GUI</a>
+    <a href="g1-arm-recorder.html">Arm Recorder GUI →</a>
+  </nav>
+
+</main>
+
+<div class="circuit-edge bottom"></div>
+
+<footer>
+  <div class="footer-inner">
+    <span>© 2026 Huamin Lu — built with HTML/CSS, no frameworks</span>
+    <span><a href="projects.html">all projects →</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

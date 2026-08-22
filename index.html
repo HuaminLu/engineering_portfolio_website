@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Huamin (Lucas) Lu — Mechatronics Engineering Portfolio</title>
+  <meta name="description" content="Mechatronics Engineering portfolio — robotics, embedded systems, CAD. University of Waterloo.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a class="logo" href="index.html"><span class="prompt">~/</span>lucas_lu<span class="cursor"></span></a>
+    <nav>
+      <ul>
+        <li><a href="index.html" class="active">home</a></li>
+        <li><a href="projects.html">all_projects</a></li>
+        <li class="dropdown">
+          <a href="#">projects</a>
+          <div class="dropdown-menu">
+            <a href="robot-arm.html"><span class="idx">01</span>7-DOF QDD Robot Arm</a>
+            <a href="robot-hand.html"><span class="idx">02</span>10-DOF Dexterous Hand</a>
+            <a href="unitree-g1.html"><span class="idx">03</span>Unitree G1 Humanoid</a>
+            <a href="g1-hand-mimic.html"><span class="idx">3.1</span>&nbsp;&nbsp;Hand Mimic</a>
+            <a href="g1-hand-recorder.html"><span class="idx">3.2</span>&nbsp;&nbsp;Hand Recorder GUI</a>
+            <a href="g1-arm-policy.html"><span class="idx">3.3</span>&nbsp;&nbsp;MuJoCo Arm Policy</a>
+            <a href="g1-arm-recorder.html"><span class="idx">3.4</span>&nbsp;&nbsp;Arm Recorder GUI</a>
+            <a href="g1-walk.html"><span class="idx">3.5</span>&nbsp;&nbsp;WASDQE Walk</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="circuit-edge"></div>
+
+<main>
+
+  <section class="hero">
+    <h1>Huamin (Lucas) Lu</h1>
+    <p class="subtitle">Mechatronics Engineering <span>@</span> University of Waterloo <span>//</span> Robotics <span>·</span> Embedded <span>·</span> CAD</p>
+  </section>
+
+  <section class="tiles">
+
+    <a class="tile" href="robot-arm.html">
+      <div class="tile-img ph">
+        <div class="ph-icon">⌬</div>
+        <div class="ph-label">[ img: robot arm ]</div>
+        <div class="ph-desc">Hero shot — full 7-DOF arm assembled, standing extended</div>
+      </div>
+      <div class="tile-body">
+        <h2>7-DOF QDD Robot Arm</h2>
+        <div class="tags">SolidWorks · CAN Bus · ESP32 · PETG</div>
+        <p>Cobot-style 7-DOF arm with quasi-direct-drive actuators. 10 kg arm, ~10 kg peak payload.</p>
+        <span class="cta">view project</span>
+      </div>
+    </a>
+
+    <a class="tile" href="robot-hand.html">
+      <div class="tile-img ph">
+        <div class="ph-icon">⌇</div>
+        <div class="ph-label">[ img: robot hand ]</div>
+        <div class="ph-desc">Hero shot — assembled 10-servo hand, fingers mid-grip</div>
+      </div>
+      <div class="tile-body">
+        <h2>10-DOF Dexterous Hand</h2>
+        <div class="tags">Surface Lofts · PCA9685 · I²C · Power Design</div>
+        <p>Anthropomorphic robotic hand with 10 micro-servos, transient-safe power distribution.</p>
+        <span class="cta">view project</span>
+      </div>
+    </a>
+
+    <a class="tile" href="unitree-g1.html">
+      <div class="tile-img ph">
+        <div class="ph-icon">⌖</div>
+        <div class="ph-label">[ img: unitree g1 ]</div>
+        <div class="ph-desc">Hero shot — G1 humanoid standing / walking during teleop</div>
+      </div>
+      <div class="tile-body">
+        <h2>Unitree G1 Humanoid</h2>
+        <div class="tags">MuJoCo · DDS · RL Policies · Python</div>
+        <p>Five control projects on a 29-DOF humanoid — RL arm control, hand teleop, bipedal locomotion.</p>
+        <span class="cta">view project</span>
+      </div>
+    </a>
+
+    <a class="tile" href="g1-hand-mimic.html">
+      <div class="tile-img ph">
+        <div class="ph-icon">⌇</div>
+        <div class="ph-label">[ img: hand mimic ]</div>
+        <div class="ph-desc">Operator's hand and the Inspire hand mirroring the same gesture</div>
+      </div>
+      <div class="tile-body">
+        <h2>Hand Mimic Teleop</h2>
+        <div class="tags">MediaPipe · RS-485 · ~30 ms latency</div>
+        <p>Webcam hand tracking mirrored live to a 6-DOF dexterous robot hand.</p>
+        <span class="cta">view project</span>
+      </div>
+    </a>
+
+    <a class="tile" href="g1-arm-policy.html">
+      <div class="tile-img ph">
+        <div class="ph-icon">▦</div>
+        <div class="ph-label">[ img: mujoco policy ]</div>
+        <div class="ph-desc">MuJoCo viewer — G1 arm reaching the red goal sphere</div>
+      </div>
+      <div class="tile-body">
+        <h2>RL Arm Policy</h2>
+        <div class="tags">PPO · 53M steps · sim-to-real</div>
+        <p>A PPO agent that solves 7-joint inverse kinematics — deployed to the real robot over DDS.</p>
+        <span class="cta">view project</span>
+      </div>
+    </a>
+
+    <a class="tile" href="g1-walk.html">
+      <div class="tile-img ph">
+        <div class="ph-icon">⌨</div>
+        <div class="ph-label">[ img: keyboard walk ]</div>
+        <div class="ph-desc">The G1 walking in the lab with the teleop GUI visible</div>
+      </div>
+      <div class="tile-body">
+        <h2>WASDQE Walk</h2>
+        <div class="tags">LocoClient · tap-to-inch · FSM safety</div>
+        <p>Keyboard-driven bipedal walking with bounded velocity pulses and safety exits.</p>
+        <span class="cta">view project</span>
+      </div>
+    </a>
+
+    <a class="tile view-all" href="projects.html">
+      <div class="va-inner">
+        <span class="big">+</span>
+        all projects
+      </div>
+    </a>
+
+  </section>
+
+  <p class="scroll-hint">← scroll →</p>
+
+  <section class="about">
+    <div>
+      <p class="section-label">about</p>
+      <h2>whoami</h2>
+    </div>
+    <div>
+      <p>I'm a <span class="highlight">2B Mechatronics Engineering student at the University of Waterloo</span> building robots end-to-end — mechanical design in SolidWorks, electrical power and communication architecture, and embedded firmware in C++ and Python.</p>
+      <p>Currently working as an <span class="highlight">Embedded Developer</span> in Test &amp; Automation Engineering at Geotab, and spending my free time building a full-scale robotic arm, a dexterous hand, and teaching a humanoid robot to pick things up.</p>
+      <p>Looking for co-op roles in <span class="highlight">robotics, embedded systems, and hardware engineering</span>.</p>
+      <div class="about-links">
+        <a href="mailto:lunhuaminlu@gmail.com">email</a>
+        <a href="https://github.com/HuaminLu" target="_blank" rel="noopener">github</a>
+        <a href="#" target="_blank" rel="noopener">linkedin</a>
+        <a href="#" target="_blank" rel="noopener">resume.pdf</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="circuit-edge bottom"></div>
+
+<footer>
+  <div class="footer-inner">
+    <span>© 2026 Huamin Lu — built with HTML/CSS, no frameworks</span>
+    <span><a href="projects.html">all projects →</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

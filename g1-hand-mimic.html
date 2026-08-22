@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hand Mimic — Camera to Robot Hand — Huamin (Lucas) Lu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a class="logo" href="index.html"><span class="prompt">~/</span>lucas_lu<span class="cursor"></span></a>
+    <nav>
+      <ul>
+        <li><a href="index.html">home</a></li>
+        <li><a href="projects.html">all_projects</a></li>
+        <li class="dropdown">
+          <a href="#" class="active">projects</a>
+          <div class="dropdown-menu">
+            <a href="robot-arm.html"><span class="idx">01</span>7-DOF QDD Robot Arm</a>
+            <a href="robot-hand.html"><span class="idx">02</span>10-DOF Dexterous Hand</a>
+            <a href="unitree-g1.html"><span class="idx">03</span>Unitree G1 Humanoid</a>
+            <a href="g1-hand-mimic.html"><span class="idx">3.1</span>&nbsp;&nbsp;Hand Mimic</a>
+            <a href="g1-hand-recorder.html"><span class="idx">3.2</span>&nbsp;&nbsp;Hand Recorder GUI</a>
+            <a href="g1-arm-policy.html"><span class="idx">3.3</span>&nbsp;&nbsp;MuJoCo Arm Policy</a>
+            <a href="g1-arm-recorder.html"><span class="idx">3.4</span>&nbsp;&nbsp;Arm Recorder GUI</a>
+            <a href="g1-walk.html"><span class="idx">3.5</span>&nbsp;&nbsp;WASDQE Walk</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="circuit-edge"></div>
+
+<main>
+
+  <section class="project-header">
+    <p class="crumb"><a href="projects.html">projects</a> / <a href="unitree-g1.html">unitree g1</a> / 01</p>
+    <h1>Hand Mimic — Real-Time Camera-to-Robot-Hand Teleoperation</h1>
+    <div class="meta">
+      <span>platform <b>Inspire RH56 6-DOF hand</b></span>
+      <span>pipeline <b>MediaPipe @ 25–30 Hz</b></span>
+      <span>latency <b>~30 ms</b></span>
+      <span>link <b>RS-485 @ 115200 baud</b></span>
+    </div>
+    <p class="project-intro">
+      A human hand is tracked by a webcam, and every finger movement is mirrored live to the
+      robot's dexterous hand — with an annotated skeleton overlay showing exactly what's being sent to hardware.
+    </p>
+  </section>
+
+  <!-- ============ HERO ============ -->
+  <div class="fig-wide">
+    <div class="ph">
+      <div class="ph-icon">✋</div>
+      <div class="ph-label">[ img: gesture mirroring ]</div>
+      <div class="ph-desc">Side-by-side — operator's hand in a peace sign, Inspire RH56 mirroring it live</div>
+    </div>
+  </div>
+
+  <!-- ============ PERCEPTION ============ -->
+  <section class="psection">
+    <h2><span class="num">01</span>Perception Pipeline — 21 Landmarks to Joint Angles</h2>
+
+    <div class="fig-split">
+      <div class="ph">
+        <div class="ph-icon">◉</div>
+        <div class="ph-label">[ img: camera + laptop setup ]</div>
+        <div class="ph-desc">USB webcam at eye level above the keyboard, terminal streaming live angle arrays</div>
+      </div>
+      <div>
+        <p class="caption"><b>MediaPipe hand tracking.</b> Each webcam frame yields 21 3D landmarks per hand at 25–30 Hz on the GPU delegate — the raw geometry the whole pipeline runs on.</p>
+        <p class="caption"><b>Finger triplets.</b> Each of the four fingers uses an (MCP, PIP, tip) landmark triplet; the interior angle at the PIP vertex measures curl directly.</p>
+      </div>
+    </div>
+
+    <p class="code-label">retarget.py</p>
+    <pre><code><span class="cm"># MCP, PIP, tip landmark indices per finger</span>
+_FINGER_TRIPLETS = {
+    <span class="st">"index"</span>:  (<span class="nm">5</span>, <span class="nm">6</span>, <span class="nm">8</span>),
+    <span class="st">"middle"</span>: (<span class="nm">9</span>, <span class="nm">10</span>, <span class="nm">12</span>),
+    <span class="st">"ring"</span>:   (<span class="nm">13</span>, <span class="nm">14</span>, <span class="nm">16</span>),
+    <span class="st">"pinky"</span>:  (<span class="nm">17</span>, <span class="nm">18</span>, <span class="nm">20</span>),
+}
+
+<span class="kw">def</span> <span class="fn">_angle_deg</span>(a, b, c) -&gt; <span class="kw">float</span>:
+    <span class="cm"># interior angle at vertex b (degrees)</span>
+    v1, v2 = a - b, c - b
+    <span class="kw">return</span> <span class="fn">float</span>(np.degrees(np.arccos(
+        np.clip(np.dot(v1, v2) / (norm(v1) * norm(v2)), -<span class="nm">1.0</span>, <span class="nm">1.0</span>)
+    )))</code></pre>
+
+    <div class="fig-split reverse landscape">
+      <div>
+        <p class="caption"><b>Angle → register mapping.</b> The interior angle maps linearly onto the Inspire's <b>0–1000</b> integer scale: ~<b>170°</b> fully extended → 1000, ~<b>50°</b> fully curled → 0.</p>
+        <p class="caption"><b>Gesture overlay.</b> Colored circles mark detected gestures on the fingertips — orange = fist, blue = 3-finger pinch, red = 2-finger pinch.</p>
+      </div>
+      <div class="ph">
+        <div class="ph-icon">⌖</div>
+        <div class="ph-label">[ img: skeleton overlay ]</div>
+        <div class="ph-desc">OpenCV window — green landmark dots and bones, pinch circles, angle array printed top-left</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RETARGETING ============ -->
+  <section class="psection">
+    <h2><span class="num">02</span>Retargeting &amp; the Thumb Problem</h2>
+
+    <ul class="spec-list">
+      <li><span class="k">pinch detection</span><span class="v">thumb-tip to index-tip &lt; 0.28 palm-widths → hardware preset snap</span></li>
+      <li><span class="k">thumb curl</span><span class="v">IP-joint angle (CMC→MCP→IP) — stable when thumb folds across palm</span></li>
+      <li><span class="k">thumb rotation</span><span class="v">normalized x-offset of thumb tip from index MCP / palm width</span></li>
+      <li><span class="k">occlusion guard</span><span class="v">fingertip within 0.6 palm-widths of palm center → clamp to 150</span></li>
+      <li><span class="k">smoothing</span><span class="v">per-DOF EMA, thumb channels get 6× wider deadband</span></li>
+      <li><span class="k">hot reload</span><span class="v">press t → hand_mimic.yaml recalibrates live, no restart</span></li>
+    </ul>
+
+    <div class="fig-split">
+      <div class="ph">
+        <div class="ph-icon">✱</div>
+        <div class="ph-label">[ img: inspire RH56 on bench ]</div>
+        <div class="ph-desc">Silver aluminum-and-silicone 5-finger hand on the bench, GX12 connector visible, fingers mid-pinch</div>
+      </div>
+      <div>
+        <p class="caption"><b>Pinch beats geometry.</b> All distances are divided by palm width for scale invariance; below the <b>0.28</b> threshold a calibrated hardware preset snaps the thumb to the pinch pose instantly instead of chasing noisy geometry.</p>
+        <p class="caption"><b>Occlusion guard.</b> Inside a fist, MediaPipe reports a false ~180° "open" angle for hidden fingertips — the guard clamps those channels to near-closed regardless of the computed angle.</p>
+      </div>
+    </div>
+
+    <div class="calc">
+      state_new = α · measurement + (1 − α) · state_old
+    </div>
+    <p class="caption"><b>EMA smoothing</b> with configurable per-DOF alpha kills jitter without adding visible lag; the thumb — the noisiest axis — gets the widest deadband.</p>
+
+    <p class="caption"><b>Three retargeting backends:</b> <b>geom</b> — fast calibrated geometric mapping (default); <b>dex</b> — full dex-retargeting optimizer, higher quality but slower; <b>hybrid</b> — geometric everywhere, with the dex optimizer overriding index and thumb only during a detected pinch.</p>
+  </section>
+
+  <!-- ============ SERIAL / HARDWARE ============ -->
+  <section class="psection">
+    <h2><span class="num">03</span>Serial Hardware — RS-485 to the Hand</h2>
+
+    <ul class="spec-list">
+      <li><span class="k">protocol</span><span class="v">Modbus-style register writes over RS-485 @ 115200 baud</span></li>
+      <li><span class="k">adapter</span><span class="v">USB-to-RS485 dongle (FTDI / CH340) — /dev/ttyUSB0, /dev/ttyUSB1 per hand</span></li>
+      <li><span class="k">power</span><span class="v">24 V to the hand; internal firmware runs the PD servo loop per DOF</span></li>
+      <li><span class="k">connector</span><span class="v">GX12 4-pin aviation — RS-485 A+/B− plus 24 V power</span></li>
+      <li><span class="k">channel order</span><span class="v">[pinky, ring, middle, index, thumb_bend, thumb_rot]</span></li>
+    </ul>
+
+    <p class="caption" style="margin-bottom:16px">No DDS here — the hand link is completely separate from the robot body's communication stack. The host only writes angle registers; the hand's firmware closes the position loop internally.</p>
+
+    <p class="code-label">inspire_hand.py</p>
+    <pre><code>hand = <span class="fn">InspireHand</span>(port=<span class="st">"/dev/ttyUSB0"</span>, baud=<span class="nm">115200</span>, hand_id=<span class="nm">1</span>)
+hand.set_speed([<span class="nm">2000</span>] * <span class="nm">6</span>)
+hand.set_force([<span class="nm">400</span>] * <span class="nm">6</span>)
+<span class="cm"># 6-integer angle vector → angle register writes</span>
+hand.set_angles([pinky, ring, middle, index, thumb_bend, thumb_rot], wait=<span class="kw">False</span>)</code></pre>
+
+    <div class="fig-wide">
+      <div class="ph">
+        <div class="ph-icon">▶</div>
+        <div class="ph-label">[ video: live mimic demo ]</div>
+        <div class="ph-desc">Operator cycles fist / pinch / peace sign — the Inspire hand follows at ~30 ms latency</div>
+      </div>
+    </div>
+  </section>
+
+  <nav class="project-nav">
+    <a href="unitree-g1.html">← Unitree G1 Overview</a>
+    <a href="g1-hand-recorder.html">Hand Recorder GUI →</a>
+  </nav>
+
+</main>
+
+<div class="circuit-edge bottom"></div>
+
+<footer>
+  <div class="footer-inner">
+    <span>© 2026 Huamin Lu — built with HTML/CSS, no frameworks</span>
+    <span><a href="projects.html">all projects →</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

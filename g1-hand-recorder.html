@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hand Recorder GUI — Keyframe Gesture Animator — Huamin (Lucas) Lu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a class="logo" href="index.html"><span class="prompt">~/</span>lucas_lu<span class="cursor"></span></a>
+    <nav>
+      <ul>
+        <li><a href="index.html">home</a></li>
+        <li><a href="projects.html">all_projects</a></li>
+        <li class="dropdown">
+          <a href="#" class="active">projects</a>
+          <div class="dropdown-menu">
+            <a href="robot-arm.html"><span class="idx">01</span>7-DOF QDD Robot Arm</a>
+            <a href="robot-hand.html"><span class="idx">02</span>10-DOF Dexterous Hand</a>
+            <a href="unitree-g1.html"><span class="idx">03</span>Unitree G1 Humanoid</a>
+            <a href="g1-hand-mimic.html"><span class="idx">3.1</span>&nbsp;&nbsp;Hand Mimic</a>
+            <a href="g1-hand-recorder.html"><span class="idx">3.2</span>&nbsp;&nbsp;Hand Recorder GUI</a>
+            <a href="g1-arm-policy.html"><span class="idx">3.3</span>&nbsp;&nbsp;MuJoCo Arm Policy</a>
+            <a href="g1-arm-recorder.html"><span class="idx">3.4</span>&nbsp;&nbsp;Arm Recorder GUI</a>
+            <a href="g1-walk.html"><span class="idx">3.5</span>&nbsp;&nbsp;WASDQE Walk</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="circuit-edge"></div>
+
+<main>
+
+  <section class="project-header">
+    <p class="crumb"><a href="projects.html">projects</a> / <a href="unitree-g1.html">unitree g1</a> / 02</p>
+    <h1>Hand Recorder GUI — Keyframe Gesture Animator</h1>
+    <div class="meta">
+      <span>framework <b>Flet (Flutter)</b></span>
+      <span>streaming <b>25 Hz</b></span>
+      <span>target <b>Inspire RH56</b></span>
+      <span>format <b>YAML presets</b></span>
+    </div>
+    <p class="project-intro">
+      A desktop GUI for authoring and replaying precise hand gesture animations on the Inspire hands —
+      dial in poses with six live sliders, record takes, and combine them into finished sequences.
+    </p>
+  </section>
+
+  <!-- ============ HERO ============ -->
+  <div class="fig-wide">
+    <div class="ph">
+      <div class="ph-icon">⌇</div>
+      <div class="ph-label">[ img: recorder GUI ]</div>
+      <div class="ph-desc">Dark-themed Flet window — 6 vertical sliders (Pinky / Ring / Middle / Index / Thumb Bend / Thumb Rot), TAKES list below, REC / STOP / COMBINE / SAVE buttons</div>
+    </div>
+  </div>
+
+  <!-- ============ GUI & STREAMING ============ -->
+  <section class="psection">
+    <h2><span class="num">01</span>The GUI &amp; Live Streaming</h2>
+
+    <div class="fig-split">
+      <div class="ph">
+        <div class="ph-icon">▣</div>
+        <div class="ph-label">[ img: blue vs bw themes ]</div>
+        <div class="ph-desc">Side-by-side of the two color themes — blue/black (default) and black/white (--theme bw)</div>
+      </div>
+      <div>
+        <p class="caption"><b>Six sliders, six DOF.</b> Each slider maps to one joint — pinky, ring, middle, index, thumb bend, thumb rotation — and values stream to the hand at <b>25 Hz</b> while adjusting, giving tactile live feedback.</p>
+        <p class="caption"><b>Two themes.</b> A <b>blue/black</b> default and a <b>black/white</b> mode (<b>--theme bw</b>) match the operator environment.</p>
+      </div>
+    </div>
+
+    <p class="code-label">recorder.py — streaming loop constants</p>
+    <pre><code>JOINT_NAMES = [<span class="st">"pinky"</span>, <span class="st">"ring"</span>, <span class="st">"middle"</span>, <span class="st">"index"</span>, <span class="st">"thumb_bend"</span>, <span class="st">"thumb_rot"</span>]
+SEND_HZ = <span class="nm">25</span>
+SEND_DT = <span class="nm">1.0</span> / SEND_HZ  <span class="cm"># slider values streamed to the hand every 40 ms</span></code></pre>
+  </section>
+
+  <!-- ============ RECORDING WORKFLOW ============ -->
+  <section class="psection">
+    <h2><span class="num">02</span>Recording Workflow</h2>
+
+    <ul class="spec-list">
+      <li><span class="k">REC</span><span class="v">samples the 6-DOF pose at 25 Hz into a Take (list of frames)</span></li>
+      <li><span class="k">STOP</span><span class="v">auto-smoothing applied — linear interpolation or EMA</span></li>
+      <li><span class="k">COMBINE</span><span class="v">parallel merge — two selected Takes play simultaneously</span></li>
+      <li><span class="k">SAVE PRESET</span><span class="v">concatenates all items into presets/&lt;name&gt;/animation.yaml</span></li>
+      <li><span class="k">play speed</span><span class="v">slider linearly resamples the frame timeline — 0.5× to 2×</span></li>
+    </ul>
+
+    <p class="code-label">presets/2finger_pinch/animation.yaml</p>
+    <pre><code><span class="cm"># saved gesture preset — one row per 25 Hz frame</span>
+gesture: 2finger_pinch
+fps: <span class="nm">25</span>
+frames:
+  - [<span class="nm">800</span>, <span class="nm">800</span>, <span class="nm">800</span>, <span class="nm">800</span>, <span class="nm">500</span>, <span class="nm">300</span>]
+  - [<span class="nm">820</span>, <span class="nm">820</span>, <span class="nm">820</span>, <span class="nm">830</span>, <span class="nm">480</span>, <span class="nm">320</span>]
+  - ...</code></pre>
+
+    <p class="caption"><b>Playback speed resampling.</b> The play-speed slider linearly resamples the timeline, so a 1-second recording replays cleanly at 0.5× or 2× speed.</p>
+  </section>
+
+  <!-- ============ GESTURE LIBRARY ============ -->
+  <section class="psection">
+    <h2><span class="num">03</span>Gesture Library</h2>
+
+    <ul class="spec-list">
+      <li><span class="k">2finger_pinch</span><span class="v">thumb + index pinch</span></li>
+      <li><span class="k">3finger_pinch</span><span class="v">3-finger precision grip</span></li>
+      <li><span class="k">grab</span><span class="v">full power grasp</span></li>
+    </ul>
+
+    <div class="fig-split reverse landscape">
+      <div>
+        <p class="caption"><b>Serial auto-detection.</b> <b>scan_serial_ports()</b> enumerates USB-serial adapters by <b>USB VID</b> and maps them to left/right hand sides; the mapping persists to <b>config/serial_map.json</b> across restarts.</p>
+        <p class="caption"><b>Behaviors by demonstration.</b> The intended runtime: <b>MediaPipe</b> classifies the hand state (pinch / grab / point) and the matching recorded animation plays back — precise, repeatable behaviors authored by demonstration, not hand-edited angle arrays.</p>
+      </div>
+      <div class="ph">
+        <div class="ph-icon">⛶</div>
+        <div class="ph-label">[ img: Inspire hand pinch ]</div>
+        <div class="ph-desc">The Inspire hand holding a small object between index and thumb, matching a loaded preset</div>
+      </div>
+    </div>
+  </section>
+
+  <nav class="project-nav">
+    <a href="g1-hand-mimic.html">← Hand Mimic</a>
+    <a href="g1-arm-policy.html">MuJoCo Arm Policy →</a>
+  </nav>
+
+</main>
+
+<div class="circuit-edge bottom"></div>
+
+<footer>
+  <div class="footer-inner">
+    <span>© 2026 Huamin Lu — built with HTML/CSS, no frameworks</span>
+    <span><a href="projects.html">all projects →</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
