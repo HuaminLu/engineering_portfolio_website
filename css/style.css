@@ -605,6 +605,39 @@ footer {
 
 .footer-inner a:hover { color: var(--fg); }
 
+/* ---------- scroll reveal ---------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+.reveal.visible { opacity: 1; transform: none; }
+
+/* stagger for tile rows and achievement lists */
+.tiles .reveal.visible:nth-child(2),
+.achievements .reveal.visible:nth-child(2) { transition-delay: 0.08s; }
+.tiles .reveal.visible:nth-child(3),
+.achievements .reveal.visible:nth-child(3) { transition-delay: 0.16s; }
+.tiles .reveal.visible:nth-child(4),
+.achievements .reveal.visible:nth-child(4) { transition-delay: 0.24s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* ---------- media (photos & autoplay videos) ---------- */
+
+.fig-wide img, .fig-split img, .fig-row img, .tile-img img,
+.fig-wide video, .fig-split video, .fig-row video, .tile-img video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: 1px solid var(--line);
+}
+
 /* ---------- responsive ---------- */
 
 @media (max-width: 860px) {
