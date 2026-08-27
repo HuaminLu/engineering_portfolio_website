@@ -197,6 +197,10 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
 .tiles::-webkit-scrollbar { height: 6px; }
 .tiles::-webkit-scrollbar-thumb { background: var(--line-bright); }
 
+.tiles { cursor: grab; }
+.tiles.dragging { cursor: grabbing; scroll-snap-type: none; scroll-behavior: auto; }
+.tiles.dragging .tile { pointer-events: none; }
+
 .tiles .tile {
   flex: 0 0 clamp(240px, 30vw, 330px);
   scroll-snap-align: start;
