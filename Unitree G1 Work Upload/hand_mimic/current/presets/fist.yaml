@@ -1,0 +1,4 @@
+# Fist preset — captured from left Inspire hand (ttyUSB0) while held in fist
+# angles: [pinky, ring, middle, index, thumb_bend, thumb_rot], 0=closed, 1000=open
+left:  [861, 670, 643, 817, 922, 0]
+right: [861, 670, 643, 817, 922, 0]

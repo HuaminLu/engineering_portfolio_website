@@ -1,0 +1,72 @@
+camera:
+  index: 0
+  width: 640
+  height: 480
+serial:
+  port: /dev/ttyUSB0
+  baud: 115200
+  hand_id: 1
+runtime:
+  fps: 25
+  alpha: 0.4
+calibration:
+  curl_open_deg: 170.0
+  curl_closed_deg: 50.0
+  thumb_curl_far: 144.5007
+  thumb_curl_close: 177.6466
+  thumb_rot_x_tucked: 0.0675
+  thumb_rot_x_spread: 1.1156
+  pinch_threshold: 0.4518
+  pinch_index_bend: 914
+  pinch_index_rot: 1279
+  pinch_middle_bend: 0
+  pinch_middle_rot: 650
+  pinch_both_bend: 0
+  pinch_both_rot: 750
+  startup_right_pos:
+  - 105
+  - 60
+  - 98
+  - 1116
+  - 914
+  - 1279
+  startup_left_pos:
+  - 105
+  - 60
+  - 98
+  - 1116
+  - 914
+  - 721
+  pinch_index_pos:
+  - 1116
+  - 914
+  - 1279
+  pinch_index_pos_2:
+  - 105
+  - 56
+  - 98
+  - 1138
+  - 922
+  - 1352
+  pinch_index_bend_2: 517
+  pinch_index_rot_2: 361
+  per_finger:
+    pinky:
+    - 47.2
+    - 172.3
+    ring:
+    - 87.8
+    - 178.8
+    middle:
+    - 129.3
+    - 178.1
+    index:
+    - 131.7
+    - 178.9
+  pinch_alpha:
+  - 0.514
+  - 0.502
+  - 0.5
+  - 0.85
+  - 0.53
+  - 0.598

@@ -1,0 +1,24 @@
+joint_order:
+- pinky
+- ring
+- middle
+- index
+- thumb_bend
+- thumb_rot
+name: index_pinch_2
+positions:
+  left:
+  - 105
+  - 56
+  - 98
+  - 1138
+  - 922
+  - 648
+  right:
+  - 105
+  - 56
+  - 98
+  - 1138
+  - 922
+  - 1352
+scale: POS 0=open 2000=bent

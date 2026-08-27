@@ -1,0 +1,4 @@
+# 3-finger pinch (thumb + index + middle)
+# angles: [pinky, ring, middle, index, thumb_bend, thumb_rot]
+# Range 0 (open) - 1000 (closed). Record with the animation recorder tool.
+angles: [0, 0, 0, 0, 0, 0]

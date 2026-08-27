@@ -1,0 +1,12 @@
+name: index_pinch_sequence
+description: rot aligns first, then index+thumb_bend close with force feedback until
+  contact
+rot:
+  right: 1279
+  left: 1771
+close:
+  index: 1500
+  thumb_bend: 1250
+close_force: 150
+normal_force: 400
+delay_ms: 120

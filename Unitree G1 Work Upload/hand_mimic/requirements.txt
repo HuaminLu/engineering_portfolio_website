@@ -1,0 +1,15 @@
+# hand_mimic dependencies.
+#
+# Workstation (x86): `uv pip install -r requirements.txt`
+# Jetson Orin (JetPack): use system python3 via setup.sh — opencv is
+#   system-provided and mediapipe comes from the jetson-ai-lab index. Do NOT
+#   pip-install opencv-python on the Jetson (it shadows the CUDA build).
+
+# Shared library (provides the Inspire driver, perception, mapping, logging).
+-e ../../../300-software/60-libs/dexkit
+
+mediapipe>=0.10
+opencv-python>=4.8   # workstation only; skip on JetPack (system-provided)
+numpy>=1.24,<2
+pyserial>=3.5
+pyyaml>=6.0

@@ -1,0 +1,19 @@
+# Python env / caches
+.venv/
+__pycache__/
+*.pyc
+
+# Downloaded model (fetch via setup.sh / curl)
+config/hand_landmarker.task
+
+# Recorded frames / outputs
+artifacts/rec_*/
+artifacts/*.jpg
+artifacts/*.gif
+
+# Logs
+logs/*.log
+
+# Recovery instances — immutable local archive of close-to-working versions.
+# Never committed. Never edit files inside directly; load.sh copies them out.
+recovery-06-22/
