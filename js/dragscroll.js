@@ -1,32 +1,84 @@
-// Drag-to-scroll for the home tile row. Click-drag anywhere on the row to
-// pan it; a real drag suppresses the tile's click so links don't fire.
+// Home tile row: infinite marquee that auto-scrolls slowly, pauses on hover,
+// and supports click-drag panning. Tiles are duplicated once so the loop
+// wraps seamlessly at the halfway point.
 (function () {
   var row = document.querySelector(".tiles");
   if (!row) return;
 
-  var isDown = false;
+  // --- seamless loop: duplicate the tile set once ---
+  var originals = Array.prototype.slice.call(row.children);
+  originals.forEach(function (tile) {
+    var clone = tile.cloneNode(true);
+    clone.classList.remove("reveal", "visible");
+    clone.setAttribute("aria-hidden", "true");
+    clone.setAttribute("tabindex", "-1");
+    row.appendChild(clone);
+  });
+
+  function halfWidth() {
+    return row.scrollWidth / 2;
+  }
+
+  function wrap() {
+    var half = halfWidth();
+    if (half <= 0) return;
+    if (row.scrollLeft >= half) row.scrollLeft -= half;
+    else if (row.scrollLeft < 0) row.scrollLeft += half;
+  }
+
+  // --- auto-scroll (pauses on hover / drag / touch) ---
+  var paused = false;
+  var dragging = false;
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var SPEED = 0.6; // px per frame ≈ 36 px/s
+
+  row.addEventListener("mouseenter", function () { paused = true; });
+  row.addEventListener("mouseleave", function () { paused = false; });
+  row.addEventListener("touchstart", function () { paused = true; }, { passive: true });
+  row.addEventListener("touchend", function () {
+    setTimeout(function () { paused = false; }, 1500);
+  });
+
+  function tick() {
+    if (!reduced && !paused && !dragging) {
+      row.scrollLeft += SPEED;
+    }
+    wrap();
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  // --- drag to scroll ---
   var moved = false;
   var startX = 0;
   var startScroll = 0;
 
+  // Kill the browser's native link/text drag that was hijacking the gesture.
+  row.addEventListener("dragstart", function (e) { e.preventDefault(); });
+
   row.addEventListener("pointerdown", function (e) {
-    if (e.pointerType !== "mouse" || e.button !== 0) return; // touch scrolls natively
-    isDown = true;
+    if (e.pointerType !== "mouse" || e.button !== 0) return; // touch pans natively
+    dragging = true;
     moved = false;
     startX = e.clientX;
     startScroll = row.scrollLeft;
     row.classList.add("dragging");
+    e.preventDefault();
   });
 
   window.addEventListener("pointermove", function (e) {
-    if (!isDown) return;
+    if (!dragging) return;
     var dx = e.clientX - startX;
     if (Math.abs(dx) > 5) moved = true;
     row.scrollLeft = startScroll - dx;
+    wrap();
+    // Re-anchor after a wrap so continued dragging stays smooth.
+    startX = e.clientX;
+    startScroll = row.scrollLeft;
   });
 
   window.addEventListener("pointerup", function () {
-    isDown = false;
+    dragging = false;
     row.classList.remove("dragging");
   });
 

@@ -197,37 +197,44 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
 .tiles::-webkit-scrollbar { height: 6px; }
 .tiles::-webkit-scrollbar-thumb { background: var(--line-bright); }
 
-.tiles { cursor: grab; }
-.tiles.dragging { cursor: grabbing; scroll-snap-type: none; scroll-behavior: auto; }
+.tiles {
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  scroll-snap-type: none;
+  scrollbar-width: none;      /* marquee loops — a scrollbar would lie */
+}
+.tiles::-webkit-scrollbar { display: none; }
+.tiles.dragging { cursor: grabbing; scroll-behavior: auto; }
 .tiles.dragging .tile { pointer-events: none; }
+.tiles img { -webkit-user-drag: none; }
+
+/* wide "See All Projects" button under the marquee */
+.see-all-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 4px 4px 56px;
+  padding: 16px 24px;
+  border: 1px solid var(--line-bright);
+  background: var(--bg-card);
+  color: var(--fg);
+  font-size: 20px;
+  letter-spacing: 0.08em;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.see-all-btn .arrow { transition: transform 0.2s; }
+
+.see-all-btn:hover { border-color: var(--fg); background: var(--bg-raised); }
+
+.see-all-btn:hover .arrow { transform: translateX(6px); }
 
 .tiles .tile {
   flex: 0 0 clamp(240px, 30vw, 330px);
   scroll-snap-align: start;
 }
-
-.scroll-hint {
-  text-align: center;
-  font-size: 17px;
-  color: var(--fg-faint);
-  letter-spacing: 0.1em;
-  padding-bottom: 40px;
-}
-
-/* "view all" card at end of the scroll row */
-.tile.view-all {
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  border-style: dashed;
-  background: transparent;
-}
-
-.tile.view-all .va-inner { padding: 24px; color: var(--fg-dim); font-size: 21px; }
-
-.tile.view-all .va-inner .big { font-size: 28px; display: block; margin-bottom: 12px; color: var(--fg); }
-
-.tile.view-all:hover { border-color: var(--fg); }
 
 .tile {
   display: flex;
