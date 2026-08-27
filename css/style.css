@@ -205,9 +205,9 @@ body { overflow-x: hidden; } /* full-bleed row must never cause sideways page sc
   padding: 16px 24px 20px;
   overflow-x: auto;
   overflow-y: hidden;
-  /* break out of main's 1100px column — edge to edge of the screen */
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
+  /* break out of main's column, but keep to ~78% of the screen, centered */
+  width: 78vw;
+  margin-left: calc(50% - 39vw);
 }
 
 /* inside the fold, tiles absorb the leftover height */
@@ -230,12 +230,12 @@ body { overflow-x: hidden; } /* full-bleed row must never cause sideways page sc
 
 @media (max-height: 700px) {
   .fold .tile-body p { display: none; }  /* description goes; title + tags stay */
-  .fold .tiles .tile { flex-basis: clamp(200px, 24vw, 260px); }
+  .fold .tiles .tile { flex-basis: clamp(300px, 36vw, 390px); }
 }
 
 @media (max-height: 560px) {
   .fold .tile-body .tags, .fold .tile-body .cta { display: none; }
-  .fold .tiles .tile { flex-basis: clamp(170px, 20vw, 220px); }
+  .fold .tiles .tile { flex-basis: clamp(255px, 30vw, 330px); }
 }
 
 .tiles {
@@ -274,7 +274,7 @@ body { overflow-x: hidden; } /* full-bleed row must never cause sideways page sc
 .see-all-btn:hover .arrow { transform: translateX(6px); }
 
 .tiles .tile {
-  flex: 0 0 clamp(240px, 30vw, 330px);
+  flex: 0 0 clamp(360px, 45vw, 500px);
   scroll-snap-align: start;
 }
 
