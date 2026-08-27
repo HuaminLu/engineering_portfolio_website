@@ -160,10 +160,24 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
 
 .section-label::before { content: "// "; }
 
+/* ---------- above-the-fold: hero + tiles + button fit one screen ---------- */
+
+.fold {
+  /* viewport minus sticky header (60px) and top circuit edge (56px) */
+  min-height: calc(100svh - 116px);
+  height: calc(100svh - 116px);
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 860px), (max-height: 620px) {
+  .fold { height: auto; min-height: 0; } /* small screens: let it flow */
+}
+
 /* ---------- home hero ---------- */
 
 .hero {
-  padding: 64px 0 40px;
+  padding: 28px 0 12px;
   text-align: center;
 }
 
@@ -186,16 +200,21 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
 
 .tiles {
   display: flex;
+  align-items: stretch;
   gap: 20px;
-  padding: 24px 4px 32px;
+  padding: 16px 4px 20px;
   overflow-x: auto;
-  scroll-snap-type: x proximity;
-  scrollbar-width: thin;
-  scrollbar-color: var(--line-bright) transparent;
+  overflow-y: hidden;
 }
 
-.tiles::-webkit-scrollbar { height: 6px; }
-.tiles::-webkit-scrollbar-thumb { background: var(--line-bright); }
+/* inside the fold, tiles absorb the leftover height */
+.fold .tiles { flex: 1; min-height: 320px; }
+
+.fold .tiles .tile-img {
+  aspect-ratio: auto;  /* height set by the fold, not the 3:4 ratio */
+  flex: 1;
+  min-height: 140px;
+}
 
 .tiles {
   cursor: grab;
@@ -215,8 +234,8 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
   align-items: center;
   justify-content: center;
   gap: 12px;
-  margin: 4px 4px 56px;
-  padding: 16px 24px;
+  margin: 0 4px 24px;
+  padding: 14px 24px;
   border: 1px solid var(--line-bright);
   background: var(--bg-card);
   color: var(--fg);

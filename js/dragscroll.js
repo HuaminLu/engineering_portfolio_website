@@ -32,12 +32,22 @@
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var SPEED = 0.6; // px per frame ≈ 36 px/s
 
-  row.addEventListener("mouseenter", function () { paused = true; });
-  row.addEventListener("mouseleave", function () { paused = false; });
-  row.addEventListener("touchstart", function () { paused = true; }, { passive: true });
-  row.addEventListener("touchend", function () {
-    setTimeout(function () { paused = false; }, 1500);
-  });
+  var resumeTimer = null;
+
+  function pauseNow() {
+    clearTimeout(resumeTimer);
+    paused = true;
+  }
+
+  function resumeAfter(ms) {
+    clearTimeout(resumeTimer);
+    resumeTimer = setTimeout(function () { paused = false; }, ms);
+  }
+
+  row.addEventListener("mouseenter", pauseNow);
+  row.addEventListener("mouseleave", function () { resumeAfter(1000); });
+  row.addEventListener("touchstart", pauseNow, { passive: true });
+  row.addEventListener("touchend", function () { resumeAfter(1500); });
 
   function tick() {
     if (!reduced && !paused && !dragging) {
