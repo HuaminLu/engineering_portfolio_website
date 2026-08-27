@@ -366,6 +366,14 @@ body { overflow-x: hidden; } /* full-bleed row must never cause sideways page sc
   gap: 20px;
 }
 
+/* on large screens, break the grid out of the 1100px column to ~78% of the screen */
+@media (min-width: 1200px) {
+  .project-grid {
+    width: 78vw;
+    margin-left: calc(50% - 39vw);
+  }
+}
+
 .grid-tile {
   border: 1px solid var(--line);
   background: var(--bg-card);

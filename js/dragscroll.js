@@ -32,18 +32,14 @@
     return row.scrollWidth / 2;
   }
 
-  function wrap() {
-    var half = halfWidth();
-    if (half <= 0) return;
-    if (row.scrollLeft >= half) row.scrollLeft -= half;
-    else if (row.scrollLeft < 0) row.scrollLeft += half;
-  }
-
-  // --- auto-scroll (pauses on hover / drag / touch) ---
+  // --- auto-scroll ---
+  // pos is a float accumulator: scrollLeft itself rounds to whole pixels,
+  // so adding 0.6px/frame directly to it would round to zero movement.
+  var pos = 0;
   var paused = false;
-  var dragging = false;
+  var pressed = false;
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var SPEED = 0.6; // px per frame ≈ 36 px/s
+  var SPEED = 0.8; // px per frame ≈ 48 px/s
 
   var resumeTimer = null;
 
@@ -63,10 +59,12 @@
   row.addEventListener("touchend", function () { resumeAfter(1500); });
 
   function tick() {
-    if (!reduced && !paused && !dragging) {
-      row.scrollLeft += SPEED;
+    if (!reduced && !paused && !pressed) {
+      pos += SPEED;
+      var half = halfWidth();
+      if (half > 0 && pos >= half) pos -= half;
+      row.scrollLeft = pos;
     }
-    wrap();
     requestAnimationFrame(tick);
   }
   requestAnimationFrame(tick);
@@ -76,36 +74,44 @@
   var startX = 0;
   var startScroll = 0;
 
-  // Kill the browser's native link/text drag that was hijacking the gesture.
+  // Kill the browser's native link/text drag that would hijack the gesture.
   row.addEventListener("dragstart", function (e) { e.preventDefault(); });
 
   row.addEventListener("pointerdown", function (e) {
     if (e.pointerType !== "mouse" || e.button !== 0) return; // touch pans natively
-    dragging = true;
+    pressed = true;
     moved = false;
     startX = e.clientX;
     startScroll = row.scrollLeft;
-    row.classList.add("dragging");
-    e.preventDefault();
   });
 
   window.addEventListener("pointermove", function (e) {
-    if (!dragging) return;
+    if (!pressed) return;
     var dx = e.clientX - startX;
-    if (Math.abs(dx) > 5) moved = true;
-    row.scrollLeft = startScroll - dx;
-    wrap();
-    // Re-anchor after a wrap so continued dragging stays smooth.
-    startX = e.clientX;
-    startScroll = row.scrollLeft;
+    // Only becomes a drag after real movement — a plain click stays a click.
+    if (!moved && Math.abs(dx) > 6) {
+      moved = true;
+      row.classList.add("dragging");
+    }
+    if (!moved) return;
+    var next = startScroll - dx;
+    var half = halfWidth();
+    if (half > 0) {
+      if (next >= half) { next -= half; startScroll -= half; }
+      else if (next < 0) { next += half; startScroll += half; }
+    }
+    row.scrollLeft = next;
   });
 
   window.addEventListener("pointerup", function () {
-    dragging = false;
+    if (!pressed) return;
+    pressed = false;
     row.classList.remove("dragging");
+    pos = row.scrollLeft; // resync the accumulator with where the user left it
+    resumeAfter(1000);
   });
 
-  // Swallow the click that ends a drag so tiles don't navigate.
+  // Swallow only the click that ends a real drag; plain clicks navigate.
   row.addEventListener(
     "click",
     function (e) {
