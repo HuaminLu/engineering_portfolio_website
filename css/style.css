@@ -164,33 +164,31 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
 
 .fold {
   /* viewport minus sticky header (60px) and top circuit edge (56px) */
-  min-height: calc(100svh - 116px);
   height: calc(100svh - 116px);
+  min-height: 430px; /* floor: below this, tiles are unusable — allow scroll */
   display: flex;
   flex-direction: column;
-}
-
-@media (max-width: 860px), (max-height: 620px) {
-  .fold { height: auto; min-height: 0; } /* small screens: let it flow */
 }
 
 /* ---------- home hero ---------- */
 
 .hero {
-  padding: 28px 0 12px;
+  /* breathing room scales with screen height, 8–40px */
+  padding: clamp(8px, 3vh, 40px) 0 clamp(4px, 1.5vh, 14px);
   text-align: center;
 }
 
 .hero h1 {
-  font-size: clamp(34px, 5.5vw, 54px);
+  /* scales with BOTH width and height so short laptops shrink it too */
+  font-size: clamp(26px, min(5.5vw, 6.5vh), 54px);
   font-weight: 800;
   letter-spacing: -0.01em;
 }
 
 .hero .subtitle {
-  margin-top: 12px;
+  margin-top: clamp(4px, 1.2vh, 12px);
   color: var(--fg-dim);
-  font-size: 21px;
+  font-size: clamp(14px, min(2vw, 2.6vh), 21px);
   letter-spacing: 0.06em;
 }
 
@@ -208,12 +206,31 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
 }
 
 /* inside the fold, tiles absorb the leftover height */
-.fold .tiles { flex: 1; min-height: 320px; }
+.fold .tiles { flex: 1; min-height: 0; padding-top: clamp(6px, 1.5vh, 16px); padding-bottom: clamp(8px, 2vh, 20px); }
 
 .fold .tiles .tile-img {
   aspect-ratio: auto;  /* height set by the fold, not the 3:4 ratio */
   flex: 1;
-  min-height: 140px;
+  min-height: 90px;
+}
+
+/* progressively compress tile text as screens get shorter */
+@media (max-height: 820px) {
+  .fold .tile-body { padding: 12px 14px 14px; }
+  .fold .tile-body h2 { font-size: 19px; }
+  .fold .tile-body p { font-size: 16px; margin-top: 6px; }
+  .fold .tile-body .tags { font-size: 14px; margin-top: 5px; }
+  .fold .tile-body .cta { font-size: 15px; margin-top: 8px; }
+}
+
+@media (max-height: 700px) {
+  .fold .tile-body p { display: none; }  /* description goes; title + tags stay */
+  .fold .tiles .tile { flex-basis: clamp(200px, 24vw, 260px); }
+}
+
+@media (max-height: 560px) {
+  .fold .tile-body .tags, .fold .tile-body .cta { display: none; }
+  .fold .tiles .tile { flex-basis: clamp(170px, 20vw, 220px); }
 }
 
 .tiles {
@@ -233,13 +250,14 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
   gap: 12px;
-  margin: 0 4px 24px;
-  padding: 14px 24px;
+  margin: 0 4px clamp(10px, 2.5vh, 24px);
+  padding: clamp(9px, 1.8vh, 14px) 24px;
   border: 1px solid var(--line-bright);
   background: var(--bg-card);
   color: var(--fg);
-  font-size: 20px;
+  font-size: clamp(15px, 2.4vh, 20px);
   letter-spacing: 0.08em;
   transition: border-color 0.2s, background 0.2s;
 }
@@ -306,7 +324,11 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
   gap: 40px;
 }
 
-.about h2 { font-size: 26px; font-weight: 800; }
+.about-photo {
+  aspect-ratio: 3 / 4;
+  max-width: 340px;
+  margin-top: 12px;
+}
 
 .about p { color: var(--fg-dim); font-size: 21px; }
 
