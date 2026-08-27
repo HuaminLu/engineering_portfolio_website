@@ -5,6 +5,19 @@
   var row = document.querySelector(".tiles");
   if (!row) return;
 
+  // --- exact fold sizing: measure instead of hardcoding header math ---
+  var fold = document.querySelector(".fold");
+  function sizeFold() {
+    if (!fold) return;
+    // distance from document top to the fold, immune to scroll position
+    var topOffset = fold.getBoundingClientRect().top + window.scrollY;
+    var available = window.innerHeight - topOffset;
+    fold.style.height = available > 430 ? available + "px" : "";
+  }
+  sizeFold();
+  window.addEventListener("resize", sizeFold);
+  window.addEventListener("load", sizeFold); // re-measure once fonts settle
+
   // --- seamless loop: duplicate the tile set once ---
   var originals = Array.prototype.slice.call(row.children);
   originals.forEach(function (tile) {
