@@ -28,6 +28,18 @@
     row.appendChild(clone);
   });
 
+  // --- equalize tile text sections so all image areas are the same height ---
+  function equalizeBodies() {
+    var bodies = row.querySelectorAll(".tile-body");
+    var max = 0;
+    bodies.forEach(function (b) { b.style.height = "auto"; });
+    bodies.forEach(function (b) { max = Math.max(max, b.offsetHeight); });
+    bodies.forEach(function (b) { b.style.height = max + "px"; });
+  }
+  equalizeBodies();
+  window.addEventListener("resize", equalizeBodies);
+  window.addEventListener("load", equalizeBodies);
+
   function halfWidth() {
     return row.scrollWidth / 2;
   }
@@ -39,7 +51,7 @@
   var paused = false;
   var pressed = false;
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var SPEED = 0.8; // px per frame ≈ 48 px/s
+  var SPEED = 1.8; // px per frame ≈ 108 px/s
 
   var resumeTimer = null;
 
@@ -54,7 +66,7 @@
   }
 
   row.addEventListener("mouseenter", pauseNow);
-  row.addEventListener("mouseleave", function () { resumeAfter(1000); });
+  row.addEventListener("mouseleave", function () { paused = false; }); // resume instantly
   row.addEventListener("touchstart", pauseNow, { passive: true });
   row.addEventListener("touchend", function () { resumeAfter(1500); });
 
@@ -108,7 +120,7 @@
     pressed = false;
     row.classList.remove("dragging");
     pos = row.scrollLeft; // resync the accumulator with where the user left it
-    resumeAfter(1000);
+    resumeAfter(300);
   });
 
   // Swallow only the click that ends a real drag; plain clicks navigate.
