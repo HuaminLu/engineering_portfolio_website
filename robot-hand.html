@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=14">
+  <link rel="stylesheet" href="css/style.css?v=15">
 </head>
 <body>
 
@@ -54,21 +54,22 @@
       10 micro-servos into an ergonomic palm; the power system survives all 10 stalling at once.
     </p>
 
+    <!-- ============ HERO ============ -->
+    <div class="fig-wide">
+      <div class="ph">
+        <div class="ph-icon">⌇</div>
+        <div class="ph-label">[ img: hand — hero ]</div>
+        <div class="ph-desc">Assembled hand gripping an object, fingers articulated</div>
+      </div>
+    </div>
+
     <ul class="achievements">
-      <li><b>Engineered a high-transient power architecture</b> that sustains 10 A simultaneous stall current across 10 independent servos without a single MCU brownout.</li>
-      <li><b>Eliminated PWM jitter</b> by offloading 50 Hz timing to a dedicated I²C hardware driver — RTOS context switching and WiFi tasks never touch the signal.</li>
-      <li><b>Packed 10 actuators into an anthropomorphic palm</b> using advanced boundary surfacing and surface lofts in SolidWorks, with zero mechanical interference.</li>
+      <li><b>Engineered a high-transient power architecture</b> that sustains <b>10 A</b> simultaneous stall current across <b>10 independent servos</b> without a single MCU brownout.</li>
+      <li><b>Eliminated PWM jitter</b> by offloading <b>50 Hz</b> timing to a dedicated I²C hardware driver — RTOS context switching and WiFi tasks never touch the signal.</li>
+      <li><b>Packed 10 actuators into an anthropomorphic palm</b> using advanced <b>boundary surfacing</b> and surface lofts in SolidWorks, with zero mechanical interference.</li>
     </ul>
   </section>
 
-  <!-- ============ HERO ============ -->
-  <div class="fig-wide">
-    <div class="ph">
-      <div class="ph-icon">⌇</div>
-      <div class="ph-label">[ img: hand — hero ]</div>
-      <div class="ph-desc">Assembled hand gripping an object, fingers articulated</div>
-    </div>
-  </div>
 
   <!-- ============ MECHANICAL ============ -->
   <section class="psection">
@@ -193,6 +194,6 @@ Adafruit_PWMServoDriver pwm = <span class="fn">Adafruit_PWMServoDriver</span>(<s
   </div>
 </footer>
 
-<script src="js/reveal.js?v=14"></script>
+<script src="js/reveal.js?v=15"></script>
 </body>
 </html>

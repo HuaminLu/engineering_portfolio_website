@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=14">
+  <link rel="stylesheet" href="css/style.css?v=15">
 </head>
 <body>
 
@@ -54,22 +54,23 @@
       of the robot: low-level 50 Hz joint streaming, high-level locomotion RPC, and serial-driven dexterous hands.
     </p>
 
+    <!-- ============ HERO ============ -->
+    <div class="fig-wide" style="margin-top:36px">
+      <div class="ph">
+        <div class="ph-icon">⌖</div>
+        <div class="ph-label">[ img: G1 — hero ]</div>
+        <div class="ph-desc">The G1 humanoid standing / walking, full body in frame</div>
+      </div>
+    </div>
+
     <ul class="achievements">
-      <li><b>Trained a PPO policy for ~53M timesteps</b> that solves 7-joint inverse kinematics in real time — no analytical IK solver — then deployed it sim-to-real over DDS.</li>
-      <li><b>Built a real-time hand teleoperation pipeline</b> (~30 ms latency) mirroring a human hand from a webcam to a 6-DOF Inspire dexterous hand at 25–30 Hz.</li>
+      <li><b>Trained a PPO policy for ~53M timesteps</b> that solves <b>7-joint inverse kinematics in real time</b> — no analytical IK solver — then deployed it sim-to-real over DDS.</li>
+      <li><b>Built a real-time hand teleoperation pipeline</b> (<b>~30 ms latency</b>) mirroring a human hand from a webcam to a <b>6-DOF</b> Inspire dexterous hand at <b>25–30 Hz</b>.</li>
       <li><b>Root-caused a firmware RPC failure (error 3102)</b> to an SDK service-name mismatch introduced in ai_sport ≥ 8.2.0.0 — a two-line patch restored all locomotion control.</li>
       <li><b>Authored robot behaviors by demonstration</b> — recorder GUIs whose keyframed trajectories train continuous MLP policies for the arms.</li>
     </ul>
   </section>
 
-  <!-- ============ HERO ============ -->
-  <div class="fig-wide" style="margin-top:36px">
-    <div class="ph">
-      <div class="ph-icon">⌖</div>
-      <div class="ph-label">[ img: G1 — hero ]</div>
-      <div class="ph-desc">The G1 humanoid standing / walking, full body in frame</div>
-    </div>
-  </div>
 
   <!-- ============ PLATFORM ============ -->
   <section class="psection">
@@ -187,6 +188,6 @@
   </div>
 </footer>
 
-<script src="js/reveal.js?v=14"></script>
+<script src="js/reveal.js?v=15"></script>
 </body>
 </html>
