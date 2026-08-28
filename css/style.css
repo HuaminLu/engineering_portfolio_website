@@ -433,7 +433,6 @@ body { overflow-x: hidden; } /* full-bleed row must never cause sideways page sc
   background: var(--bg-raised);
   color: var(--fg-dim);
   font-size: 21px;
-  max-width: 820px;
 }
 
 /* key achievements — recruiter hook at top of each project */
