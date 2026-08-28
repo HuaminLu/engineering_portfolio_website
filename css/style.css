@@ -110,7 +110,18 @@ nav a {
   transition: color 0.15s, border-color 0.15s;
 }
 
+/* top-level nav items are compact outlined buttons, vertically centered in the bar */
+nav ul > li > a {
+  border: 1px solid var(--line-bright);
+  padding: 3px 14px;
+  font-size: 14px;
+  letter-spacing: 0.09em;
+  line-height: 1.5;
+}
+
 nav a:hover, nav a.active { color: var(--fg); }
+
+nav ul > li > a:hover, nav ul > li > a.active { border-color: var(--fg-dim); }
 
 /* dropdown */
 .dropdown { position: relative; }
