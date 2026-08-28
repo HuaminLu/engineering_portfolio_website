@@ -838,3 +838,29 @@ footer {
 .about div > p.reveal.visible:nth-of-type(3) { transition-delay: 0.24s; }
 .about div > p.reveal.visible:nth-of-type(4) { transition-delay: 0.36s; }
 .about .about-links.reveal.visible { transition-delay: 0.5s; }
+
+/* ---------- project-page fold: title + stats + intro + hero fill screen 1 ---------- */
+
+.pfold {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.pfold .project-header { padding-top: 26px; flex-shrink: 0; }
+
+.pfold .fig-wide {
+  flex: 1;
+  min-height: 160px;
+  margin: 18px 0 18px;
+  display: flex;
+}
+
+.pfold .fig-wide .ph,
+.pfold .fig-wide img,
+.pfold .fig-wide video {
+  aspect-ratio: auto;
+  width: 100%;
+  height: 100%;
+  flex: 1;
+}

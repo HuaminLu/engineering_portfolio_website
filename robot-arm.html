@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=19">
+  <link rel="stylesheet" href="css/style.css?v=20">
 </head>
 <body>
 
@@ -21,9 +21,9 @@
         <li class="dropdown">
           <a href="#" class="active">PROJECTS</a>
           <div class="dropdown-menu">
-            <a href="robot-arm.html"><span class="idx">01</span>7-DOF QDD Robot Arm</a>
-            <a href="robot-hand.html"><span class="idx">02</span>10-DOF Dexterous Hand</a>
-            <a href="unitree-g1.html"><span class="idx">03</span>Unitree G1 Humanoid</a>
+            <a href="robot-arm.html"><span class="idx">1</span>7-DOF QDD Robot Arm</a>
+            <a href="robot-hand.html"><span class="idx">2</span>10-DOF Dexterous Hand</a>
+            <a href="unitree-g1.html"><span class="idx">3</span>Unitree G1 Humanoid</a>
             <a href="g1-hand-mimic.html"><span class="idx">3.1</span>&nbsp;&nbsp;Hand Mimic</a>
             <a href="g1-hand-recorder.html"><span class="idx">3.2</span>&nbsp;&nbsp;Hand Recorder GUI</a>
             <a href="g1-arm-policy.html"><span class="idx">3.3</span>&nbsp;&nbsp;MuJoCo Arm Policy</a>
@@ -41,6 +41,7 @@
 
 <main>
 
+  <div class="pfold">
   <section class="project-header">
     <p class="crumb"><a href="projects.html">projects</a> / 01</p>
     <h1>7-DOF Quasi-Direct-Drive Collaborative Robot Arm</h1>
@@ -54,17 +55,20 @@
       A commercial-grade 7-DOF collaborative arm modeled after cobots like the Flexiv Rizon and UR series.
       Fully 3D-printed structure, decentralized CAN bus motor control, and a peak payload nearly equal to its own weight.
     </p>
+  </section>
 
-    <!-- ============ HERO ============ -->
-    <div class="fig-wide">
+  <!-- ============ HERO ============ -->
+  <div class="fig-wide">
       <div class="ph">
         <div class="ph-icon">⌬</div>
         <div class="ph-label">[ img: full arm — hero ]</div>
         <div class="ph-desc">Wide shot of the fully assembled arm, extended horizontally</div>
       </div>
-    </div>
+  </div>
+  </div><!-- /pfold -->
 
-    <ul class="achievements">
+  <section>
+        <ul class="achievements">
       <li><b>Elite payload-to-weight ratio:</b> a <b>10 kg</b> custom 3D-printed arm rated for a <b>~10 kg peak payload</b> at full <b>1.11 m</b> horizontal extension, and a <b>3–5 kg continuous</b> working payload.</li>
       <li><b>Cut ~2 kg of structural mass</b> through slicer parameter optimization — an isotropic <b>7% gyroid</b> infill matrix maximizes torsional rigidity per gram.</li>
       <li><b>Industrial cobot architecture:</b> uniform cylindrical links, spigot structural joints, slip-ring internal routing, and decentralized CAN bus control.</li>
@@ -236,6 +240,6 @@
   </div>
 </footer>
 
-<script src="js/reveal.js?v=19"></script>
+<script src="js/reveal.js?v=20"></script>
 </body>
 </html>

@@ -1,5 +1,18 @@
 // Scroll-reveal: fades content up as it enters the viewport. One-time, subtle.
 (function () {
+  // Project-page fold: size title + stats + intro + hero to exactly one screen.
+  // Runs regardless of reduced-motion (it's layout, not animation).
+  var pfold = document.querySelector(".pfold");
+  function sizePfold() {
+    if (!pfold) return;
+    var top = pfold.getBoundingClientRect().top + window.scrollY;
+    var available = window.innerHeight - top;
+    pfold.style.height = available > 460 ? available + "px" : "";
+  }
+  sizePfold();
+  window.addEventListener("resize", sizePfold);
+  window.addEventListener("load", sizePfold);
+
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
   var targets = document.querySelectorAll(

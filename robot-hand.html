@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=19">
+  <link rel="stylesheet" href="css/style.css?v=20">
 </head>
 <body>
 
@@ -21,9 +21,9 @@
         <li class="dropdown">
           <a href="#" class="active">PROJECTS</a>
           <div class="dropdown-menu">
-            <a href="robot-arm.html"><span class="idx">01</span>7-DOF QDD Robot Arm</a>
-            <a href="robot-hand.html"><span class="idx">02</span>10-DOF Dexterous Hand</a>
-            <a href="unitree-g1.html"><span class="idx">03</span>Unitree G1 Humanoid</a>
+            <a href="robot-arm.html"><span class="idx">1</span>7-DOF QDD Robot Arm</a>
+            <a href="robot-hand.html"><span class="idx">2</span>10-DOF Dexterous Hand</a>
+            <a href="unitree-g1.html"><span class="idx">3</span>Unitree G1 Humanoid</a>
             <a href="g1-hand-mimic.html"><span class="idx">3.1</span>&nbsp;&nbsp;Hand Mimic</a>
             <a href="g1-hand-recorder.html"><span class="idx">3.2</span>&nbsp;&nbsp;Hand Recorder GUI</a>
             <a href="g1-arm-policy.html"><span class="idx">3.3</span>&nbsp;&nbsp;MuJoCo Arm Policy</a>
@@ -41,6 +41,7 @@
 
 <main>
 
+  <div class="pfold">
   <section class="project-header">
     <p class="crumb"><a href="projects.html">projects</a> / 02</p>
     <h1>10-DOF Anthropomorphic Dexterous Hand</h1>
@@ -54,17 +55,20 @@
       A fully functional 10-degree-of-freedom robotic hand. Advanced CAD surfacing packs
       10 micro-servos into an ergonomic palm; the power system survives all 10 stalling at once.
     </p>
+  </section>
 
-    <!-- ============ HERO ============ -->
-    <div class="fig-wide">
+  <!-- ============ HERO ============ -->
+  <div class="fig-wide">
       <div class="ph">
         <div class="ph-icon">⌇</div>
         <div class="ph-label">[ img: hand — hero ]</div>
         <div class="ph-desc">Assembled hand gripping an object, fingers articulated</div>
       </div>
-    </div>
+  </div>
+  </div><!-- /pfold -->
 
-    <ul class="achievements">
+  <section>
+        <ul class="achievements">
       <li><b>Engineered a high-transient power architecture</b> that sustains <b>10 A</b> simultaneous stall current across <b>10 independent servos</b> without a single MCU brownout.</li>
       <li><b>Eliminated PWM jitter</b> by offloading <b>50 Hz</b> timing to a dedicated I²C hardware driver — RTOS context switching and WiFi tasks never touch the signal.</li>
       <li><b>Packed 10 actuators into an anthropomorphic palm</b> using advanced <b>boundary surfacing</b> and surface lofts in SolidWorks, with zero mechanical interference.</li>
@@ -195,6 +199,6 @@ Adafruit_PWMServoDriver pwm = <span class="fn">Adafruit_PWMServoDriver</span>(<s
   </div>
 </footer>
 
-<script src="js/reveal.js?v=19"></script>
+<script src="js/reveal.js?v=20"></script>
 </body>
 </html>
