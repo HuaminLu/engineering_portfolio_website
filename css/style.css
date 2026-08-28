@@ -852,7 +852,7 @@ footer {
 .pfold .fig-wide {
   flex: 1;
   min-height: 160px;
-  margin: 18px 0 18px;
+  margin: 18px 0 40px;
   display: flex;
 }
 
