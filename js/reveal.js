@@ -4,10 +4,15 @@
 
   var targets = document.querySelectorAll(
     ".tile, .grid-tile, .subproject, .fig-wide, .fig-split, .fig-row, " +
-    ".achievements li, .spec-list, .calc, pre, .about, .project-intro"
+    ".achievements li, .spec-list, .calc, pre, .project-intro, " +
+    ".about p, .about-links"
   );
 
   targets.forEach(function (el) { el.classList.add("reveal"); });
+
+  // about portrait slides in from the left instead of fading up
+  var photo = document.querySelector(".about-photo");
+  if (photo) photo.classList.add("reveal", "reveal-left");
 
   var observer = new IntersectionObserver(
     function (entries) {
@@ -22,4 +27,5 @@
   );
 
   targets.forEach(function (el) { observer.observe(el); });
+  if (photo) observer.observe(photo);
 })();
