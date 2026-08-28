@@ -83,26 +83,40 @@ These encode decisions the owner made explicitly. Breaking them = redoing work.
    invisible changes (GitHub Pages caches for 10 min) — it has bitten before.
 5. **Nav dropdown is duplicated in every HTML file.** Change a menu item → update all 10
    files (use `sed` across `*.html`). Same for the footer.
-6. **The fold must fit any screen.** `.fold` height is measured by `js/dragscroll.js`
-   (`sizeFold()`), not hardcoded. If you add content above the tiles on `index.html`,
-   re-test at short window heights; height-based media queries in `style.css` progressively
-   hide tile text below 820/700/560 px.
-7. **Marquee behaviors** (owner-specified, don't regress): auto-scroll starts on load;
-   pauses on hover; resumes ~1 s after the mouse leaves; drag-to-pan works; a plain click
-   (< 6 px movement) still opens the project; the loop is seamless (tiles cloned once —
-   when editing tiles in `index.html`, edit the originals; clones are runtime-only).
+6. **Folds must fit any screen.** Two measured folds exist: `.fold` on `index.html`
+   (sized by `js/dragscroll.js` `sizeFold()`) and `.pfold` on every project page — title +
+   stats + intro + hero fill exactly one viewport (sized by `js/reveal.js` `sizePfold()`,
+   which runs even under reduced-motion). Neither height is hardcoded. If you add content
+   above either fold, re-test short windows; height-based media queries progressively hide
+   tile text below 820/700/560 px.
+7. **Marquee behaviors** (owner-specified, don't regress): auto-scroll starts on load
+   (~108 px/s); pauses on hover; resumes the moment the mouse leaves; drag-to-pan works;
+   a plain click (< 6 px movement) still opens the project; the loop is seamless (tiles
+   cloned once — edit the originals in `index.html`; clones are runtime-only); all tile
+   text sections are JS-equalized to the tallest so image areas match heights.
 8. **Layout widths:** content column is 1100px; the home marquee and the projects grid
    break out to **78vw centered** (grid only ≥1200px). Titles must stay left-aligned with
    their expanded content — break out the whole section, not just the grid.
-9. **Media rules:** images ≤ 400 KB (heroes ≤ 700 KB), videos = MP4 CRF 26–30 ≤ 6 MB with
-   `autoplay muted loop playsinline`, never GIF unless explicitly requested, `-strip` EXIF
-   before committing (public repo — GPS data must not leak). Full pipeline: `README.md`.
+9. **Media rules — most slots are gif-style VIDEO LOOPS now:** the six home marquee
+   tiles and the five clip squares on `unitree-g1.html`'s project cards are `[ clip: … ]`
+   slots — fill them with short (3–6 s) looping MP4s (`<video autoplay muted loop
+   playsinline>`), which look exactly like GIFs at ~10× smaller size. Never actual .gif
+   files unless explicitly requested. Static slots (`[ img: … ]`) stay JPG. Images
+   ≤ 400 KB (heroes ≤ 700 KB), tile loops ~2 MB, page clips ≤ 6 MB, CRF 26–30,
+   `-strip` EXIF before committing (public repo — GPS must not leak). Pipeline: `README.md`.
 10. **Truthfulness:** the payload numbers, training steps, gains, and calculations shown on
     the pages come from real project docs. Never inflate or invent specs. If you write new
     copy, source it from `Unitree G1 Work Upload/*/AGENTS.md`.
 11. **Commit style:** one logical change per commit, imperative subject line, push to
     `main` directly (no branches unless the human asks). Always `git pull --rebase` first —
     multiple machines/agents touch this repo.
+
+12. **Mobile layer (≤ 640px) is a dedicated override block** at the END of
+    `css/style.css` — every component has an explicit phone size there (17px body, 42px
+    header with 22px equal-height nav buttons, full-width `100vw` marquee with 74vw tiles,
+    full-width about photo, compact project-page type). When you add or restyle ANY
+    component, add its mobile size to that block in the same commit. Android portrait
+    (~360–430 px wide) is the reference target.
 
 ## Standard workflows
 
@@ -126,7 +140,40 @@ Edit → test locally (resize the window; try the marquee: hover pause, drag, cl
    optionally the home marquee (both `index.html` tile and its `projects.html` twin),
    and prev/next `project-nav` links of its neighbors.
 
-### D. Verifying before you finish (always)
+### D. Post-push verification (MANDATORY after every push)
+
+Run the full checklist below after EVERY push, before reporting done. Check both PC and
+Android layouts — use real browser rendering when available (DevTools device mode /
+a browser-control tool at 390×844 for phone, ~1440×900 and a short 1366×700 window for PC);
+otherwise verify each item structurally (curl the live files, grep the rules, trace the CSS).
+
+**PC (wide + short windows):**
+- [ ] Home fold: hero + marquee + See-All button fit ONE screen — button never cut off
+      (resize height: 900 → 700 → 560 px; tile text compresses progressively, never clips)
+- [ ] Marquee: auto-scrolls on load, pauses on hover, resumes instantly on mouse-off,
+      drags, plain click opens the project, loop has no visible seam
+- [ ] Every project page: `.pfold` fits ONE screen (title + stats + intro + hero); hero has
+      breathing room below; scrolling reveals achievements + numbered sections with fades
+- [ ] Nav: GALLERY / PROJECTS ▾ / HOME same pixel height, dropdown opens with 1/2/3/3.x
+      indices, active page highlighted
+- [ ] Gallery page: grid + title break out together ≥1200px, title left-aligns with tiles
+- [ ] All tile text sections equal height (image areas align across the marquee)
+
+**Android / phone (≤ 640px, portrait 9:16):**
+- [ ] Header: logo + all three nav buttons on one line at 360px, equal heights, no wrap
+- [ ] Marquee: full screen width, one ~74vw tile with the next peeking; touch-swipe pans;
+      no horizontal page scroll anywhere
+- [ ] All images/clips centered and spanning content width — INCLUDING the about portrait
+- [ ] Clip slots keep sane ratios (G1 card clips become 16:9 banners; tiles stay portrait)
+- [ ] Text: nothing overflows or wraps mid-word; code blocks scroll inside their box
+- [ ] Both folds still fit one phone screen (svh handles the browser chrome)
+
+**Both:**
+- [ ] `grep -ho '?v=[0-9]*' *.html | sort -u` → exactly ONE version, bumped if css/js changed
+- [ ] Live site returns 200 for /, css, both js files, favicon (after ~60 s deploy wait)
+- [ ] Internal links resolve (script below); no console errors on load
+
+### D2. Static verification commands
 ```bash
 # link integrity: every internal href resolves
 for f in *.html; do grep -o 'href="[a-z0-9-]*\.html"' $f | sed 's/href="//;s/"//' | sort -u \
