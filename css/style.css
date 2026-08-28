@@ -113,11 +113,16 @@ nav a {
 /* top-level nav items are compact outlined buttons, vertically centered in the bar */
 nav ul > li > a {
   border: 1px solid var(--line-bright);
-  padding: 3px 14px;
+  padding: 0 14px;
+  height: 27px;
+  display: flex;
+  align-items: center;
   font-size: 14px;
   letter-spacing: 0.09em;
-  line-height: 1.5;
+  line-height: 1;
 }
+
+.dropdown > a::after { line-height: 1; }
 
 nav a:hover, nav a.active { color: var(--fg); }
 
@@ -747,7 +752,7 @@ footer {
   .logo { font-size: 12.5px; letter-spacing: 0.04em; }
   .logo .cursor { width: 6px; height: 10px; }
   nav ul { gap: 6px; }
-  nav ul > li > a { padding: 3px 7px; font-size: 10.5px; letter-spacing: 0.04em; }
+  nav ul > li > a { padding: 0 7px; height: 22px; font-size: 10.5px; letter-spacing: 0.04em; }
   .dropdown-menu { min-width: 210px; }
   .dropdown-menu a { font-size: 13.5px; padding: 9px 12px; }
 
@@ -779,7 +784,7 @@ footer {
   .about { padding: 32px 0 48px; gap: 24px; }
   .about p { font-size: 14.5px; }
   .about-links a { font-size: 13.5px; }
-  .about-photo { max-width: 240px; }
+  .about-photo { width: 100%; max-width: none; margin: 10px auto 0; }
 
   /* --- projects grid page --- */
   .grid-page { padding: 32px 0 48px; }
