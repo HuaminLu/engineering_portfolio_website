@@ -864,3 +864,25 @@ footer {
   height: 100%;
   flex: 1;
 }
+
+/* clip square inside G1 sub-project cards: [num] [clip] [text] [arrow] */
+.subproject { grid-template-columns: 44px 150px 1fr auto; }
+
+.subproject .sp-clip {
+  width: 150px;
+  aspect-ratio: 1 / 1;
+  padding: 8px;
+  gap: 4px;
+}
+
+.subproject .sp-clip .ph-label { font-size: 10px; }
+.subproject .sp-clip .ph-desc { font-size: 9.5px; }
+
+.subproject .sp-clip img, .subproject .sp-clip video {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+
+@media (max-width: 860px) {
+  .subproject { grid-template-columns: 1fr; }
+  .subproject .sp-clip { width: 100%; aspect-ratio: 16 / 9; }
+}

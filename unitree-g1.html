@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20">
+  <link rel="stylesheet" href="css/style.css?v=21">
 </head>
 <body>
 
@@ -99,6 +99,7 @@
 
       <a class="subproject" href="g1-hand-mimic.html">
         <span class="sp-num">01</span>
+        <div class="ph sp-clip"><div class="ph-label">[ clip: hand mimic ]</div><div class="ph-desc">Loop — hand and robot hand mirroring</div></div>
         <div>
           <h3>Hand Mimic — Camera → Robot Hand</h3>
           <p class="sp-desc">Webcam hand tracking mirrored live to the Inspire hand — MediaPipe landmarks, geometric retargeting, pinch detection, EMA smoothing.</p>
@@ -109,6 +110,7 @@
 
       <a class="subproject" href="g1-hand-recorder.html">
         <span class="sp-num">02</span>
+        <div class="ph sp-clip"><div class="ph-label">[ clip: hand recorder ]</div><div class="ph-desc">Loop — sliders moving, hand following</div></div>
         <div>
           <h3>Hand Recorder GUI — Keyframe Gesture Animator</h3>
           <p class="sp-desc">Desktop GUI for authoring precise hand gestures — live sliders, recorded takes, combinable sequences, YAML preset playback.</p>
@@ -119,6 +121,7 @@
 
       <a class="subproject" href="g1-arm-policy.html">
         <span class="sp-num">03</span>
+        <div class="ph sp-clip"><div class="ph-label">[ clip: arm policy ]</div><div class="ph-desc">Loop — sim arm chasing the red goal</div></div>
         <div>
           <h3>MuJoCo Arm Policy — RL Goal Reaching</h3>
           <p class="sp-desc">PPO agent trained ~53M steps solves 7-joint IK in real time; sim arm mirrors to the physical robot over DDS on keypress.</p>
@@ -129,6 +132,7 @@
 
       <a class="subproject" href="g1-arm-recorder.html">
         <span class="sp-num">04</span>
+        <div class="ph sp-clip"><div class="ph-label">[ clip: arm recorder ]</div><div class="ph-desc">Loop — arm replaying a trajectory</div></div>
         <div>
           <h3>Arm Recorder GUI — 14-DOF Joint Animator</h3>
           <p class="sp-desc">Dial, record, and replay full-arm trajectories — 50 Hz LowCmd streaming with PD gains; recordings train a continuous 3-axis arm policy.</p>
@@ -139,6 +143,7 @@
 
       <a class="subproject" href="g1-walk.html">
         <span class="sp-num">05</span>
+        <div class="ph sp-clip"><div class="ph-label">[ clip: wasdqe walk ]</div><div class="ph-desc">Loop — G1 stepping under keyboard control</div></div>
         <div>
           <h3>WASDQE Walk — Locomotion Teleop</h3>
           <p class="sp-desc">Keyboard-driven bipedal walking through the high-level velocity RPC — tap-to-inch pulses, safety clamps, and the error-3102 firmware fix.</p>
@@ -193,6 +198,6 @@
   </div>
 </footer>
 
-<script src="js/reveal.js?v=20"></script>
+<script src="js/reveal.js?v=21"></script>
 </body>
 </html>
