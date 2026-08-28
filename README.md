@@ -43,13 +43,13 @@ Processed files live in one folder per page, named after the **slot** they fill:
 ```
 images/
   _inbox/            ← raw dumps (never deployed; gitignored once processing is done)
-  home/              ← tiles on the landing marquee + about portrait
-    tile-robot-arm.jpg
-    tile-robot-hand.jpg
-    tile-unitree-g1.jpg
-    tile-hand-mimic.jpg
-    tile-arm-policy.jpg
-    tile-walk.jpg
+  home/              ← tiles on the landing marquee (looping CLIPS, gif-style) + about portrait
+    tile-robot-arm.mp4     # 3–6 s loop, ~2 MB each — <video autoplay muted loop> looks like
+    tile-robot-hand.mp4    # a GIF at ~10× smaller size; fall back to .jpg only if no
+    tile-unitree-g1.mp4    # good motion clip exists for a project
+    tile-hand-mimic.mp4
+    tile-arm-policy.mp4
+    tile-walk.mp4
     portrait.jpg
   robot-arm/
     hero.jpg  cad-assembly.jpg  spigot-joint.jpg  gyroid-slicer.jpg
@@ -123,6 +123,10 @@ removes GPS location data — required before publishing to a public repo).
 colors and balloons to tens of MB.
 
 ```bash
+# home marquee tile loop (gif-style): short, small, loop-friendly
+ffmpeg -ss <start> -t 5 -i in.mp4 -vf "scale=720:-2" -c:v libx264 -crf 30 -preset slow -an \
+       -movflags +faststart images/home/tile-<project>.mp4   # target ≤ 2 MB
+
 # standard web clip: h264, quality-targeted (CRF), audio stripped, streaming-friendly
 ffmpeg -i in.mp4 -vf "scale=1280:-2" -c:v libx264 -crf 28 -preset slow -an \
        -movflags +faststart images/<page>/<slot>.mp4

@@ -97,7 +97,7 @@ header {
 nav ul {
   list-style: none;
   display: flex;
-  gap: 4px;
+  gap: 16px;
   align-items: center;
 }
 
@@ -107,10 +107,20 @@ nav a {
   font-size: 16px;
   color: var(--fg-dim);
   letter-spacing: 0.05em;
-  transition: color 0.15s;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+/* top-level nav items look like buttons: caps + light outline */
+nav ul > li > a {
+  border: 1px solid var(--line-bright);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  padding: 6px 16px;
 }
 
 nav a:hover, nav a.active { color: var(--fg); }
+
+nav ul > li > a:hover, nav ul > li > a.active { border-color: var(--fg-dim); }
 
 /* dropdown */
 .dropdown { position: relative; }
