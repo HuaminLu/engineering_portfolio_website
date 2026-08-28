@@ -730,3 +730,100 @@ footer {
   .spec-list li { grid-template-columns: 1fr; gap: 2px; }
   nav a { padding: 8px 8px; }
 }
+
+/* ============================================================
+   MOBILE (phones, portrait ≤ 640px) — full rescale.
+   Desktop sizes are tuned for big monitors; phones get a
+   compact type scale, tighter nav, and near-full-width tiles.
+   ============================================================ */
+@media (max-width: 640px) {
+
+  body { font-size: 17px; }
+
+  main { padding: 0 16px; }
+
+  /* --- header: compact bar that fits logo + 3 buttons at 360px --- */
+  .nav-inner { padding: 0 10px; height: 42px; }
+  .logo { font-size: 12.5px; letter-spacing: 0.04em; }
+  .logo .cursor { width: 6px; height: 10px; }
+  nav ul { gap: 6px; }
+  nav ul > li > a { padding: 3px 7px; font-size: 10.5px; letter-spacing: 0.04em; }
+  .dropdown-menu { min-width: 210px; }
+  .dropdown-menu a { font-size: 13.5px; padding: 9px 12px; }
+
+  .circuit-edge { height: 34px; background-size: 320px 34px; }
+
+  /* --- home hero --- */
+  .hero h1 { font-size: clamp(22px, 7vw, 30px); }
+  .hero .subtitle { font-size: 12px; padding: 0 8px; }
+
+  /* --- marquee: full width, one tile ~fills the screen --- */
+  .tiles {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    gap: 14px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .tiles .tile, .fold .tiles .tile { flex-basis: 74vw; }
+  .tile-body, .fold .tile-body { padding: 12px 14px 14px; }
+  .tile-body h2, .fold .tile-body h2 { font-size: 16px; }
+  .tile-body .tags, .fold .tile-body .tags { font-size: 11.5px; }
+  .tile-body p, .fold .tile-body p { font-size: 13px; margin-top: 6px; }
+  .tile-body .cta, .fold .tile-body .cta { font-size: 12.5px; margin-top: 8px; }
+
+  .see-all-btn { font-size: 14px; padding: 10px 16px; margin-bottom: 16px; }
+
+  /* --- about --- */
+  .section-label { font-size: 12.5px; }
+  .about { padding: 32px 0 48px; gap: 24px; }
+  .about p { font-size: 14.5px; }
+  .about-links a { font-size: 13.5px; }
+  .about-photo { max-width: 240px; }
+
+  /* --- projects grid page --- */
+  .grid-page { padding: 32px 0 48px; }
+  .grid-page h1 { font-size: 24px; }
+  .grid-page .lede { font-size: 13.5px; margin-bottom: 22px; }
+  .project-grid { gap: 14px; }
+
+  /* --- project pages --- */
+  .project-header { padding: 28px 0 8px; }
+  .project-header .crumb { font-size: 11.5px; margin-bottom: 12px; }
+  .project-header h1 { font-size: clamp(19px, 6vw, 26px); }
+  .project-header .meta { gap: 10px 16px; font-size: 11.5px; margin-top: 10px; }
+  .project-intro { font-size: 14px; padding: 12px 14px; margin-top: 16px; }
+
+  .achievements { gap: 8px; margin-top: 18px; }
+  .achievements li { font-size: 13px; padding: 9px 12px; }
+
+  .psection { padding: 28px 0 6px; }
+  .psection > h2 { font-size: 18px; margin-bottom: 18px; }
+  .psection > h2 .num { margin-right: 8px; }
+
+  .caption, figcaption { font-size: 13.5px; }
+  .fig-wide, .fig-row, .fig-split { margin-bottom: 22px; }
+  .fig-split, .fig-split.reverse { gap: 14px; }
+  .ph { padding: 14px; }
+  .ph .ph-label { font-size: 10.5px; }
+  .ph .ph-desc { font-size: 10.5px; }
+
+  .spec-list li { font-size: 12.5px; padding: 8px 12px; }
+  .calc { padding: 14px 14px; }
+  .calc .calc-title { font-size: 10.5px; }
+  .calc .eq { font-size: 12.5px; }
+  .calc .note { font-size: 12px; }
+
+  pre { font-size: 11.5px; padding: 12px 14px; margin-bottom: 22px; }
+  .code-label { font-size: 10px; }
+
+  .subproject { padding: 14px 16px; }
+  .subproject h3 { font-size: 15.5px; }
+  .subproject .sp-desc { font-size: 12.5px; }
+  .subproject .sp-tags { font-size: 10.5px; }
+
+  .project-nav { padding: 20px 0 40px; margin-top: 28px; }
+  .project-nav a { font-size: 12.5px; }
+
+  .footer-inner { font-size: 10.5px; padding: 16px; }
+}
