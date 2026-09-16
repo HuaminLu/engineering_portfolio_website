@@ -832,6 +832,7 @@ figcaption, .caption {
   border: 1px solid var(--accent);
   color: var(--accent);
   font-size: 13px;
+  font-weight: 700;
   letter-spacing: 0.08em;
   padding: 3px 8px;
   text-transform: uppercase;
@@ -841,8 +842,9 @@ figcaption, .caption {
 }
 
 .feed-tag.pc-tag {
-  border-color: var(--line-bright);
-  color: var(--fg-dim);
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 700;
 }
 
 .dual-feed-caption {
