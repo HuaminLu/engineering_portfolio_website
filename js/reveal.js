@@ -1,7 +1,6 @@
-// Scroll-reveal: fades content up as it enters the viewport. One-time, subtle.
+// Scroll-reveal, Navigation & Micro-Interactions
 (function () {
-  // Project-page fold: size title + stats + intro + hero to exactly one screen.
-  // Runs regardless of reduced-motion (it's layout, not animation).
+  // 1. Project-page fold: size title + stats + intro + hero to exactly one screen.
   var pfold = document.querySelector(".pfold");
   function sizePfold() {
     if (!pfold) return;
@@ -13,6 +12,69 @@
   window.addEventListener("resize", sizePfold);
   window.addEventListener("load", sizePfold);
 
+  // 2. Dropdown tap/click support for mobile & desktop accessibility
+  var dropdown = document.querySelector(".dropdown");
+  if (dropdown) {
+    var trigger = dropdown.querySelector("a");
+    if (trigger) {
+      trigger.addEventListener("click", function (e) {
+        // Toggle menu on touch / click
+        if (window.innerWidth <= 860 || trigger.getAttribute("href") === "#") {
+          e.preventDefault();
+          dropdown.classList.toggle("open");
+        }
+      });
+    }
+    // Close dropdown when clicking outside
+    document.addEventListener("click", function (e) {
+      if (!dropdown.contains(e.target)) {
+        dropdown.classList.remove("open");
+      }
+    });
+  }
+
+  // 3. Floating "Back to Top" Monospace Button
+  var backToTopBtn = document.createElement("button");
+  backToTopBtn.className = "back-to-top";
+  backToTopBtn.setAttribute("aria-label", "Scroll back to top");
+  backToTopBtn.innerHTML = "[ ↑ top ]";
+  document.body.appendChild(backToTopBtn);
+
+  function checkScrollTop() {
+    if (window.scrollY > 420) {
+      backToTopBtn.classList.add("visible");
+    } else {
+      backToTopBtn.classList.remove("visible");
+    }
+  }
+  window.addEventListener("scroll", checkScrollTop, { passive: true });
+  backToTopBtn.addEventListener("click", function () {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  // 4. Click-to-copy email with toast notification
+  var copyToast = document.createElement("div");
+  copyToast.className = "copy-toast";
+  copyToast.textContent = "[ email copied to clipboard! ]";
+  document.body.appendChild(copyToast);
+
+  var toastTimer = null;
+  document.querySelectorAll('a[href^="mailto:"]').forEach(function (link) {
+    link.addEventListener("click", function (e) {
+      var email = link.getAttribute("href").replace(/^mailto:/, "");
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(email).then(function () {
+          copyToast.classList.add("show");
+          clearTimeout(toastTimer);
+          toastTimer = setTimeout(function () {
+            copyToast.classList.remove("show");
+          }, 2200);
+        }).catch(function () {});
+      }
+    });
+  });
+
+  // 5. Scroll entrance reveal animations
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
   var targets = document.querySelectorAll(
@@ -23,7 +85,6 @@
 
   targets.forEach(function (el) { el.classList.add("reveal"); });
 
-  // about portrait slides in from the left instead of fading up
   var photo = document.querySelector(".about-photo");
   if (photo) photo.classList.add("reveal", "reveal-left");
 
