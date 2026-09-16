@@ -310,6 +310,51 @@ body { overflow-x: hidden; } /* full-bleed row must never cause sideways page sc
 .tile-img {
   aspect-ratio: 3 / 4;
   border-bottom: 1px solid var(--line);
+  overflow: hidden;
+  position: relative;
+}
+
+.tile-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Split card image: finished physical photo (top) + CAD model (bottom) separated by crisp white line */
+.tile-img.split-img {
+  display: flex;
+  flex-direction: column;
+}
+
+.tile-img.split-img .split-half {
+  flex: 1 1 50%;
+  height: 50%;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.tile-img.split-img .split-half img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.25s ease;
+}
+
+.tile:hover .tile-img.split-img .split-half img,
+.grid-tile:hover .tile-img.split-img .split-half img {
+  transform: scale(1.03);
+}
+
+.tile-img.split-img .split-divider {
+  width: 100%;
+  height: 1.5px;
+  background: #ffffff;
+  flex-shrink: 0;
+  z-index: 2;
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.45);
 }
 
 .tile-body {

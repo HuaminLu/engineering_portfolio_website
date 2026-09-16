@@ -16,7 +16,7 @@
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
   var targets = document.querySelectorAll(
-    ".tile, .grid-tile, .subproject, .fig-wide, .fig-split, .fig-row, " +
+    ".grid-tile, .subproject, .fig-wide, .fig-split, .fig-row, " +
     ".achievements li, .spec-list, .calc, pre, .project-intro, " +
     ".about p, .about-links"
   );
