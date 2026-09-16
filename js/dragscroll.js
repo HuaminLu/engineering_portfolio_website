@@ -12,7 +12,7 @@
     // distance from document top to the fold, immune to scroll position
     var topOffset = fold.getBoundingClientRect().top + window.scrollY;
     var available = window.innerHeight - topOffset;
-    fold.style.height = available > 430 ? available + "px" : "";
+    fold.style.height = available > 360 ? available + "px" : "";
   }
   sizeFold();
   window.addEventListener("resize", sizeFold);

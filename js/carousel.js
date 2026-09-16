@@ -1,13 +1,9 @@
 // js/carousel.js — Interactive Project Image Carousel with Auto-Scroll & Translucent Captions
 
-document.addEventListener('DOMContentLoaded', () => {
-  initCarousels();
-});
-
 function initCarousels() {
   const carousels = document.querySelectorAll('.carousel-box');
 
-  carousels.forEach((box, bIdx) => {
+  carousels.forEach((box) => {
     const track = box.querySelector('.carousel-track');
     const slides = box.querySelectorAll('.carousel-slide');
     const prevBtn = box.querySelector('.carousel-btn.prev');
@@ -20,10 +16,10 @@ function initCarousels() {
 
     let currentIndex = 0;
     const total = slides.length;
-    const delay = parseInt(box.dataset.delay || '4500', 10);
+    const delay = parseInt(box.dataset.delay || '3200', 10);
     let autoTimer = null;
     let isHovered = false;
-    let isVisible = false;
+    let isVisible = true;
 
     // Build dots if container exists
     if (dotsContainer && dotsContainer.children.length === 0) {
@@ -147,7 +143,16 @@ function initCarousels() {
       startAutoTimer();
     }, { passive: true });
 
-    // IntersectionObserver — only auto-scroll when in view!
+    // Visibility change pauses when switching tabs
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        stopAutoTimer();
+      } else if (isVisible && !isHovered) {
+        startAutoTimer();
+      }
+    });
+
+    // IntersectionObserver — auto-scroll whenever in or near view
     if ('IntersectionObserver' in window) {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -159,14 +164,21 @@ function initCarousels() {
             stopAutoTimer();
           }
         });
-      }, { threshold: 0.3 });
+      }, { threshold: 0.05, rootMargin: '80px 0px' });
       observer.observe(box);
     } else {
       isVisible = true;
       startAutoTimer();
     }
 
-    // Initial state
+    // Initial state & immediate start
     updateCaption(0);
+    startAutoTimer();
   });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initCarousels);
+} else {
+  initCarousels();
 }

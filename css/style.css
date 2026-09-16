@@ -42,12 +42,12 @@ a { color: var(--fg); text-decoration: none; }
 
 .circuit-edge {
   width: 100%;
-  height: 56px;
+  height: 28px;
   display: block;
   opacity: 0.5;
   flex-shrink: 0;
   background-repeat: repeat-x;
-  background-size: 420px 56px;
+  background-size: 280px 28px;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='56' viewBox='0 0 420 56'%3E%3Cg stroke='%23ffffff' stroke-width='1.2' fill='none' opacity='0.55'%3E%3Cpath d='M0 10 H60 L75 25 H140'/%3E%3Cpath d='M0 30 H35 L50 45 H120 L135 30 H200'/%3E%3Cpath d='M160 10 H240 L255 25 H330'/%3E%3Cpath d='M220 45 H290 L305 30 H370'/%3E%3Cpath d='M350 10 H420'/%3E%3Cpath d='M390 30 H420'/%3E%3Cpath d='M75 25 V40'/%3E%3Cpath d='M255 25 V8'/%3E%3C/g%3E%3Cg fill='%23ffffff' opacity='0.55'%3E%3Ccircle cx='140' cy='25' r='3'/%3E%3Ccircle cx='200' cy='30' r='3'/%3E%3Ccircle cx='330' cy='25' r='3'/%3E%3Ccircle cx='370' cy='30' r='3'/%3E%3Ccircle cx='75' cy='40' r='2.5'/%3E%3Ccircle cx='255' cy='8' r='2.5'/%3E%3Ccircle cx='140' cy='25' r='6' fill='none' stroke='%23ffffff' stroke-width='1'/%3E%3Ccircle cx='330' cy='25' r='6' fill='none' stroke='%23ffffff' stroke-width='1'/%3E%3C/g%3E%3C/svg%3E");
 }
 
@@ -178,10 +178,12 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
 
 /* ---------- above-the-fold: hero + tiles + button fit one screen ---------- */
 
+/* ---------- above-the-fold: hero + tiles + button fit one screen ---------- */
+
 .fold {
-  /* viewport minus sticky header (60px) and top circuit edge (56px) */
-  height: calc(100svh - 116px);
-  min-height: 430px; /* floor: below this, tiles are unusable — allow scroll */
+  /* viewport minus sticky header (44px) and top circuit edge (28px) */
+  height: calc(100svh - 78px);
+  min-height: 480px;
   display: flex;
   flex-direction: column;
 }
@@ -189,72 +191,38 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
 /* ---------- home hero ---------- */
 
 .hero {
-  /* breathing room scales with screen height, 8–40px */
-  padding: clamp(8px, 3vh, 40px) 0 clamp(4px, 1.5vh, 14px);
+  padding: clamp(4px, 1vh, 12px) 0 clamp(2px, 0.6vh, 6px);
   text-align: center;
 }
 
 .hero h1 {
-  /* scales with BOTH width and height so short laptops shrink it too */
-  font-size: clamp(26px, min(5.5vw, 6.5vh), 54px);
+  font-size: clamp(20px, min(3.5vw, 4vh), 32px);
   font-weight: 800;
   letter-spacing: -0.01em;
 }
 
 .hero .subtitle {
-  margin-top: clamp(4px, 1.2vh, 12px);
+  margin-top: 3px;
   color: var(--fg-dim);
-  font-size: clamp(14px, min(2vw, 2.6vh), 21px);
-  letter-spacing: 0.06em;
+  font-size: clamp(12px, min(1.3vw, 1.8vh), 14.5px);
+  letter-spacing: 0.05em;
 }
 
 .hero .subtitle span { color: var(--fg-faint); }
 
-/* ---------- home: 3 vertical tiles ---------- */
+/* ---------- home: vertical tiles marquee ---------- */
 
 body { overflow-x: hidden; } /* full-bleed row must never cause sideways page scroll */
 
 .tiles {
   display: flex;
   align-items: stretch;
-  gap: 20px;
-  padding: 16px 24px 20px;
+  gap: 16px;
+  padding: 8px 24px 10px;
   overflow-x: auto;
   overflow-y: hidden;
-  /* break out of main's column, but keep to ~78% of the screen, centered */
-  width: 78vw;
-  margin-left: calc(50% - 39vw);
-}
-
-/* inside the fold, tiles absorb the leftover height */
-.fold .tiles { flex: 1; min-height: 0; padding-top: clamp(6px, 1.5vh, 16px); padding-bottom: clamp(8px, 2vh, 20px); }
-
-.fold .tiles .tile-img {
-  aspect-ratio: auto;  /* height set by the fold, not the 3:4 ratio */
-  flex: 1;
-  min-height: 90px;
-}
-
-/* progressively compress tile text as screens get shorter */
-@media (max-height: 820px) {
-  .fold .tile-body { padding: 12px 14px 14px; }
-  .fold .tile-body h2 { font-size: 19px; }
-  .fold .tile-body p { font-size: 16px; margin-top: 6px; }
-  .fold .tile-body .tags { font-size: 14px; margin-top: 5px; }
-  .fold .tile-body .cta { font-size: 15px; margin-top: 8px; }
-}
-
-@media (max-height: 700px) {
-  .fold .tile-body p { display: none; }  /* description goes; title + tags stay */
-  .fold .tiles .tile { flex-basis: clamp(300px, 36vw, 390px); }
-}
-
-@media (max-height: 560px) {
-  .fold .tile-body .tags, .fold .tile-body .cta { display: none; }
-  .fold .tiles .tile { flex-basis: clamp(255px, 30vw, 330px); }
-}
-
-.tiles {
+  width: 86vw;
+  margin-left: calc(50% - 43vw);
   cursor: grab;
   user-select: none;
   -webkit-user-select: none;
@@ -266,31 +234,66 @@ body { overflow-x: hidden; } /* full-bleed row must never cause sideways page sc
 .tiles.dragging .tile { pointer-events: none; }
 .tiles img { -webkit-user-drag: none; }
 
-/* wide "See All Projects" button under the marquee */
+/* inside the fold, tiles absorb the majority of height for portrait display */
+.fold .tiles {
+  flex: 1;
+  min-height: 0;
+  padding-top: clamp(4px, 0.8vh, 8px);
+  padding-bottom: clamp(4px, 1vh, 10px);
+}
+
+.fold .tiles .tile-img {
+  flex: 1 1 auto;
+  min-height: 180px;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  position: relative;
+}
+
+.fold .tiles .tile-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.fold .tiles .tile-img.ph {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 10px;
+  gap: 6px;
+}
+
+.fold .tiles .tile-img.ph .ph-icon { font-size: 24px; }
+.fold .tiles .tile-img.ph .ph-label { font-size: 11.5px; }
+.fold .tiles .tile-img.ph .ph-desc { font-size: 10px; line-height: 1.3; max-width: 200px; text-align: center; }
+
+/* wide, compact "See All Projects" button under the marquee */
 .see-all-btn {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  gap: 12px;
-  margin: 0 4px clamp(10px, 2.5vh, 24px);
-  padding: clamp(9px, 1.8vh, 14px) 24px;
+  gap: 8px;
+  margin: 2px 4px clamp(6px, 1.2vh, 10px);
+  padding: 5px 20px;
+  height: 30px;
   border: 1px solid var(--line-bright);
   background: var(--bg-card);
   color: var(--fg);
-  font-size: clamp(15px, 2.4vh, 20px);
+  font-size: 13.5px;
   letter-spacing: 0.08em;
   transition: border-color 0.2s, background 0.2s;
 }
 
 .see-all-btn .arrow { transition: transform 0.2s; }
-
 .see-all-btn:hover { border-color: var(--fg); background: var(--bg-raised); }
-
 .see-all-btn:hover .arrow { transform: translateX(6px); }
 
 .tiles .tile {
-  flex: 0 0 clamp(360px, 45vw, 500px);
+  flex: 0 0 clamp(230px, 23vw, 290px);
   scroll-snap-align: start;
 }
 
@@ -309,26 +312,45 @@ body { overflow-x: hidden; } /* full-bleed row must never cause sideways page sc
   border-bottom: 1px solid var(--line);
 }
 
-.tile-body { padding: 18px 18px 20px; }
+.tile-body {
+  padding: 10px 12px 10px;
+  flex-shrink: 0;
+}
 
-.tile-body h2 { font-size: 22px; font-weight: 800; letter-spacing: 0.02em; }
+.tile-body h2 {
+  font-size: 14.5px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 .tile-body .tags {
-  margin-top: 8px;
-  font-size: 17px;
+  margin-top: 3px;
+  font-size: 11px;
   color: var(--fg-faint);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .tile-body p {
-  margin-top: 10px;
-  font-size: 19px;
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 1.35;
   color: var(--fg-dim);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .tile-body .cta {
-  margin-top: 14px;
-  font-size: 18px;
+  margin-top: 6px;
+  font-size: 11.5px;
   color: var(--fg);
   letter-spacing: 0.05em;
 }
