@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=45">
+  <link rel="stylesheet" href="css/style.css?v=46">
 </head>
 <body>
 
@@ -76,11 +76,17 @@
   </section>
 
   <!-- ============ HERO ============ -->
-  <div class="fig-wide">
-    <div class="ph">
-      <div class="ph-icon">◎</div>
-      <div class="ph-label">[ img: MuJoCo viewer — goal reach ]</div>
-      <div class="ph-desc">3D simulation window — G1 with the red goal sphere in space, left arm reaching toward it mid-motion</div>
+  <div class="dual-feed">
+    <div class="dual-feed-media">
+      <div class="feed-pane" style="flex:1;">
+        <span class="feed-tag">MuJoCo Simulation · 3D Goal Reaching</span>
+        <video autoplay loop muted playsinline poster="videos/unitree-g1/arm-policy-mujoco.jpg">
+          <source src="videos/unitree-g1/arm-policy-mujoco.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+    <div class="dual-feed-caption">
+      <span class="caption-title">MuJoCo Reinforcement Learning Policy</span> — PPO agent solving 7-joint inverse kinematics in real time to reach a 3D goal target.
     </div>
   </div>
   </div><!-- /pfold -->
@@ -135,22 +141,17 @@ msg.motor_cmd[idx].q = q[i]; msg.motor_cmd[<span class="nm">29</span>].q = <span
       τ_applied = kp·(q_cmd − q_measured) + kd·(dq_cmd − dq_measured) + tau_ff
     </div>
 
-    <div class="fig-row">
-      <div>
-        <div class="ph">
-          <div class="ph-icon">⇄</div>
-          <div class="ph-label">[ img: sim + real side-by-side ]</div>
-          <div class="ph-desc">MuJoCo arm and the physical G1 arm holding the same pose simultaneously after pressing R</div>
+    <div class="dual-feed">
+      <div class="dual-feed-media">
+        <div class="feed-pane" style="flex:1;">
+          <span class="feed-tag">Sim-to-Real Deployment · Real Robot Arm Mirror</span>
+          <video autoplay loop muted playsinline poster="videos/unitree-g1/arm-policy-real.jpg">
+            <source src="videos/unitree-g1/arm-policy-real.mp4" type="video/mp4">
+          </video>
         </div>
-        <p class="caption">Sim-to-real mirror — physical arm matches policy pose over DDS link.</p>
       </div>
-      <div>
-        <div class="ph">
-          <div class="ph-icon">▶</div>
-          <div class="ph-label">[ video: goal tracking ]</div>
-          <div class="ph-desc">Red dot moved to three different positions, the arm tracking each one in sequence</div>
-        </div>
-        <p class="caption">Live goal tracking — WASDQE moves target, policy re-solves reach in real time.</p>
+      <div class="dual-feed-caption">
+        <span class="caption-title">Physical Arm Mirroring</span> — Real Unitree G1 arm mirroring MuJoCo policy joint trajectories over low-latency DDS.
       </div>
     </div>
   </section>
@@ -171,6 +172,6 @@ msg.motor_cmd[idx].q = q[i]; msg.motor_cmd[<span class="nm">29</span>].q = <span
   </div>
 </footer>
 
-<script src="js/reveal.js?v=45"></script>
+<script src="js/reveal.js?v=46"></script>
 </body>
 </html>

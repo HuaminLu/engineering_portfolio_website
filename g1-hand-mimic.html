@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=45">
+  <link rel="stylesheet" href="css/style.css?v=46">
 </head>
 <body>
 
@@ -128,6 +128,20 @@ angle = np.degrees(np.arccos(np.dot(v1, v2) / (norm(v1) * norm(v2))))</code></pr
         <span class="caption-title">Single Hand Teleoperation</span> — Physical hand executing commanded joint values with live skeleton tracking.
       </div>
     </div>
+
+    <div class="dual-feed">
+      <div class="dual-feed-media">
+        <div class="feed-pane" style="flex:1;">
+          <span class="feed-tag">Live Dual-Hand Articulation</span>
+          <video autoplay loop muted playsinline poster="videos/unitree-g1/both-hands-sep.jpg">
+            <source src="videos/unitree-g1/both-hands-sep.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="dual-feed-caption">
+        <span class="caption-title">Dual-Hand Independent Teleoperation</span> — Dual Inspire RH56 hands articulating separate finger postures concurrently via real-time MediaPipe tracking.
+      </div>
+    </div>
   </section>
 
   <!-- ============ RETARGETING ============ -->
@@ -150,6 +164,20 @@ angle = np.degrees(np.arccos(np.dot(v1, v2) / (norm(v1) * norm(v2))))</code></pr
 
     <div class="calc">
       state_new = α · measurement + (1 − α) · state_old
+    </div>
+
+    <div class="dual-feed">
+      <div class="dual-feed-media">
+        <div class="feed-pane" style="flex:1;">
+          <span class="feed-tag">Live Hardware Pinch Demo</span>
+          <video autoplay loop muted playsinline poster="videos/unitree-g1/one-hand-pinch.jpg">
+            <source src="videos/unitree-g1/one-hand-pinch.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="dual-feed-caption">
+        <span class="caption-title">Live Hardware Pinch Teleoperation</span> — Single Inspire RH56 executing real-time thumb-to-index pinch tracking from laptop webcam input.
+      </div>
     </div>
   </section>
 
@@ -205,6 +233,6 @@ hand.<span class="fn">set_angles</span>([pinky, ring, middle, index, thumb_bend,
   </div>
 </footer>
 
-<script src="js/reveal.js?v=45"></script>
+<script src="js/reveal.js?v=46"></script>
 </body>
 </html>

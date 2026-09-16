@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=45">
+  <link rel="stylesheet" href="css/style.css?v=46">
 </head>
 <body>
 
@@ -151,6 +151,20 @@
     <p class="code-label">fsm_safety.py — FSM state transitions</p>
     <pre><code>bot.<span class="fn">SetFsmId</span>(<span class="nm">200</span>); bot.<span class="fn">SetBalanceMode</span>(<span class="nm">1</span>)  <span class="cm"># enter gait walking mode</span>
 bot.<span class="fn">StopMove</span>()  <span class="cm"># SPACE key triggers immediate standstill</span></code></pre>
+
+    <div class="dual-feed">
+      <div class="dual-feed-media">
+        <div class="feed-pane" style="flex:1;">
+          <span class="feed-tag">Safety Pendant · Live E-Stop Verification</span>
+          <video autoplay loop muted playsinline poster="videos/unitree-g1/estop-remote-demo.jpg">
+            <source src="videos/unitree-g1/estop-remote-demo.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="dual-feed-caption">
+        <span class="caption-title">Wireless Remote Emergency Stop</span> — Handheld RF safety pendant executing immediate zero-torque compliant motor cutoff on walking humanoid.
+      </div>
+    </div>
   </section>
 
   <!-- ============ ERROR 3102 ============ -->
@@ -183,6 +197,6 @@ _loco_api.LOCO_SERVICE_NAME = <span class="st">"sport"</span>  <span class="cm">
   </div>
 </footer>
 
-<script src="js/reveal.js?v=45"></script>
+<script src="js/reveal.js?v=46"></script>
 </body>
 </html>
