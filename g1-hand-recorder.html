@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=42">
+  <link rel="stylesheet" href="css/style.css?v=43">
 </head>
 <body>
 
@@ -66,6 +66,12 @@
       A desktop GUI for authoring and replaying precise hand gesture animations on the Inspire hands —
       dial in poses with six live sliders, record takes, and combine them into finished sequences.
     </p>
+
+    <ul class="achievements">
+      <li>Author, record, and replay 6-DOF dexterous hand poses at 25 Hz over RS-485 serial.</li>
+      <li>Interactive 6-slider GUI with live hardware feedback and automated kinematic smoothing.</li>
+      <li>Compose multi-take animations into unified YAML presets with dynamic playback speed scaling.</li>
+    </ul>
   </section>
 
   <!-- ============ HERO ============ -->
@@ -85,7 +91,7 @@
       </div>
     </div>
     <div class="dual-feed-caption">
-      <span class="caption-title">Dual-Hand Keyframe Recorder GUI</span> — Left: Dual Inspire RH56 dexterous hands responding live to dialled joint angles. Right: Flet desktop GUI streaming 6-DOF register values at 25 Hz over RS-485 serial.
+      <span class="caption-title">Dual-Hand Keyframe Recorder GUI</span> — Dual Inspire RH56 dexterous hands responding live to dialled joint angles from the Flet GUI.
     </div>
   </div>
   </div><!-- /pfold -->
@@ -94,10 +100,10 @@
   <section class="psection">
     <h2><span class="num">01</span>The GUI &amp; Live Streaming</h2>
 
-    <div>
-      <p class="caption"><b>Six sliders, six DOF.</b> Each slider maps to one joint — pinky, ring, middle, index, thumb bend, thumb rotation — and values stream to the hand at <b>25 Hz</b> while adjusting, giving tactile live feedback.</p>
-      <p class="caption"><b>Two themes.</b> A <b>blue/black</b> default and a <b>black/white</b> mode (<b>--theme bw</b>) match the operator environment.</p>
-    </div>
+    <ul class="achievements" style="margin: 14px 0 16px;">
+      <li>Six independent sliders stream 6-DOF finger registers at 25 Hz for real-time tactile tuning.</li>
+      <li>Dual theme support with dark blue and monochrome modes tailored for lab control monitors.</li>
+    </ul>
 
     <div class="dual-feed">
       <div class="dual-feed-media">
@@ -115,19 +121,43 @@
         </div>
       </div>
       <div class="dual-feed-caption">
-        <span class="caption-title">6-DOF Joint Space Streaming</span> — Left: Physical hand executing commanded joint values. Right: Interactive Flet sliders for Pinky, Ring, Middle, Index, Thumb Bend, and Thumb Rotation.
+        <span class="caption-title">6-DOF Joint Space Streaming</span> — Interactive 6-slider interface streaming individual finger and thumb angles at 25 Hz.
       </div>
     </div>
 
     <p class="code-label">recorder.py — streaming loop constants</p>
     <pre><code>JOINT_NAMES = [<span class="st">"pinky"</span>, <span class="st">"ring"</span>, <span class="st">"middle"</span>, <span class="st">"index"</span>, <span class="st">"thumb_bend"</span>, <span class="st">"thumb_rot"</span>]
-SEND_HZ = <span class="nm">25</span>
-SEND_DT = <span class="nm">1.0</span> / SEND_HZ  <span class="cm"># slider values streamed to the hand every 40 ms</span></code></pre>
+SEND_HZ, SEND_DT = <span class="nm">25</span>, <span class="nm">1.0</span> / <span class="nm">25</span>  <span class="cm"># 25 Hz low-latency serial streaming</span></code></pre>
   </section>
 
   <!-- ============ RECORDING WORKFLOW ============ -->
   <section class="psection">
-    <h2><span class="num">02</span>Recording Workflow</h2>
+    <h2><span class="num">02</span>Recording Workflow &amp; Keyframe Sequencing</h2>
+
+    <ul class="achievements" style="margin: 14px 0 16px;">
+      <li>Record multi-take sequences with automatic EMA smoothing across transition boundaries.</li>
+      <li>Parallel take merging enables simultaneous execution of multi-finger choreographies.</li>
+    </ul>
+
+    <div class="dual-feed">
+      <div class="dual-feed-media">
+        <div class="feed-pane">
+          <span class="feed-tag">Phone Side · Keyframe Capture</span>
+          <video autoplay loop muted playsinline poster="videos/unitree-g1/hand-rec-3-phone.jpg">
+            <source src="videos/unitree-g1/hand-rec-3-phone.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="feed-pane">
+          <span class="feed-tag pc-tag">PC Side · Timeline Sequencing</span>
+          <video autoplay loop muted playsinline poster="videos/unitree-g1/hand-rec-3-pc.jpg">
+            <source src="videos/unitree-g1/hand-rec-3-pc.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="dual-feed-caption">
+        <span class="caption-title">Keyframe Recording</span> — Keyframe timeline recording each joint pose with automatic trajectory smoothing.
+      </div>
+    </div>
 
     <ul class="spec-list">
       <li><span class="k">REC</span><span class="v">samples the 6-DOF pose at 25 Hz into a Take (list of frames)</span></li>
@@ -138,36 +168,66 @@ SEND_DT = <span class="nm">1.0</span> / SEND_HZ  <span class="cm"># slider value
     </ul>
 
     <p class="code-label">presets/2finger_pinch/animation.yaml</p>
-    <pre><code><span class="cm"># saved gesture preset — one row per 25 Hz frame</span>
-gesture: 2finger_pinch
-fps: <span class="nm">25</span>
-frames:
-  - [<span class="nm">800</span>, <span class="nm">800</span>, <span class="nm">800</span>, <span class="nm">800</span>, <span class="nm">500</span>, <span class="nm">300</span>]
-  - [<span class="nm">820</span>, <span class="nm">820</span>, <span class="nm">820</span>, <span class="nm">830</span>, <span class="nm">480</span>, <span class="nm">320</span>]
-  - ...</code></pre>
-
-    <p class="caption"><b>Playback speed resampling.</b> The play-speed slider linearly resamples the timeline, so a 1-second recording replays cleanly at 0.5× or 2× speed.</p>
+    <pre><code>gesture: 2finger_pinch; fps: <span class="nm">25</span>
+frames: [[<span class="nm">800</span>, <span class="nm">800</span>, <span class="nm">800</span>, <span class="nm">800</span>, <span class="nm">500</span>, <span class="nm">300</span>], [<span class="nm">820</span>, <span class="nm">820</span>, <span class="nm">820</span>, <span class="nm">830</span>, <span class="nm">480</span>, <span class="nm">320</span>]]</code></pre>
   </section>
 
-  <!-- ============ GESTURE LIBRARY ============ -->
+  <!-- ============ GESTURE LIBRARY & PRESETS ============ -->
   <section class="psection">
-    <h2><span class="num">03</span>Gesture Library</h2>
+    <h2><span class="num">03</span>Gesture Presets &amp; Motion Authoring</h2>
 
-    <ul class="spec-list">
-      <li><span class="k">2finger_pinch</span><span class="v">thumb + index pinch</span></li>
-      <li><span class="k">3finger_pinch</span><span class="v">3-finger precision grip</span></li>
-      <li><span class="k">grab</span><span class="v">full power grasp</span></li>
+    <ul class="achievements" style="margin: 14px 0 16px;">
+      <li>Pre-configured grasp primitives for 2-finger pinches, 3-finger grips, and full fist grabs.</li>
+      <li>Automatic USB-to-RS485 port discovery maps physical ports to left and right hands dynamically.</li>
     </ul>
 
-    <div class="fig-split reverse landscape">
-      <div>
-        <p class="caption"><b>Serial auto-detection.</b> <b>scan_serial_ports()</b> enumerates USB-serial adapters by <b>USB VID</b> and maps them to left/right hand sides; the mapping persists to <b>config/serial_map.json</b> across restarts.</p>
-        <p class="caption"><b>Behaviors by demonstration.</b> The intended runtime: <b>MediaPipe</b> classifies the hand state (pinch / grab / point) and the matching recorded animation plays back — precise, repeatable behaviors authored by demonstration, not hand-edited angle arrays.</p>
+    <div class="dual-feed">
+      <div class="dual-feed-media">
+        <div class="feed-pane">
+          <span class="feed-tag">Phone Side · Precision Grasp</span>
+          <video autoplay loop muted playsinline poster="videos/unitree-g1/hand-rec-4-phone.jpg">
+            <source src="videos/unitree-g1/hand-rec-4-phone.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="feed-pane">
+          <span class="feed-tag pc-tag">PC Side · Preset Editor</span>
+          <video autoplay loop muted playsinline poster="videos/unitree-g1/hand-rec-4-pc.jpg">
+            <source src="videos/unitree-g1/hand-rec-4-pc.mp4" type="video/mp4">
+          </video>
+        </div>
       </div>
-      <div class="ph">
-        <div class="ph-icon">⛶</div>
-        <div class="ph-label">[ img: Inspire hand pinch ]</div>
-        <div class="ph-desc">The Inspire hand holding a small object between index and thumb, matching a loaded preset</div>
+      <div class="dual-feed-caption">
+        <span class="caption-title">Gesture Authoring</span> — Authoring repeatable precision pinch and grasp presets for direct hardware playback.
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SPEED SCALING & COORDINATION ============ -->
+  <section class="psection">
+    <h2><span class="num">04</span>Speed Resampling &amp; Multi-Finger Playback</h2>
+
+    <ul class="achievements" style="margin: 14px 0 16px;">
+      <li>Linear timeline resampling allows dynamic playback speed modulation from 0.5× to 2.0×.</li>
+      <li>Synchronized dual-serial bus architecture maintains tight multi-hand coordination.</li>
+    </ul>
+
+    <div class="dual-feed">
+      <div class="dual-feed-media">
+        <div class="feed-pane">
+          <span class="feed-tag">Phone Side · Full Sequence Replay</span>
+          <video autoplay loop muted playsinline poster="videos/unitree-g1/hand-rec-5-phone.jpg">
+            <source src="videos/unitree-g1/hand-rec-5-phone.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="feed-pane">
+          <span class="feed-tag pc-tag">PC Side · Playback Speed Scaling</span>
+          <video autoplay loop muted playsinline poster="videos/unitree-g1/hand-rec-5-pc.jpg">
+            <source src="videos/unitree-g1/hand-rec-5-pc.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="dual-feed-caption">
+        <span class="caption-title">Speed Scaling &amp; Replay</span> — Multi-finger trajectory replay with dynamic speed resampling from 0.5x to 2x.
       </div>
     </div>
   </section>
@@ -188,6 +248,6 @@ frames:
   </div>
 </footer>
 
-<script src="js/reveal.js?v=42"></script>
+<script src="js/reveal.js?v=43"></script>
 </body>
 </html>

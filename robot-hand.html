@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=42">
+  <link rel="stylesheet" href="css/style.css?v=43">
 </head>
 <body>
 
@@ -161,29 +161,14 @@
   <section class="psection">
     <h2><span class="num">03</span>Embedded Control — I²C Offloading</h2>
 
-    <p class="caption" style="margin-bottom:16px">The ESP32's RTOS context switching and WiFi tasks would jitter software PWM. All 10 channels of 50 Hz PWM generation are offloaded to the PCA9685 over I²C — the driver holds pulses in hardware.</p>
+    <ul class="achievements" style="margin: 14px 0 16px;">
+      <li>Offloads 10 channels of 50 Hz PWM generation to PCA9685 over I²C to eliminate ESP32 jitter.</li>
+      <li>Hardware-timed 12-bit registers maintain pulse stability during heavy wireless telemetry.</li>
+    </ul>
 
-    <p class="code-label">hand_control.cpp</p>
-    <pre><code><span class="kw">#include</span> <span class="st">&lt;Wire.h&gt;</span>
-<span class="kw">#include</span> <span class="st">&lt;Adafruit_PWMServoDriver.h&gt;</span>
-
-Adafruit_PWMServoDriver pwm = <span class="fn">Adafruit_PWMServoDriver</span>(<span class="nm">0x40</span>);
-
-<span class="kw">#define</span> SERVO_FREQ <span class="nm">50</span>   <span class="cm">// standard analog servo frequency (Hz)</span>
-<span class="kw">#define</span> SERVOMIN   <span class="nm">150</span>  <span class="cm">// pulse count for 0°   (of 4096)</span>
-<span class="kw">#define</span> SERVOMAX   <span class="nm">600</span>  <span class="cm">// pulse count for 180° (of 4096)</span>
-
-<span class="kw">void</span> <span class="fn">setup</span>() {
-  Wire.begin(<span class="nm">21</span>, <span class="nm">22</span>);              <span class="cm">// ESP32 I2C: SDA=21, SCL=22</span>
-  pwm.begin();
-  pwm.setOscillatorFrequency(<span class="nm">27000000</span>);
-  pwm.setPWMFreq(SERVO_FREQ);       <span class="cm">// hardware-timed 50 Hz</span>
-}
-
-<span class="kw">void</span> <span class="fn">actuateFinger</span>(uint8_t fingerID, uint16_t angle) {
-  uint16_t pulse = map(angle, <span class="nm">0</span>, <span class="nm">180</span>, SERVOMIN, SERVOMAX);
-  pwm.setPWM(fingerID, <span class="nm">0</span>, pulse);   <span class="cm">// jitter-free hardware PWM</span>
-}</code></pre>
+    <p class="code-label">hand_control.cpp — 50 Hz I²C PWM dispatch</p>
+    <pre><code>Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(<span class="nm">0x40</span>);
+pwm.<span class="fn">setPWM</span>(fingerID, <span class="nm">0</span>, map(angle, <span class="nm">0</span>, <span class="nm">180</span>, <span class="nm">150</span>, <span class="nm">600</span>));  <span class="cm"># 12-bit hardware pulse</span></code></pre>
 
     <div class="fig-wide">
       <div class="ph">
@@ -210,6 +195,6 @@ Adafruit_PWMServoDriver pwm = <span class="fn">Adafruit_PWMServoDriver</span>(<s
   </div>
 </footer>
 
-<script src="js/reveal.js?v=42"></script>
+<script src="js/reveal.js?v=43"></script>
 </body>
 </html>

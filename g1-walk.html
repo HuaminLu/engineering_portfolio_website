@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=42">
+  <link rel="stylesheet" href="css/style.css?v=43">
 </head>
 <body>
 
@@ -67,6 +67,12 @@
       a body-velocity setpoint — the robot's onboard whole-body controller owns balance, gait,
       and leg inverse kinematics.
     </p>
+
+    <ul class="achievements">
+      <li>High-level bipedal velocity teleoperation at 15 Hz over CycloneDDS RPC services.</li>
+      <li>Bounded 0.45 s tap-to-inch locomotion model prevents velocity runaways during indoor teleop.</li>
+      <li>Patched SDK service resolution bug (3102 loco to sport) and integrated automated NIC discovery.</li>
+    </ul>
   </section>
 
   <!-- ============ HERO ============ -->
@@ -86,7 +92,7 @@
       </div>
     </div>
     <div class="dual-feed-caption">
-      <span class="caption-title">High-Level Locomotion RPC Teleoperation</span> — Left: Bipedal Unitree G1 executing dynamic stepping in the lab. Right: Always-on-top Linux teleop GUI commanding linear and angular velocity setpoints over CycloneDDS at 15 Hz.
+      <span class="caption-title">High-Level Locomotion Teleoperation</span> — Bipedal Unitree G1 executing keyboard velocity commands at 15 Hz.
     </div>
   </div>
   </div><!-- /pfold -->
@@ -95,17 +101,14 @@
   <section class="psection">
     <h2><span class="num">01</span>High-Level Control Plane</h2>
 
-    <p class="caption" style="margin-bottom:16px">This is the <b>high-level control plane</b>, in contrast to the arm projects — those stream every joint's 5 variables at low level. Here the operator never touches a joint angle: the loop sends <b>3 numbers</b> and the onboard <b>ai_sport</b> stack does footstep planning, balance, and per-joint torque computation.</p>
+    <ul class="achievements" style="margin: 14px 0 16px;">
+      <li>High-level velocity control lets onboard whole-body controller handle balance and inverse kinematics.</li>
+      <li>Intuitive WASDQE mapping drives forward, strafe, and yaw rotation with immediate feedback.</li>
+    </ul>
 
-    <p class="code-label">drive_loop.py</p>
-    <pre><code><span class="cm"># 15 Hz drive loop — one body-velocity setpoint per tick</span>
-code = loco_client.<span class="fn">SetVelocity</span>(vx, vy, omega, duration=<span class="nm">864000.0</span>)
-<span class="cm"># vx = forward/back (m/s), vy = strafe (m/s), omega = yaw rate (rad/s)</span></code></pre>
-
-    <div>
-      <p class="caption"><b>Velocity in, gait out.</b> The onboard whole-body controller receives the setpoint and runs its full gait pipeline — none of that is visible to this project.</p>
-      <p class="caption"><b>WASDQE mapping.</b> W/S drive forward/back, Q/E strafe, A/D turn — familiar game controls for precise floor-level teleop.</p>
-    </div>
+    <p class="code-label">drive_loop.py — 15 Hz velocity dispatch</p>
+    <pre><code>code = loco_client.<span class="fn">SetVelocity</span>(vx, vy, omega, duration=<span class="nm">864000.0</span>)
+<span class="cm"># vx = forward (m/s), vy = strafe (m/s), omega = yaw rate (rad/s)</span></code></pre>
 
     <div class="dual-feed">
       <div class="dual-feed-media">
@@ -123,7 +126,7 @@ code = loco_client.<span class="fn">SetVelocity</span>(vx, vy, omega, duration=<
         </div>
       </div>
       <div class="dual-feed-caption">
-        <span class="caption-title">Tap-to-Inch Precision Stepping</span> — Left: Bipedal gait responding to bounded pulses. Right: Active key highlights (W/A/S/D) with instantaneous vx/vy/ω telemetry.
+        <span class="caption-title">Tap-to-Inch Precision Stepping</span> — Bipedal gait responding to bounded pulses with instantaneous velocity telemetry.
       </div>
     </div>
   </section>
@@ -131,6 +134,11 @@ code = loco_client.<span class="fn">SetVelocity</span>(vx, vy, omega, duration=<
   <!-- ============ MOTION MODEL ============ -->
   <section class="psection">
     <h2><span class="num">02</span>Tap-to-Inch Motion Model</h2>
+
+    <ul class="achievements" style="margin: 14px 0 16px;">
+      <li>Each keypress fires a bounded 0.45 s pulse preventing uncontrolled momentum buildup.</li>
+      <li>Layered emergency stop handles immediate freeze, compliant damping, and motor cutoff.</li>
+    </ul>
 
     <ul class="spec-list">
       <li><span class="k">SPEED_MIN</span><span class="v">0.15 m/s — minimum tap pulse velocity</span></li>
@@ -140,38 +148,23 @@ code = loco_client.<span class="fn">SetVelocity</span>(vx, vy, omega, duration=<
       <li><span class="k">hard clamps</span><span class="v">VMAX_LIN 1.4 m/s · VMAX_ANG 2.0 rad/s</span></li>
     </ul>
 
-    <div class="fig-split reverse landscape">
-      <div>
-        <p class="caption"><b>Bounded pulses, never momentum.</b> Each keypress fires one velocity pulse for 0.45 s, then auto-stops — <b>speed never accumulates</b>; re-pressing re-fires the same pulse. The SPEED slider scales pulse magnitude, SHIFT boosts 1.6×.</p>
-        <p class="caption"><b>Layered safety.</b> An <b>ENABLE</b> switch gates all motion; SPACE stops immediately, Z damps every joint compliant, ESC cuts to zero torque.</p>
-      </div>
-      <div class="ph">
-        <div class="ph-icon">⏻</div>
-        <div class="ph-label">[ img: interface connection ]</div>
-        <div class="ph-desc">USB-Ethernet dongle (enxa0cec8b8657b) on the workstation, with the 192.168.123.x address shown in ip addr output</div>
-      </div>
-    </div>
-
-    <p class="code-label">fsm_safety.py</p>
-    <pre><code>bot.<span class="fn">SetFsmId</span>(<span class="nm">200</span>)       <span class="cm"># engage gait FSM state 200 (walking mode)</span>
-bot.<span class="fn">SetBalanceMode</span>(<span class="nm">1</span>)   <span class="cm"># continuous gait balance (vs. static hold)</span>
-bot.<span class="fn">StopMove</span>()          <span class="cm"># SPACE key → immediate stop</span>
-bot.<span class="fn">Damp</span>()              <span class="cm"># Z key → all joints go compliant (fall gently)</span>
-bot.<span class="fn">ZeroTorque</span>()        <span class="cm"># ESC → all motors off</span></code></pre>
+    <p class="code-label">fsm_safety.py — FSM state transitions</p>
+    <pre><code>bot.<span class="fn">SetFsmId</span>(<span class="nm">200</span>); bot.<span class="fn">SetBalanceMode</span>(<span class="nm">1</span>)  <span class="cm"># enter gait walking mode</span>
+bot.<span class="fn">StopMove</span>()  <span class="cm"># SPACE key triggers immediate standstill</span></code></pre>
   </section>
 
   <!-- ============ ERROR 3102 ============ -->
   <section class="psection">
     <h2><span class="num">03</span>Root-Causing Error 3102</h2>
 
-    <p class="caption" style="margin-bottom:16px">Every walk command failed with error <b>3102 (RPC_ERR_CLIENT_SEND)</b>. Root cause: firmware <b>ai_sport ≥ 8.2.0.0</b> renamed the locomotion RPC service <b>"loco" → "sport"</b>, while the vendored SDK still hardcoded <b>"loco"</b>. A two-line patch fixes it.</p>
+    <ul class="achievements" style="margin: 14px 0 16px;">
+      <li>Patched ai_sport firmware mismatch that caused 3102 RPC send errors on startup.</li>
+      <li>Linux ioctl interface scanner eliminates hardcoded Ethernet device names across workstations.</li>
+    </ul>
 
-    <p class="code-label">service_name_fix.py</p>
+    <p class="code-label">service_name_fix.py — SDK runtime override</p>
     <pre><code><span class="kw">import</span> unitree_sdk2py.g1.loco.g1_loco_api <span class="kw">as</span> _loco_api
-_loco_api.LOCO_SERVICE_NAME = <span class="st">"sport"</span>   <span class="cm"># override before LocoClient.__init__()</span></code></pre>
-
-    <p class="caption"><b>NIC auto-detection.</b> <span class="fn">_resolve_g1_iface()</span> scans all network interfaces via Linux's <b>SIOCGIFADDR</b> ioctl and returns the one holding a 192.168.123.x address — the G1's wired Ethernet bus, with no hardcoded interface names.</p>
-    <p class="caption"><b>Noise filter.</b> The SDK's lease-renewal thread spams harmless <b>3102</b> errors every second; a <b>_NoiseFilter</b> stdout wrapper intercepts those lines by pattern before they reach the terminal.</p>
+_loco_api.LOCO_SERVICE_NAME = <span class="st">"sport"</span>  <span class="cm"># override for firmware ≥ 8.2</span></code></pre>
   </section>
 
   <nav class="project-nav">
@@ -190,6 +183,6 @@ _loco_api.LOCO_SERVICE_NAME = <span class="st">"sport"</span>   <span class="cm"
   </div>
 </footer>
 
-<script src="js/reveal.js?v=42"></script>
+<script src="js/reveal.js?v=43"></script>
 </body>
 </html>
