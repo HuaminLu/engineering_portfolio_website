@@ -18,19 +18,28 @@
   window.addEventListener("resize", sizeFold);
   window.addEventListener("load", sizeFold); // re-measure once fonts settle
 
-  // --- seamless loop: duplicate the tile set once ---
+  // --- build hardware-accelerated transform track & duplicate tiles once ---
   var originals = Array.prototype.slice.call(row.children);
+  var track = document.createElement("div");
+  track.className = "tiles-track";
+
+  originals.forEach(function (tile) {
+    track.appendChild(tile);
+  });
+
   originals.forEach(function (tile) {
     var clone = tile.cloneNode(true);
     clone.classList.remove("reveal", "visible");
     clone.setAttribute("aria-hidden", "true");
     clone.setAttribute("tabindex", "-1");
-    row.appendChild(clone);
+    track.appendChild(clone);
   });
+
+  row.appendChild(track);
 
   // --- equalize tile text sections so all image areas are the same height ---
   function equalizeBodies() {
-    var bodies = row.querySelectorAll(".tile-body");
+    var bodies = track.querySelectorAll(".tile-body");
     var max = 0;
     bodies.forEach(function (b) { b.style.height = "auto"; });
     bodies.forEach(function (b) { max = Math.max(max, b.offsetHeight); });
@@ -40,18 +49,25 @@
   window.addEventListener("resize", equalizeBodies);
   window.addEventListener("load", equalizeBodies);
 
-  function halfWidth() {
-    return row.scrollWidth / 2;
+  // --- measure exact wrap distance (distance between original 0 and clone 0) ---
+  var wrapDist = 0;
+  function updateWrapDist() {
+    var all = track.children;
+    if (all.length > originals.length) {
+      wrapDist = all[originals.length].offsetLeft - all[0].offsetLeft;
+    }
   }
+  updateWrapDist();
+  window.addEventListener("resize", updateWrapDist);
+  window.addEventListener("load", updateWrapDist);
 
-  // --- auto-scroll ---
-  // pos is a float accumulator: scrollLeft itself rounds to whole pixels,
-  // so adding 0.6px/frame directly to it would round to zero movement.
+  // --- strictly constant-speed auto-scroll using delta-time & GPU transform ---
+  var SPEED = 75; // pixels per second (strictly constant across all refresh rates & devices)
   var pos = 0;
   var paused = false;
   var pressed = false;
+  var lastTime = null;
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var SPEED = 1.8; // px per frame ≈ 108 px/s
 
   var resumeTimer = null;
 
@@ -62,20 +78,31 @@
 
   function resumeAfter(ms) {
     clearTimeout(resumeTimer);
-    resumeTimer = setTimeout(function () { paused = false; }, ms);
+    resumeTimer = setTimeout(function () {
+      paused = false;
+      lastTime = performance.now(); // reset delta clock so there is no jump
+    }, ms);
   }
 
   row.addEventListener("mouseenter", pauseNow);
-  row.addEventListener("mouseleave", function () { paused = false; }); // resume instantly
+  row.addEventListener("mouseleave", function () {
+    paused = false;
+    lastTime = performance.now();
+  });
   row.addEventListener("touchstart", pauseNow, { passive: true });
-  row.addEventListener("touchend", function () { resumeAfter(1500); });
+  row.addEventListener("touchend", function () { resumeAfter(1200); });
 
-  function tick() {
+  function tick(now) {
+    if (!lastTime) lastTime = now;
+    var dt = Math.min((now - lastTime) / 1000, 0.1);
+    lastTime = now;
+
     if (!reduced && !paused && !pressed) {
-      pos += SPEED;
-      var half = halfWidth();
-      if (half > 0 && pos >= half) pos -= half;
-      row.scrollLeft = pos;
+      pos += SPEED * dt;
+      if (wrapDist > 0 && pos >= wrapDist) {
+        pos -= wrapDist;
+      }
+      track.style.transform = "translate3d(-" + pos.toFixed(2) + "px, 0, 0)";
     }
     requestAnimationFrame(tick);
   }
@@ -84,17 +111,17 @@
   // --- drag to scroll ---
   var moved = false;
   var startX = 0;
-  var startScroll = 0;
+  var startPos = 0;
 
   // Kill the browser's native link/text drag that would hijack the gesture.
   row.addEventListener("dragstart", function (e) { e.preventDefault(); });
 
   row.addEventListener("pointerdown", function (e) {
-    if (e.pointerType !== "mouse" || e.button !== 0) return; // touch pans natively
+    if (e.pointerType === "mouse" && e.button !== 0) return; // touch pans natively
     pressed = true;
     moved = false;
     startX = e.clientX;
-    startScroll = row.scrollLeft;
+    startPos = pos;
   });
 
   window.addEventListener("pointermove", function (e) {
@@ -106,20 +133,27 @@
       row.classList.add("dragging");
     }
     if (!moved) return;
-    var next = startScroll - dx;
-    var half = halfWidth();
-    if (half > 0) {
-      if (next >= half) { next -= half; startScroll -= half; }
-      else if (next < 0) { next += half; startScroll += half; }
+    pos = startPos - dx;
+    if (wrapDist > 0) {
+      while (pos >= wrapDist) { pos -= wrapDist; startPos -= wrapDist; }
+      while (pos < 0) { pos += wrapDist; startPos += wrapDist; }
     }
-    row.scrollLeft = next;
+    track.style.transform = "translate3d(-" + pos.toFixed(2) + "px, 0, 0)";
   });
 
   window.addEventListener("pointerup", function () {
     if (!pressed) return;
     pressed = false;
     row.classList.remove("dragging");
-    pos = row.scrollLeft; // resync the accumulator with where the user left it
+    lastTime = performance.now();
+    resumeAfter(300);
+  });
+
+  window.addEventListener("pointercancel", function () {
+    if (!pressed) return;
+    pressed = false;
+    row.classList.remove("dragging");
+    lastTime = performance.now();
     resumeAfter(300);
   });
 

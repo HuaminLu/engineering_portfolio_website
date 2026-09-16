@@ -246,22 +246,24 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
 body { overflow-x: hidden; } /* full-bleed row must never cause sideways page scroll */
 
 .tiles {
-  display: flex;
-  align-items: stretch;
-  gap: 16px;
-  padding: 8px 24px 10px;
-  overflow-x: auto;
-  overflow-y: hidden;
+  position: relative;
+  overflow: hidden;
   width: 86vw;
   margin-left: calc(50% - 43vw);
   cursor: grab;
   user-select: none;
   -webkit-user-select: none;
-  scroll-snap-type: none;
-  scrollbar-width: none;      /* marquee loops — a scrollbar would lie */
 }
-.tiles::-webkit-scrollbar { display: none; }
-.tiles.dragging { cursor: grabbing; scroll-behavior: auto; }
+.tiles-track {
+  display: flex;
+  align-items: stretch;
+  gap: 16px;
+  height: 100%;
+  width: max-content;
+  will-change: transform;
+  padding: 8px 0 10px;
+}
+.tiles.dragging { cursor: grabbing; }
 .tiles.dragging .tile { pointer-events: none; }
 .tiles img { -webkit-user-drag: none; }
 
@@ -1208,6 +1210,8 @@ footer {
   .tiles {
     width: 100vw;
     margin-left: calc(50% - 50vw);
+  }
+  .tiles-track {
     gap: 14px;
     padding-left: 16px;
     padding-right: 16px;
