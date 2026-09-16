@@ -1,12 +1,17 @@
 // Scroll-reveal, Navigation & Micro-Interactions
 (function () {
-  // 1. Project-page fold: size title + stats + intro + hero to exactly one screen.
+  // 1. Project-page fold: size title + stats + intro + hero without clamping
   var pfold = document.querySelector(".pfold");
   function sizePfold() {
     if (!pfold) return;
+    pfold.style.height = "auto";
     var top = pfold.getBoundingClientRect().top + window.scrollY;
     var available = window.innerHeight - top;
-    pfold.style.height = available > 460 ? available + "px" : "";
+    if (available > 460 && pfold.offsetHeight < available) {
+      pfold.style.minHeight = available + "px";
+    } else {
+      pfold.style.minHeight = "";
+    }
   }
   sizePfold();
   window.addEventListener("resize", sizePfold);

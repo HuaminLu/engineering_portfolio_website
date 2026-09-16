@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=49">
+  <link rel="stylesheet" href="css/style.css?v=50">
 </head>
 <body>
 
@@ -55,19 +55,29 @@
 <main>
 
   <div class="pfold">
-  <section class="project-header">
-    <p class="crumb"><a href="projects.html">projects</a> / 5</p>
-    <h1>Toyota Innovation Challenge — Best Overall</h1>
-    <div class="meta">
-      <span>award <b>Best Overall — 1st Place</b></span>
-      <span>organizer <b>Toyota (TMMC) · IDEAs Clinic</b></span>
-      <span>platform <b>Robotic Manipulator &amp; OpenCV</b></span>
-      <span>task <b>Warehouse Material Handling</b></span>
-    </div>
-    <p class="project-intro">
-      An autonomous robotic pick-and-place manipulation pipeline engineered for agile warehouse inventory handling. Integrating overhead computer vision, real-time bounding box orientation calculation, and dynamic clearance-zone safety validation, the system delivered the competition's fastest pick throughput and zero-fault safety record, taking home <b>Best Overall — 1st Place</b> at the IDEAs Clinic S26 Toyota Innovation Challenge.
-    </p>
+    <section class="project-header">
+      <p class="crumb"><a href="projects.html">projects</a> / 5</p>
+      <h1>Toyota Innovation Challenge — Best Overall</h1>
+      <div class="meta">
+        <span>award <b>Best Overall — 1st Place</b></span>
+        <span>organizer <b>Toyota (TMMC) · IDEAs Clinic</b></span>
+        <span>platform <b>Robotic Manipulator &amp; OpenCV</b></span>
+        <span>task <b>Warehouse Material Handling</b></span>
+      </div>
+      <p class="project-intro">
+        An autonomous robotic pick-and-place manipulation pipeline engineered for agile warehouse inventory handling. Integrating overhead computer vision, real-time bounding box orientation calculation, and dynamic clearance-zone safety validation, the system delivered the competition's fastest pick throughput and zero-fault safety record, taking home <b>Best Overall — 1st Place</b> at the IDEAs Clinic S26 Toyota Innovation Challenge.
+      </p>
+    </section>
 
+    <!-- ============ CERTIFICATE DISPLAY (BIG & WIDE) ============ -->
+    <div class="certificate-banner">
+      <img src="images/toyota/toyota-certificate.png" alt="Toyota Innovation Challenge Award Certificate" class="cert-img">
+      <p class="caption"><b>Official Award Certificate.</b> Best Overall — 1st Place presented to Huamin Lu by Toyota Motor Manufacturing Canada (TMMC) and Waterloo Engineering IDEAs Clinic.</p>
+    </div>
+  </div><!-- /pfold -->
+
+  <!-- ============ ACHIEVEMENTS ============ -->
+  <section>
     <ul class="achievements">
       <li>Awarded <b>Best Overall — 1st Place</b> across all engineering cohorts for optimal warehouse logistics efficiency.</li>
       <li>Programmed real-time OpenCV contour extraction and angle tracking to orient the robot gripper dynamically to any randomly placed workpiece.</li>
@@ -75,13 +85,6 @@
       <li>Official challenge repository: <a href="https://github.com/ideasclinicuwaterloo/s26-toyota-innovation-challenge/" target="_blank" rel="noopener" style="color: var(--fg); text-decoration: underline;">ideasclinicuwaterloo/s26-toyota-innovation-challenge</a>.</li>
     </ul>
   </section>
-
-  <!-- ============ CERTIFICATE DISPLAY (BIG & WIDE) ============ -->
-  <div class="certificate-banner">
-    <img src="images/toyota/toyota-certificate.png" alt="Toyota Innovation Challenge Award Certificate" class="cert-img">
-    <p class="caption"><b>Official Award Certificate.</b> Best Overall — 1st Place presented to Huamin Lu by Toyota Motor Manufacturing Canada (TMMC) and Waterloo Engineering IDEAs Clinic.</p>
-  </div>
-  </div><!-- /pfold -->
 
   <!-- ============ SECTION 1: LIVE DEMONSTRATION ============ -->
   <section class="psection">
@@ -93,16 +96,18 @@
       <li>Continuous safety gating verifies workspace frame stability before any high-speed transfer trajectory.</li>
     </ul>
 
-    <div class="dual-feed-media" style="margin-top: 20px;">
-      <div class="feed-pane" style="flex:1;">
-        <span class="feed-tag">Live Demonstration · Computer Vision HUD</span>
-        <video controls autoplay loop muted playsinline poster="videos/toyota/toyota-arm-demo.jpg">
-          <source src="videos/toyota/toyota-arm-demo.mp4" type="video/mp4">
-        </video>
+    <div class="dual-feed">
+      <div class="dual-feed-media">
+        <div class="feed-pane">
+          <span class="feed-tag">Live Demonstration · Computer Vision HUD</span>
+          <video controls autoplay loop muted playsinline poster="videos/toyota/toyota-arm-demo.jpg">
+            <source src="videos/toyota/toyota-arm-demo.mp4" type="video/mp4">
+          </video>
+        </div>
       </div>
-    </div>
-    <div class="dual-feed-caption">
-      <span class="caption-title">Autonomous Pick Routine</span> — Robotic arm detecting parts via OpenCV, aligning gripper orientation, and completing warehouse transfers.
+      <div class="dual-feed-caption">
+        <span class="caption-title">Autonomous Pick Routine</span> — Robotic arm detecting parts via OpenCV, aligning gripper orientation, and completing warehouse transfers.
+      </div>
     </div>
   </section>
 
@@ -111,19 +116,21 @@
     <h2><span class="num">02</span>Vision Pipeline &amp; Cycle Optimization</h2>
 
     <ul class="achievements" style="margin: 14px 0 16px;">
-      <li>HSV color mask thresholding and minimum-area bounding rectangles compute precise object centroid $(X, Y)$ and orientation $	heta$.</li>
+      <li>HSV color mask thresholding and minimum-area bounding rectangles compute precise object centroid and orientation angle.</li>
       <li>Trajectory planner commands wrist servo yaw prior to vertical descent, preventing mechanical binding against basin sidewalls.</li>
       <li>Achieved lowest total cycle time across all participating teams while maintaining a 100% successful deposit rate.</li>
     </ul>
 
-    <div class="dual-feed-media" style="margin-top: 20px;">
-      <div class="feed-pane" style="flex:1; max-width: 800px; margin: 0 auto;">
-        <span class="feed-tag">Preview Animation · Looping Pick Cycle</span>
-        <img src="images/toyota/toyota-arm-preview.gif" alt="Animated GIF of robot arm picking red object">
+    <div class="dual-feed">
+      <div class="dual-feed-media">
+        <div class="feed-pane" style="max-height: 480px;">
+          <span class="feed-tag">Preview Animation · Looping Pick Cycle</span>
+          <img src="images/toyota/toyota-arm-preview.gif" alt="Animated GIF of robot arm picking red object" style="object-fit: contain;">
+        </div>
       </div>
-    </div>
-    <div class="dual-feed-caption">
-      <span class="caption-title">Cycle Execution</span> — End effector executing compliant descent, gripping target workpiece, and clearing boundary envelope.
+      <div class="dual-feed-caption">
+        <span class="caption-title">Cycle Execution</span> — End effector executing compliant descent, gripping target workpiece, and clearing boundary envelope.
+      </div>
     </div>
   </section>
 
@@ -147,6 +154,6 @@
   </div>
 </footer>
 
-<script src="js/reveal.js?v=49"></script>
+<script src="js/reveal.js?v=50"></script>
 </body>
 </html>

@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=49">
+  <link rel="stylesheet" href="css/style.css?v=50">
 </head>
 <body>
 
@@ -55,19 +55,29 @@
 <main>
 
   <div class="pfold">
-  <section class="project-header">
-    <p class="crumb"><a href="projects.html">projects</a> / 6</p>
-    <h1>Brookfield Renewable Innovation Challenge — Best Demo</h1>
-    <div class="meta">
-      <span>award <b>Best Demo — 1st Place</b></span>
-      <span>organizer <b>Brookfield Renewable · IDEAs Clinic</b></span>
-      <span>focus <b>Demand-Controlled Ventilation (DCV)</b></span>
-      <span>prototype <b>IoT Digital Twin &amp; Physical Model</b></span>
-    </div>
-    <p class="project-intro">
-      An integrated HVAC optimization and digital twin platform ("MC Eco-Monitor") engineered for campus facilities to eliminate unnecessary fresh-air conditioning in unoccupied rooms. Combining schedule-integrated demand-controlled ventilation (DCV), multi-sensor environmental telemetry, and server waste-heat recovery, the project was awarded <b>Best Demo — 1st Place</b> at the IDEAs Clinic S26 Brookfield Renewable Innovation Challenge.
-    </p>
+    <section class="project-header">
+      <p class="crumb"><a href="projects.html">projects</a> / 6</p>
+      <h1>Brookfield Renewable Innovation Challenge — Best Demo</h1>
+      <div class="meta">
+        <span>award <b>Best Demo — 1st Place</b></span>
+        <span>organizer <b>Brookfield Renewable · IDEAs Clinic</b></span>
+        <span>focus <b>Demand-Controlled Ventilation (DCV)</b></span>
+        <span>prototype <b>IoT Digital Twin &amp; Physical Model</b></span>
+      </div>
+      <p class="project-intro">
+        An integrated HVAC optimization and digital twin platform ("MC Eco-Monitor") engineered for campus facilities to eliminate unnecessary fresh-air conditioning in unoccupied rooms. Combining schedule-integrated demand-controlled ventilation (DCV), multi-sensor environmental telemetry, and server waste-heat recovery, the project was awarded <b>Best Demo — 1st Place</b> at the IDEAs Clinic S26 Brookfield Renewable Innovation Challenge.
+      </p>
+    </section>
 
+    <!-- ============ CERTIFICATE DISPLAY (BIG & WIDE) ============ -->
+    <div class="certificate-banner">
+      <img src="images/brookfield/brookfield-certificate.png" alt="Brookfield Renewable Innovation Challenge Award Certificate" class="cert-img">
+      <p class="caption"><b>Official Award Certificate.</b> Best Demo — 1st Place presented to Huamin Lu by Brookfield Renewable and Waterloo Engineering IDEAs Clinic.</p>
+    </div>
+  </div><!-- /pfold -->
+
+  <!-- ============ ACHIEVEMENTS ============ -->
+  <section>
     <ul class="achievements">
       <li>Awarded <b>Best Demo — 1st Place</b> across university engineering teams for the most complete physical and software prototype.</li>
       <li>Developed the full-stack "MC Eco-Monitor" dashboard modeling 3D thermal zones, air dampers, and live CO2/temperature curves.</li>
@@ -75,13 +85,6 @@
       <li>Official challenge repository: <a href="https://github.com/IdeasClinicUWaterloo/S26_Brookfield_Renewable_Innovation_Challenge/tree/main" target="_blank" rel="noopener" style="color: var(--fg); text-decoration: underline;">IdeasClinicUWaterloo/S26_Brookfield_Renewable_Innovation_Challenge</a>.</li>
     </ul>
   </section>
-
-  <!-- ============ CERTIFICATE DISPLAY (BIG & WIDE) ============ -->
-  <div class="certificate-banner">
-    <img src="images/brookfield/brookfield-certificate.png" alt="Brookfield Renewable Innovation Challenge Award Certificate" class="cert-img">
-    <p class="caption"><b>Official Award Certificate.</b> Best Demo — 1st Place presented to Huamin Lu by Brookfield Renewable and Waterloo Engineering IDEAs Clinic.</p>
-  </div>
-  </div><!-- /pfold -->
 
   <!-- ============ SECTION 1: PRESENTATION & PHYSICAL MODEL ============ -->
   <section class="psection">
@@ -93,28 +96,32 @@
       <li>Presented full hardware-in-the-loop telemetry to Brookfield Renewable industry judges and Waterloo Engineering faculty.</li>
     </ul>
 
-    <div class="dual-feed-media" style="margin-top: 20px;">
-      <div class="feed-pane" style="flex:1;">
-        <span class="feed-tag">Live Judging · Project Demo</span>
-        <img src="images/brookfield/brookfield-presentation.jpg" alt="Huamin Lu presenting the live demo to judges">
+    <div class="dual-feed">
+      <div class="dual-feed-media">
+        <div class="feed-pane">
+          <span class="feed-tag">Live Judging · Project Demo</span>
+          <img src="images/brookfield/brookfield-presentation.jpg" alt="Huamin Lu presenting the live demo to judges">
+        </div>
+        <div class="feed-pane">
+          <span class="feed-tag">Competition Team · DC Building Model</span>
+          <img src="images/brookfield/brookfield-team.jpg" alt="Engineering team with the physical smart building model">
+        </div>
       </div>
-      <div class="feed-pane" style="flex:1;">
-        <span class="feed-tag">Competition Team · DC Building Model</span>
-        <img src="images/brookfield/brookfield-team.jpg" alt="Engineering team with the physical smart building model">
+      <div class="dual-feed-caption">
+        <span class="caption-title">Competition Presentation</span> — Demonstrating the live IoT telemetry dashboard and physical Lego building twin to industry evaluators.
       </div>
-    </div>
-    <div class="dual-feed-caption">
-      <span class="caption-title">Competition Presentation</span> — Demonstrating the live IoT telemetry dashboard and physical Lego building twin to industry evaluators.
     </div>
 
-    <div class="dual-feed-media" style="margin-top: 24px;">
-      <div class="feed-pane" style="flex:1; max-width: 800px; margin: 0 auto;">
-        <span class="feed-tag">Hardware Twin · Breadboard Sensor Circuit</span>
-        <img src="images/brookfield/brookfield-lego-model.jpg" alt="Lego building scale model with breadboard telemetry circuit">
+    <div class="dual-feed" style="margin-top: 24px;">
+      <div class="dual-feed-media">
+        <div class="feed-pane">
+          <span class="feed-tag">Hardware Twin · Breadboard Sensor Circuit</span>
+          <img src="images/brookfield/brookfield-lego-model.jpg" alt="Lego building scale model with breadboard telemetry circuit">
+        </div>
       </div>
-    </div>
-    <div class="dual-feed-caption">
-      <span class="caption-title">Instrumented Scale Model</span> — Multi-floor Lego architectural model wired to breadboard microcontrollers for localized temperature and air quality monitoring.
+      <div class="dual-feed-caption">
+        <span class="caption-title">Instrumented Scale Model</span> — Multi-floor Lego architectural model wired to breadboard microcontrollers for localized temperature and air quality monitoring.
+      </div>
     </div>
   </section>
 
@@ -128,32 +135,36 @@
       <li>Tracked server room heat harvesting metrics, redirecting thermal exhaust into lower-level building heating circuits.</li>
     </ul>
 
-    <div class="dual-feed-media" style="margin-top: 20px;">
-      <div class="feed-pane" style="flex:1;">
-        <span class="feed-tag">3D Thermal Zones · Floor Plan</span>
-        <img src="images/brookfield/web-3d-thermal.jpg" alt="MC Eco-Monitor 3D Thermal Zones view">
+    <div class="dual-feed">
+      <div class="dual-feed-media">
+        <div class="feed-pane">
+          <span class="feed-tag">3D Thermal Zones · Floor Plan</span>
+          <img src="images/brookfield/web-3d-thermal.jpg" alt="MC Eco-Monitor 3D Thermal Zones view">
+        </div>
+        <div class="feed-pane">
+          <span class="feed-tag">Main Dashboard · 24h Curves</span>
+          <img src="images/brookfield/web-dashboard.jpg" alt="MC Eco-Monitor Main Dashboard view">
+        </div>
       </div>
-      <div class="feed-pane" style="flex:1;">
-        <span class="feed-tag">Main Dashboard · 24h Curves</span>
-        <img src="images/brookfield/web-dashboard.jpg" alt="MC Eco-Monitor Main Dashboard view">
+      <div class="dual-feed-caption">
+        <span class="caption-title">Real-Time Facility Monitoring</span> — Multi-layer 3D thermal zone inspection alongside continuous 24-hour temperature and carbon dioxide telemetry.
       </div>
-    </div>
-    <div class="dual-feed-caption">
-      <span class="caption-title">Real-Time Facility Monitoring</span> — Multi-layer 3D thermal zone inspection alongside continuous 24-hour temperature and carbon dioxide telemetry.
     </div>
 
-    <div class="dual-feed-media" style="margin-top: 24px;">
-      <div class="feed-pane" style="flex:1;">
-        <span class="feed-tag">Energy Analytics · Heat Recycling</span>
-        <img src="images/brookfield/web-energy-analytics.jpg" alt="MC Eco-Monitor Energy Analytics view">
+    <div class="dual-feed" style="margin-top: 24px;">
+      <div class="dual-feed-media">
+        <div class="feed-pane">
+          <span class="feed-tag">Energy Analytics · Heat Recycling</span>
+          <img src="images/brookfield/web-energy-analytics.jpg" alt="MC Eco-Monitor Energy Analytics view">
+        </div>
+        <div class="feed-pane">
+          <span class="feed-tag">Digital Twin · HVAC Infrastructure</span>
+          <img src="images/brookfield/web-hvac-infrastructure.jpg" alt="MC Eco-Monitor HVAC Infrastructure view">
+        </div>
       </div>
-      <div class="feed-pane" style="flex:1;">
-        <span class="feed-tag">Digital Twin · HVAC Infrastructure</span>
-        <img src="images/brookfield/web-hvac-infrastructure.jpg" alt="MC Eco-Monitor HVAC Infrastructure view">
+      <div class="dual-feed-caption">
+        <span class="caption-title">Infrastructure &amp; Energy Optimization</span> — Server room heat recycling tracking and schematic digital twin of cold supply and hot return air ducts.
       </div>
-    </div>
-    <div class="dual-feed-caption">
-      <span class="caption-title">Infrastructure &amp; Energy Optimization</span> — Server room heat recycling tracking and schematic digital twin of cold supply and hot return air ducts.
     </div>
   </section>
 
@@ -168,7 +179,7 @@
     <div class="demo-frame-container">
       <iframe src="demos/brookfield-eco-monitor.html" class="demo-frame" title="MC Eco-Monitor Interactive Demo"></iframe>
     </div>
-    <div class="dual-feed-caption">
+    <div class="dual-feed-caption" style="border: 1px solid var(--line); border-top: none;">
       <span class="caption-title">Embedded Web Demo</span> — Fully interactive simulation of the facility energy dashboard engineered for the competition submission.
     </div>
   </section>
@@ -193,6 +204,6 @@
   </div>
 </footer>
 
-<script src="js/reveal.js?v=49"></script>
+<script src="js/reveal.js?v=50"></script>
 </body>
 </html>
