@@ -1,0 +1,39 @@
+{
+  "title": "Custom Controller Grip",
+  "folder": "controller-grip",
+  "what": "",
+  "why": "",
+  "how": "",
+  "slides": [
+    {
+      "filename": "proto_01.jpg",
+      "section": "proto",
+      "caption": "Planning: Blueprints"
+    },
+    {
+      "filename": "proto_02.jpg",
+      "section": "proto",
+      "caption": "Planning: Blueprints"
+    },
+    {
+      "filename": "proto_03.jpg",
+      "section": "proto",
+      "caption": "Process: 3D Modelling and Printing"
+    },
+    {
+      "filename": "proto_04.jpg",
+      "section": "proto",
+      "caption": "Process: 3D Modelling and Printing"
+    },
+    {
+      "filename": "comp_05.jpg",
+      "section": "comp",
+      "caption": "Final Product: Controller Grip"
+    },
+    {
+      "filename": "comp_06.jpg",
+      "section": "comp",
+      "caption": "Final Product: Controller Grip"
+    }
+  ]
+}

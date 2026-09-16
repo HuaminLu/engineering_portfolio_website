@@ -1,0 +1,64 @@
+{
+  "title": "Automatic Door Locker (Locki)",
+  "folder": "door-locker",
+  "what": "A universal retrofit smart lock featuring a high-torque compound gear train and custom embedded controller.",
+  "why": "To automate standard deadbolt operation without requiring permanent modifications to the door hardware or lock cylinder.",
+  "how": "Designed a multi-stage gear reduction in SolidWorks, routed a custom Altium PCB with TMC2209 silent stepper driver, and wrote MicroPython firmware with sensorless stall homing on RP2040.",
+  "slides": [
+    {
+      "filename": "slide_16_1.jpg",
+      "section": "cad",
+      "caption": "CAD Assembly \u2014 Full enclosure with custom deadbolt adapter"
+    },
+    {
+      "filename": "slide_16_2.jpg",
+      "section": "cad",
+      "caption": "Locki Retrofit Smart Lock \u2014 Assembled device overview"
+    },
+    {
+      "filename": "slide_17_1.jpg",
+      "section": "cad",
+      "caption": "Exploded View \u2014 Internal gear train, stepper motor, and chassis mounting"
+    },
+    {
+      "filename": "slide_17_2.jpg",
+      "section": "cad",
+      "caption": "3D Printed Prototype \u2014 Chassis layer and mounting interfaces"
+    },
+    {
+      "filename": "slide_18_1.jpg",
+      "section": "proto",
+      "caption": "SolidWorks CAD \u2014 Case knob slot designed to mount directly over standard deadbolts"
+    },
+    {
+      "filename": "slide_18_2.jpg",
+      "section": "proto",
+      "caption": "Gear Train & Back Case \u2014 Interlocking gears with optimized tooth profile"
+    },
+    {
+      "filename": "slide_18_3.jpg",
+      "section": "proto",
+      "caption": "Deadbolt Knob Engagement \u2014 Torque transfer interface"
+    },
+    {
+      "filename": "slide_19_1.jpg",
+      "section": "elec",
+      "caption": "Altium Schematic \u2014 Dual battery-powered or 12V DC input with LM2596S regulator"
+    },
+    {
+      "filename": "slide_19_2.jpg",
+      "section": "elec",
+      "caption": "Altium Schematic \u2014 INA219 power monitor and TMC2209 driver interface"
+    },
+    {
+      "filename": "slide_20_1.jpg",
+      "section": "elec",
+      "caption": "Custom Perfboard Circuit \u2014 TMC2209 driver and Raspberry Pi Pico integration"
+    },
+    {
+      "filename": "slide_20_2.jpg",
+      "section": "elec",
+      "caption": "Physical Bring-Up \u2014 Breadboard testing of motor homing and current limiting"
+    }
+  ]
+}

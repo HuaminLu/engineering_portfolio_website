@@ -1,0 +1,399 @@
+{
+  "title": "WatArrow RC Aircraft",
+  "folder": "watarrow-plane",
+  "what": "A student design team RC aircraft featuring modular wings and programmable control surfaces.",
+  "why": "To compete in the SAE Aero East 2025 micro class division and achieve reliable flight performance.",
+  "how": "Prototyped foam-cut control surfaces and fabricated CNC-cut balsa wing ribs with heat-shrink laminate. Drafted electrical schematics and wired servos to the flight computer with banana-plug harnesses. Debugged a flap-creep issue during the competition, helping team to secure 3rd-place in mission points.",
+  "slides": [
+    {
+      "filename": "overview_01.jpg",
+      "section": "overview",
+      "caption": "How: Prototyped foam-cut control surfaces and fabricated CNC-cut balsa wing ribs with heat-shrink laminate. Drafted electrical schematics and wired servos to the flight computer with banana-plug harnesses. Debugged a flap-creep issue during the competition, helping team to secure 3rd-place in mission points."
+    },
+    {
+      "filename": "overview_02.jpg",
+      "section": "overview",
+      "caption": "How: Prototyped foam-cut control surfaces and fabricated CNC-cut balsa wing ribs with heat-shrink laminate. Drafted electrical schematics and wired servos to the flight computer with banana-plug harnesses. Debugged a flap-creep issue during the competition, helping team to secure 3rd-place in mission points."
+    },
+    {
+      "filename": "overview_03.jpg",
+      "section": "overview",
+      "caption": "How: Prototyped foam-cut control surfaces and fabricated CNC-cut balsa wing ribs with heat-shrink laminate. Drafted electrical schematics and wired servos to the flight computer with banana-plug harnesses. Debugged a flap-creep issue during the competition, helping team to secure 3rd-place in mission points."
+    },
+    {
+      "filename": "overview_04.jpg",
+      "section": "overview",
+      "caption": "How: Prototyped foam-cut control surfaces and fabricated CNC-cut balsa wing ribs with heat-shrink laminate. Drafted electrical schematics and wired servos to the flight computer with banana-plug harnesses. Debugged a flap-creep issue during the competition, helping team to secure 3rd-place in mission points."
+    },
+    {
+      "filename": "overview_05.jpg",
+      "section": "overview",
+      "caption": "How: Prototyped foam-cut control surfaces and fabricated CNC-cut balsa wing ribs with heat-shrink laminate. Drafted electrical schematics and wired servos to the flight computer with banana-plug harnesses. Debugged a flap-creep issue during the competition, helping team to secure 3rd-place in mission points."
+    },
+    {
+      "filename": "overview_06.jpg",
+      "section": "overview",
+      "caption": "How: Prototyped foam-cut control surfaces and fabricated CNC-cut balsa wing ribs with heat-shrink laminate. Drafted electrical schematics and wired servos to the flight computer with banana-plug harnesses. Debugged a flap-creep issue during the competition, helping team to secure 3rd-place in mission points."
+    },
+    {
+      "filename": "cad_07.jpg",
+      "section": "cad",
+      "caption": "Full Assembly: CAD model of the RC aircraft, designed for modularity to interchange all major components."
+    },
+    {
+      "filename": "cad_08.jpg",
+      "section": "cad",
+      "caption": "Full Assembly: CAD model of the RC aircraft, designed for modularity to interchange all major components."
+    },
+    {
+      "filename": "cad_09.jpg",
+      "section": "cad",
+      "caption": "Electronics Integration: Servos, flight computer, battery, and motor mounting positions on control surfaces."
+    },
+    {
+      "filename": "cad_10.jpg",
+      "section": "cad",
+      "caption": "Electronics Integration: Servos, flight computer, battery, and motor mounting positions on control surfaces."
+    },
+    {
+      "filename": "cad_11.jpg",
+      "section": "cad",
+      "caption": "Electronics Integration: Servos, flight computer, battery, and motor mounting positions on control surfaces."
+    },
+    {
+      "filename": "cad_12.jpg",
+      "section": "cad",
+      "caption": "Electrical Routing: Assembly drawing of servo and motor wiring and connections to the flight computer."
+    },
+    {
+      "filename": "cad_13.jpg",
+      "section": "cad",
+      "caption": "Electrical Routing: Assembly drawing of servo and motor wiring and connections to the flight computer."
+    },
+    {
+      "filename": "proto_14.jpg",
+      "section": "proto",
+      "caption": "\u2022 Carbon Fibre Layup [1st Attempt]: Protoyped rear landing gear using carbon fibre layup with wide design."
+    },
+    {
+      "filename": "proto_15.jpg",
+      "section": "proto",
+      "caption": "\u2022 Carbon Fibre Layup [1st Attempt]: Protoyped rear landing gear using carbon fibre layup with wide design."
+    },
+    {
+      "filename": "proto_16.jpg",
+      "section": "proto",
+      "caption": "\u2022 Carbon Fibre Layup [1st Attempt]: Protoyped rear landing gear using carbon fibre layup with wide design."
+    },
+    {
+      "filename": "proto_17.jpg",
+      "section": "proto",
+      "caption": "\u2022 Carbon Fibre Layup [2nd Attempt]: New mold design with internal layup for a thinner and lighter landing gear."
+    },
+    {
+      "filename": "proto_18.jpg",
+      "section": "proto",
+      "caption": "\u2022 Carbon Fibre Layup [2nd Attempt]: New mold design with internal layup for a thinner and lighter landing gear."
+    },
+    {
+      "filename": "proto_19.jpg",
+      "section": "proto",
+      "caption": "\u2022 Carbon Fibre Layup [2nd Attempt]: New mold design with internal layup for a thinner and lighter landing gear."
+    },
+    {
+      "filename": "proto_20.jpg",
+      "section": "proto",
+      "caption": "\u2022 Carbon Fibre Layup [2nd Attempt]: New mold design with internal layup for a thinner and lighter landing gear."
+    },
+    {
+      "filename": "proto_21.jpg",
+      "section": "proto",
+      "caption": "\u2022 Carbon Fibre Layup [2nd Attempt]: New mold design with internal layup for a thinner and lighter landing gear."
+    },
+    {
+      "filename": "proto_22.jpg",
+      "section": "proto",
+      "caption": "\u2022 Carbon Fibre Layup [2nd Attempt]: New mold design with internal layup for a thinner and lighter landing gear."
+    },
+    {
+      "filename": "proto_23.jpg",
+      "section": "proto",
+      "caption": "\u2022 Foam Cutting Tools: Custom hot-wire cutter with 3D-printed airfoil templates for precise foam profiling."
+    },
+    {
+      "filename": "proto_24.jpg",
+      "section": "proto",
+      "caption": "\u2022 Foam Cutting Tools: Custom hot-wire cutter with 3D-printed airfoil templates for precise foam profiling."
+    },
+    {
+      "filename": "proto_25.jpg",
+      "section": "proto",
+      "caption": "\u2022 Foam Cutting Tools: Custom hot-wire cutter with 3D-printed airfoil templates for precise foam profiling."
+    },
+    {
+      "filename": "proto_26.jpg",
+      "section": "proto",
+      "caption": "\u2022 Airfoil Profiling: 3D printed templates guide the foam through the hot-wire cutter for uniform airfoil profiles."
+    },
+    {
+      "filename": "proto_27.jpg",
+      "section": "proto",
+      "caption": "\u2022 Airfoil Profiling: 3D printed templates guide the foam through the hot-wire cutter for uniform airfoil profiles."
+    },
+    {
+      "filename": "proto_28.jpg",
+      "section": "proto",
+      "caption": "\u2022 Airfoil Profiling: 3D printed templates guide the foam through the hot-wire cutter for uniform airfoil profiles."
+    },
+    {
+      "filename": "proto_29.jpg",
+      "section": "proto",
+      "caption": "\u2022 Airfoil Assembly: Removed templates, attached servos, and installed elevator and rudder with flap linkages ."
+    },
+    {
+      "filename": "proto_30.jpg",
+      "section": "proto",
+      "caption": "\u2022 Airfoil Assembly: Removed templates, attached servos, and installed elevator and rudder with flap linkages ."
+    },
+    {
+      "filename": "proto_31.jpg",
+      "section": "proto",
+      "caption": "\u2022 Airfoil Assembly: Removed templates, attached servos, and installed elevator and rudder with flap linkages ."
+    },
+    {
+      "filename": "proto_32.jpg",
+      "section": "proto",
+      "caption": "\u2022 Manufacturing: Fabricated multiple foam airfoils with modular swap-out capability for rapid replacement."
+    },
+    {
+      "filename": "proto_33.jpg",
+      "section": "proto",
+      "caption": "\u2022 Manufacturing: Fabricated multiple foam airfoils with modular swap-out capability for rapid replacement."
+    },
+    {
+      "filename": "proto_34.jpg",
+      "section": "proto",
+      "caption": "\u2022 Manufacturing: Fabricated multiple foam airfoils with modular swap-out capability for rapid replacement."
+    },
+    {
+      "filename": "proto_35.jpg",
+      "section": "proto",
+      "caption": "\u2022 Custom Airfoil Cutter: I designed two foam airfoil cutters. The handheld version uses an airfoil-shaped wire for quick, freehand cuts, while the frame-mounted version offers consistent and repeatable 3D foam cuts."
+    },
+    {
+      "filename": "proto_36.jpg",
+      "section": "proto",
+      "caption": "\u2022 Handheld Cutter: Airfoil-shaped wire allows foam blocks to be pushed through for instant 3D airfoil profiling."
+    },
+    {
+      "filename": "proto_37.jpg",
+      "section": "proto",
+      "caption": "\u2022 Handheld Cutter: Airfoil-shaped wire allows foam blocks to be pushed through for instant 3D airfoil profiling."
+    },
+    {
+      "filename": "proto_38.jpg",
+      "section": "proto",
+      "caption": "\u2022 Handheld Cutter: Airfoil-shaped wire allows foam blocks to be pushed through for instant 3D airfoil profiling."
+    },
+    {
+      "filename": "proto_39.jpg",
+      "section": "proto",
+      "caption": "\u2022 Balsa Wood Frame: Constructed balsa wood frames for airfoil components including elevators and rudders."
+    },
+    {
+      "filename": "proto_40.jpg",
+      "section": "proto",
+      "caption": "\u2022 Balsa Wood Frame: Constructed balsa wood frames for airfoil components including elevators and rudders."
+    },
+    {
+      "filename": "proto_41.jpg",
+      "section": "proto",
+      "caption": "\u2022 Balsa Wood Frame: Constructed balsa wood frames for airfoil components including elevators and rudders."
+    },
+    {
+      "filename": "proto_42.jpg",
+      "section": "proto",
+      "caption": "\u2022 Servo Mounting: Mounted servos, routed wiring and glued 3D printed screw mounts for modular attachment."
+    },
+    {
+      "filename": "proto_43.jpg",
+      "section": "proto",
+      "caption": "\u2022 Servo Mounting: Mounted servos, routed wiring and glued 3D printed screw mounts for modular attachment."
+    },
+    {
+      "filename": "proto_44.jpg",
+      "section": "proto",
+      "caption": "\u2022 Servo Mounting: Mounted servos, routed wiring and glued 3D printed screw mounts for modular attachment."
+    },
+    {
+      "filename": "proto_45.jpg",
+      "section": "proto",
+      "caption": "\u2022 Heat Shrink Laminate: Wrapped frame in heat shrink laminate and attached control horn, rod, and hinges."
+    },
+    {
+      "filename": "proto_46.jpg",
+      "section": "proto",
+      "caption": "\u2022 Heat Shrink Laminate: Wrapped frame in heat shrink laminate and attached control horn, rod, and hinges."
+    },
+    {
+      "filename": "proto_47.jpg",
+      "section": "proto",
+      "caption": "\u2022 Heat Shrink Laminate: Wrapped frame in heat shrink laminate and attached control horn, rod, and hinges."
+    },
+    {
+      "filename": "proto_48.jpg",
+      "section": "proto",
+      "caption": "\u2022 Heat Shrink Laminate: Wrapped frame in heat shrink laminate and attached control horn, rod, and hinges."
+    },
+    {
+      "filename": "proto_49.jpg",
+      "section": "proto",
+      "caption": "\u2022 Heat Shrink Laminate: Wrapped frame in heat shrink laminate and attached control horn, rod, and hinges."
+    },
+    {
+      "filename": "proto_50.jpg",
+      "section": "proto",
+      "caption": "\u2022 Heat Shrink Laminate: Wrapped frame in heat shrink laminate and attached control horn, rod, and hinges."
+    },
+    {
+      "filename": "proto_51.jpg",
+      "section": "proto",
+      "caption": "\u2022 Heat Shrink Laminate: Wrapped frame in heat shrink laminate and attached control horn, rod, and hinges."
+    },
+    {
+      "filename": "proto_52.jpg",
+      "section": "proto",
+      "caption": "\u2022 Short-Tail Prototype [Plane 1]: Initial build with an oversized fuselage and short tail length."
+    },
+    {
+      "filename": "proto_53.jpg",
+      "section": "proto",
+      "caption": "\u2022 Short-Tail Prototype [Plane 1]: Initial build with an oversized fuselage and short tail length."
+    },
+    {
+      "filename": "proto_54.jpg",
+      "section": "proto",
+      "caption": "\u2022 Short-Tail Prototype [Plane 1]: Initial build with an oversized fuselage and short tail length."
+    },
+    {
+      "filename": "proto_55.jpg",
+      "section": "proto",
+      "caption": "\u2022 V-Tail Prototype [Plane 2]: Adopted a V-tail to combine pitch and yaw control and reduce drag and weight."
+    },
+    {
+      "filename": "proto_56.jpg",
+      "section": "proto",
+      "caption": "\u2022 V-Tail Prototype [Plane 2]: Adopted a V-tail to combine pitch and yaw control and reduce drag and weight."
+    },
+    {
+      "filename": "proto_57.jpg",
+      "section": "proto",
+      "caption": "\u2022 V-Tail Prototype [Plane 2]: Adopted a V-tail to combine pitch and yaw control and reduce drag and weight."
+    },
+    {
+      "filename": "proto_58.jpg",
+      "section": "proto",
+      "caption": "\u2022 Modular Carbon-Fiber Prototype [Plane 3]: Built on a carbon-fiber rod backbone with quick-release mounts for wings, motor, battery, and landing gear. This prototype was adapted as the competition aircraft\u2019s structure."
+    },
+    {
+      "filename": "proto_59.jpg",
+      "section": "proto",
+      "caption": "\u2022 Modular Carbon-Fiber Prototype [Plane 3]: Built on a carbon-fiber rod backbone with quick-release mounts for wings, motor, battery, and landing gear. This prototype was adapted as the competition aircraft\u2019s structure."
+    },
+    {
+      "filename": "proto_60.jpg",
+      "section": "proto",
+      "caption": "\u2022 Modular Carbon-Fiber Prototype [Plane 3]: Built on a carbon-fiber rod backbone with quick-release mounts for wings, motor, battery, and landing gear. This prototype was adapted as the competition aircraft\u2019s structure."
+    },
+    {
+      "filename": "elec_61.jpg",
+      "section": "elec",
+      "caption": "\u2022 Flight Computer Connector: Crimped flight computer wiring for easy electronic swaps and troubleshooting."
+    },
+    {
+      "filename": "elec_62.jpg",
+      "section": "elec",
+      "caption": "\u2022 Flight Computer Connector: Crimped flight computer wiring for easy electronic swaps and troubleshooting."
+    },
+    {
+      "filename": "elec_63.jpg",
+      "section": "elec",
+      "caption": "\u2022 Flight Computer Connector: Crimped flight computer wiring for easy electronic swaps and troubleshooting."
+    },
+    {
+      "filename": "elec_64.jpg",
+      "section": "elec",
+      "caption": "\u2022 Servo Crimping: Crimped and routed servo leads to the flight computer for reduced weight and drag."
+    },
+    {
+      "filename": "elec_65.jpg",
+      "section": "elec",
+      "caption": "\u2022 Servo Crimping: Crimped and routed servo leads to the flight computer for reduced weight and drag."
+    },
+    {
+      "filename": "elec_66.jpg",
+      "section": "elec",
+      "caption": "\u2022 Servo Crimping: Crimped and routed servo leads to the flight computer for reduced weight and drag."
+    },
+    {
+      "filename": "elec_67.jpg",
+      "section": "elec",
+      "caption": "\u2022 Wire Management: Routed wiring along carbon rod for clean layout and organized flight control connections."
+    },
+    {
+      "filename": "elec_68.jpg",
+      "section": "elec",
+      "caption": "\u2022 Wire Management: Routed wiring along carbon rod for clean layout and organized flight control connections."
+    },
+    {
+      "filename": "elec_69.jpg",
+      "section": "elec",
+      "caption": "\u2022 Wire Management: Routed wiring along carbon rod for clean layout and organized flight control connections."
+    },
+    {
+      "filename": "elec_70.jpg",
+      "section": "elec",
+      "caption": "\u2022 Wire Management: Routed wiring along carbon rod for clean layout and organized flight control connections."
+    },
+    {
+      "filename": "comp_71.jpg",
+      "section": "comp",
+      "caption": "\u2022 Flight Tests: Conducted weekly tests to measure lift-off distance, refining wing and mounting configuration."
+    },
+    {
+      "filename": "comp_72.jpg",
+      "section": "comp",
+      "caption": "\u2022 Flight Tests: Conducted weekly tests to measure lift-off distance, refining wing and mounting configuration."
+    },
+    {
+      "filename": "comp_73.jpg",
+      "section": "comp",
+      "caption": "\u2022 Flight Tests: Conducted weekly tests to measure lift-off distance, refining wing and mounting configuration."
+    },
+    {
+      "filename": "comp_74.jpg",
+      "section": "comp",
+      "caption": "\u2022 Competition: Flew scoring missions and earned points for short takeoff distance at SAE Aero East 2025."
+    },
+    {
+      "filename": "comp_75.jpg",
+      "section": "comp",
+      "caption": "\u2022 Competition: Flew scoring missions and earned points for short takeoff distance at SAE Aero East 2025."
+    },
+    {
+      "filename": "comp_76.jpg",
+      "section": "comp",
+      "caption": "\u2022 Competition: Flew scoring missions and earned points for short takeoff distance at SAE Aero East 2025."
+    },
+    {
+      "filename": "comp_77.jpg",
+      "section": "comp",
+      "caption": "\u2022 Mission Performance Award: Won 3rd place for mission points in SAE Micro Class at the 2025 competition."
+    },
+    {
+      "filename": "comp_78.jpg",
+      "section": "comp",
+      "caption": "\u2022 Mission Performance Award: Won 3rd place for mission points in SAE Micro Class at the 2025 competition."
+    }
+  ]
+}

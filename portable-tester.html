@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portable PCB Tester Tool — Huamin (Lucas) Lu</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=26">
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a class="logo" href="index.html"><span class="prompt">~/</span>lucas_lu<span class="cursor"></span></a>
+    <nav>
+      <ul>
+        <li><a href="projects.html">GALLERY</a></li>
+        <li class="dropdown">
+          <a href="#" class="active">PROJECTS</a>
+          <div class="dropdown-menu">
+            <a href="robot-arm.html"><span class="idx">1</span>7-DOF QDD Robot Arm</a>
+            <a href="robot-hand.html"><span class="idx">2</span>10-DOF Dexterous Hand</a>
+            <a href="unitree-g1.html"><span class="idx">3</span>Unitree G1 Humanoid</a>
+            <a href="g1-hand-mimic.html"><span class="idx">3.1</span>&nbsp;&nbsp;Hand Mimic</a>
+            <a href="g1-hand-recorder.html"><span class="idx">3.2</span>&nbsp;&nbsp;Hand Recorder GUI</a>
+            <a href="g1-arm-policy.html"><span class="idx">3.3</span>&nbsp;&nbsp;MuJoCo Arm Policy</a>
+            <a href="g1-arm-recorder.html"><span class="idx">3.4</span>&nbsp;&nbsp;Arm Recorder GUI</a>
+            <a href="g1-walk.html"><span class="idx">3.5</span>&nbsp;&nbsp;WASDQE Walk</a>
+            <a href="toyota-innovation.html"><span class="idx">4</span>Toyota Innovation Challenge</a>
+            <a href="brookfield-innovation.html"><span class="idx">5</span>Brookfield Innovation Challenge</a>
+            <a href="door-locker.html"><span class="idx">6</span>Automatic Door Locker</a>
+            <a href="cryptex-jar.html"><span class="idx">7</span>Cryptex Storage Cylinder</a>
+            <a href="wind-tunnel.html"><span class="idx">8</span>Airfoil Wind Tunnel</a>
+            <a href="watarrow-plane.html"><span class="idx">9</span>WatArrow RC Aircraft</a>
+            <a href="pcb-fixture.html"><span class="idx">10</span>Modular PCB Fixture</a>
+            <a href="portable-tester.html"><span class="idx">11</span>Portable Tester Tool</a>
+            <a href="claw-machine.html"><span class="idx">12</span>Robotic Claw Machine</a>
+            <a href="model-car.html"><span class="idx">13</span>Scale Model Car</a>
+          </div>
+        </li>
+        <li><a href="index.html">HOME</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="circuit-edge"></div>
+
+<main>
+
+  <div class="pfold">
+  <section class="project-header">
+    <p class="crumb"><a href="projects.html">projects</a> / 11</p>
+    <h1>Portable PCB Tester Tool</h1>
+    <div class="meta">
+      <span>compute <b>Raspberry Pi 5 + Custom Interface</b></span>
+      <span>battery <b>Integrated LiPo + Fuel Gauge</b></span>
+      <span>enclosure <b>Layered Modular 3D Chassis</b></span>
+      <span>application <b>Field Flashing & Telematics QA</b></span>
+    </div>
+    <p class="project-intro">
+      A rugged, handheld diagnostic and firmware flashing tool built for field engineers and warehouse technicians. Packages a Raspberry Pi 5, touch display, battery power management, and custom breakout harnesses into a compact, impact-resistant 3D-printed enclosure.
+    </p>
+  </section>
+
+  <!-- ============ HERO CAROUSEL ============ -->
+  <div class="fig-wide">
+  <div class="carousel-box" data-autoplay="true" data-delay="5000">
+    <div class="carousel-viewport">
+      <div class="carousel-track">
+      <div class="carousel-slide" data-caption="How: Designed an enclosure in CAD with compartments for the screen, battery, ports, and test board. Assembled the tool with 3D printing and organized internal wiring to components. Programmed a GUI on a Raspberry Pi 5 embedded in the tool to streamline firmware flashing and device diagnostics during field use.">
+        <img src="images/portable-tester/overview_01.jpg" alt="How: Designed an enclosure in CAD with compartments for the screen, battery, ports, and test board. Assembled the tool with 3D printing and organized internal wiring to components. Programmed a GUI on a Raspberry Pi 5 embedded in the tool to streamline firmware flashing and device diagnostics during field use." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="How: Designed an enclosure in CAD with compartments for the screen, battery, ports, and test board. Assembled the tool with 3D printing and organized internal wiring to components. Programmed a GUI on a Raspberry Pi 5 embedded in the tool to streamline firmware flashing and device diagnostics during field use.">
+        <img src="images/portable-tester/overview_02.jpg" alt="How: Designed an enclosure in CAD with compartments for the screen, battery, ports, and test board. Assembled the tool with 3D printing and organized internal wiring to components. Programmed a GUI on a Raspberry Pi 5 embedded in the tool to streamline firmware flashing and device diagnostics during field use." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="How: Designed an enclosure in CAD with compartments for the screen, battery, ports, and test board. Assembled the tool with 3D printing and organized internal wiring to components. Programmed a GUI on a Raspberry Pi 5 embedded in the tool to streamline firmware flashing and device diagnostics during field use.">
+        <img src="images/portable-tester/overview_03.jpg" alt="How: Designed an enclosure in CAD with compartments for the screen, battery, ports, and test board. Assembled the tool with 3D printing and organized internal wiring to components. Programmed a GUI on a Raspberry Pi 5 embedded in the tool to streamline firmware flashing and device diagnostics during field use." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• 3D Printed Layers: Printed prototype layer frames and to separate components and test fit and tolerancing.">
+        <img src="images/portable-tester/proto_18.jpg" alt="• 3D Printed Layers: Printed prototype layer frames and to separate components and test fit and tolerancing." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• 3D Printed Layers: Printed prototype layer frames and to separate components and test fit and tolerancing.">
+        <img src="images/portable-tester/proto_19.jpg" alt="• 3D Printed Layers: Printed prototype layer frames and to separate components and test fit and tolerancing." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• 3D Printed Layers: Printed prototype layer frames and to separate components and test fit and tolerancing.">
+        <img src="images/portable-tester/proto_20.jpg" alt="• 3D Printed Layers: Printed prototype layer frames and to separate components and test fit and tolerancing." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• Wire Routing: 3D printed layers include strategic slots for clean wire routing, allowing cables to be layered between sections for a compact and organized design.">
+        <img src="images/portable-tester/elec_60.jpg" alt="• Wire Routing: 3D printed layers include strategic slots for clean wire routing, allowing cables to be layered between sections for a compact and organized design." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• Wire Routing: 3D printed layers include strategic slots for clean wire routing, allowing cables to be layered between sections for a compact and organized design.">
+        <img src="images/portable-tester/elec_61.jpg" alt="• Wire Routing: 3D printed layers include strategic slots for clean wire routing, allowing cables to be layered between sections for a compact and organized design." loading="lazy">
+      </div>
+      </div>
+      <button class="carousel-btn prev" aria-label="Previous slide">&#10094;</button>
+      <button class="carousel-btn next" aria-label="Next slide">&#10095;</button>
+      <div class="carousel-caption-bar">
+        <span class="carousel-counter">[01/08]</span>
+        <span class="carousel-caption-text">How: Designed an enclosure in CAD with compartments for the screen, battery, ports, and test board. Assembled the tool with 3D printing and organized internal wiring to components. Programmed a GUI on a Raspberry Pi 5 embedded in the tool to streamline firmware flashing and device diagnostics during field use.</span>
+      </div>
+      <div class="carousel-dots"></div>
+    </div>
+  </div>
+  </div>
+  </div><!-- /pfold -->
+
+  <section>
+    <ul class="achievements">
+      <li>Designed a multi-layer modular enclosure in CAD with internal thermal ventilation, recessed port protection, and battery isolation.</li>
+      <li>Built an integrated power system with battery state-of-charge LED indicators, USB-C PD charging, and hot-swap capabilities.</li>
+      <li>Streamlined firmware flashing workflows from 15 minutes down to <b>under 45 seconds</b> with one-touch automated Python scripts.</li>
+    </ul>
+  </section>
+
+  <!-- ============ 01: MECHANICAL / CAD ============ -->
+  <section class="psection">
+    <h2><span class="num">01</span>Mechanical Design & CAD Assembly</h2>
+    <p class="caption" style="margin-bottom:18px">
+      Comprehensive SolidWorks 3D CAD modeling, multi-body kinematics, tolerance stack-up analysis, and assembly architecture.
+    </p>
+  <div class="carousel-box" data-autoplay="true" data-delay="4500">
+    <div class="carousel-viewport">
+      <div class="carousel-track">
+      <div class="carousel-slide" data-caption="How: Designed an enclosure in CAD with compartments for the screen, battery, ports, and test board. Assembled the tool with 3D printing and organized internal wiring to components. Programmed a GUI on a Raspberry Pi 5 embedded in the tool to streamline firmware flashing and device diagnostics during field use.">
+        <img src="images/portable-tester/overview_01.jpg" alt="How: Designed an enclosure in CAD with compartments for the screen, battery, ports, and test board. Assembled the tool with 3D printing and organized internal wiring to components. Programmed a GUI on a Raspberry Pi 5 embedded in the tool to streamline firmware flashing and device diagnostics during field use." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="How: Designed an enclosure in CAD with compartments for the screen, battery, ports, and test board. Assembled the tool with 3D printing and organized internal wiring to components. Programmed a GUI on a Raspberry Pi 5 embedded in the tool to streamline firmware flashing and device diagnostics during field use.">
+        <img src="images/portable-tester/overview_02.jpg" alt="How: Designed an enclosure in CAD with compartments for the screen, battery, ports, and test board. Assembled the tool with 3D printing and organized internal wiring to components. Programmed a GUI on a Raspberry Pi 5 embedded in the tool to streamline firmware flashing and device diagnostics during field use." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="How: Designed an enclosure in CAD with compartments for the screen, battery, ports, and test board. Assembled the tool with 3D printing and organized internal wiring to components. Programmed a GUI on a Raspberry Pi 5 embedded in the tool to streamline firmware flashing and device diagnostics during field use.">
+        <img src="images/portable-tester/overview_03.jpg" alt="How: Designed an enclosure in CAD with compartments for the screen, battery, ports, and test board. Assembled the tool with 3D printing and organized internal wiring to components. Programmed a GUI on a Raspberry Pi 5 embedded in the tool to streamline firmware flashing and device diagnostics during field use." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="How: Designed an enclosure in CAD with compartments for the screen, battery, ports, and test board. Assembled the tool with 3D printing and organized internal wiring to components. Programmed a GUI on a Raspberry Pi 5 embedded in the tool to streamline firmware flashing and device diagnostics during field use.">
+        <img src="images/portable-tester/overview_04.jpg" alt="How: Designed an enclosure in CAD with compartments for the screen, battery, ports, and test board. Assembled the tool with 3D printing and organized internal wiring to components. Programmed a GUI on a Raspberry Pi 5 embedded in the tool to streamline firmware flashing and device diagnostics during field use." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="How: Designed an enclosure in CAD with compartments for the screen, battery, ports, and test board. Assembled the tool with 3D printing and organized internal wiring to components. Programmed a GUI on a Raspberry Pi 5 embedded in the tool to streamline firmware flashing and device diagnostics during field use.">
+        <img src="images/portable-tester/overview_05.jpg" alt="How: Designed an enclosure in CAD with compartments for the screen, battery, ports, and test board. Assembled the tool with 3D printing and organized internal wiring to components. Programmed a GUI on a Raspberry Pi 5 embedded in the tool to streamline firmware flashing and device diagnostics during field use." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="Full Assembly: CAD model of the portable tester tool, designed as a compact all-in-one device for field use.">
+        <img src="images/portable-tester/cad_06.jpg" alt="Full Assembly: CAD model of the portable tester tool, designed as a compact all-in-one device for field use." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="Full Assembly: CAD model of the portable tester tool, designed as a compact all-in-one device for field use.">
+        <img src="images/portable-tester/cad_07.jpg" alt="Full Assembly: CAD model of the portable tester tool, designed as a compact all-in-one device for field use." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="Full Assembly: CAD model of the portable tester tool, designed as a compact all-in-one device for field use.">
+        <img src="images/portable-tester/cad_08.jpg" alt="Full Assembly: CAD model of the portable tester tool, designed as a compact all-in-one device for field use." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="Port Cutout Covers: Raspberry Pi 5 USB ports, battery interface, and harness connector all feature precise cutouts and sliding covers that mount cleanly to the enclosure for a polished, integrated design.">
+        <img src="images/portable-tester/cad_09.jpg" alt="Port Cutout Covers: Raspberry Pi 5 USB ports, battery interface, and harness connector all feature precise cutouts and sliding covers that mount cleanly to the enclosure for a polished, integrated design." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="Port Cutout Covers: Raspberry Pi 5 USB ports, battery interface, and harness connector all feature precise cutouts and sliding covers that mount cleanly to the enclosure for a polished, integrated design.">
+        <img src="images/portable-tester/cad_10.jpg" alt="Port Cutout Covers: Raspberry Pi 5 USB ports, battery interface, and harness connector all feature precise cutouts and sliding covers that mount cleanly to the enclosure for a polished, integrated design." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="Port Cutout Covers: Raspberry Pi 5 USB ports, battery interface, and harness connector all feature precise cutouts and sliding covers that mount cleanly to the enclosure for a polished, integrated design.">
+        <img src="images/portable-tester/cad_11.jpg" alt="Port Cutout Covers: Raspberry Pi 5 USB ports, battery interface, and harness connector all feature precise cutouts and sliding covers that mount cleanly to the enclosure for a polished, integrated design." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="Cover Attachment: Port covers glues to the enclosure and provides a clean solution for covering cutouts.">
+        <img src="images/portable-tester/cad_12.jpg" alt="Cover Attachment: Port covers glues to the enclosure and provides a clean solution for covering cutouts." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="Cover Attachment: Port covers glues to the enclosure and provides a clean solution for covering cutouts.">
+        <img src="images/portable-tester/cad_13.jpg" alt="Cover Attachment: Port covers glues to the enclosure and provides a clean solution for covering cutouts." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="Layered Component Assembly: Exploded view showing organized component layers with dedicated spaces for electronics and wire routing, enabling a clean and compact internal layout.">
+        <img src="images/portable-tester/cad_14.jpg" alt="Layered Component Assembly: Exploded view showing organized component layers with dedicated spaces for electronics and wire routing, enabling a clean and compact internal layout." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="Layered Component Assembly: Exploded view showing organized component layers with dedicated spaces for electronics and wire routing, enabling a clean and compact internal layout.">
+        <img src="images/portable-tester/cad_15.jpg" alt="Layered Component Assembly: Exploded view showing organized component layers with dedicated spaces for electronics and wire routing, enabling a clean and compact internal layout." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="Electronics Integration: Each enclosure layer houses a specific component—battery, PCB tester, Raspberry Pi, and screen—for a compact and organized internal layout.">
+        <img src="images/portable-tester/cad_16.jpg" alt="Electronics Integration: Each enclosure layer houses a specific component—battery, PCB tester, Raspberry Pi, and screen—for a compact and organized internal layout." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="Electronics Integration: Each enclosure layer houses a specific component—battery, PCB tester, Raspberry Pi, and screen—for a compact and organized internal layout.">
+        <img src="images/portable-tester/cad_17.jpg" alt="Electronics Integration: Each enclosure layer houses a specific component—battery, PCB tester, Raspberry Pi, and screen—for a compact and organized internal layout." loading="lazy">
+      </div>
+      </div>
+      <button class="carousel-btn prev" aria-label="Previous slide">&#10094;</button>
+      <button class="carousel-btn next" aria-label="Next slide">&#10095;</button>
+      <div class="carousel-caption-bar">
+        <span class="carousel-counter">[01/17]</span>
+        <span class="carousel-caption-text">How: Designed an enclosure in CAD with compartments for the screen, battery, ports, and test board. Assembled the tool with 3D printing and organized internal wiring to components. Programmed a GUI on a Raspberry Pi 5 embedded in the tool to streamline firmware flashing and device diagnostics during field use.</span>
+      </div>
+      <div class="carousel-dots"></div>
+    </div>
+  </div>
+  </section>
+
+  <!-- ============ 02: PROTOTYPING & FABRICATION ============ -->
+  <section class="psection">
+    <h2><span class="num">02</span>Prototyping, 3D Printing & Fabrication</h2>
+    <p class="caption" style="margin-bottom:18px">
+      Rapid prototyping iterations, slicing optimization (Bambu Studio / PrusaSlicer), material selection (PLA / PETG / Carbon Fiber), and precision fit checks.
+    </p>
+  <div class="carousel-box" data-autoplay="true" data-delay="4500">
+    <div class="carousel-viewport">
+      <div class="carousel-track">
+      <div class="carousel-slide" data-caption="• 3D Printed Layers: Printed prototype layer frames and to separate components and test fit and tolerancing.">
+        <img src="images/portable-tester/proto_18.jpg" alt="• 3D Printed Layers: Printed prototype layer frames and to separate components and test fit and tolerancing." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• 3D Printed Layers: Printed prototype layer frames and to separate components and test fit and tolerancing.">
+        <img src="images/portable-tester/proto_19.jpg" alt="• 3D Printed Layers: Printed prototype layer frames and to separate components and test fit and tolerancing." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• 3D Printed Layers: Printed prototype layer frames and to separate components and test fit and tolerancing.">
+        <img src="images/portable-tester/proto_20.jpg" alt="• 3D Printed Layers: Printed prototype layer frames and to separate components and test fit and tolerancing." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• Testing Component Layers: Assembled stacked enclosure layers to evaluate tolerancing and component fit.">
+        <img src="images/portable-tester/proto_21.jpg" alt="• Testing Component Layers: Assembled stacked enclosure layers to evaluate tolerancing and component fit." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• Testing Component Layers: Assembled stacked enclosure layers to evaluate tolerancing and component fit.">
+        <img src="images/portable-tester/proto_22.jpg" alt="• Testing Component Layers: Assembled stacked enclosure layers to evaluate tolerancing and component fit." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• 3D Printed Port Covers: Printed cover prototypes to test fit and alignment around USB and harness ports.">
+        <img src="images/portable-tester/proto_23.jpg" alt="• 3D Printed Port Covers: Printed cover prototypes to test fit and alignment around USB and harness ports." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• 3D Printed Port Covers: Printed cover prototypes to test fit and alignment around USB and harness ports.">
+        <img src="images/portable-tester/proto_24.jpg" alt="• 3D Printed Port Covers: Printed cover prototypes to test fit and alignment around USB and harness ports." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• 3D Printed Port Covers: Printed cover prototypes to test fit and alignment around USB and harness ports.">
+        <img src="images/portable-tester/proto_25.jpg" alt="• 3D Printed Port Covers: Printed cover prototypes to test fit and alignment around USB and harness ports." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• Prototype Testing: Inserted printed layers into ABS enclosure to evaluate fit, alignment, and tolerancing.">
+        <img src="images/portable-tester/proto_26.jpg" alt="• Prototype Testing: Inserted printed layers into ABS enclosure to evaluate fit, alignment, and tolerancing." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• Prototype Testing: Inserted printed layers into ABS enclosure to evaluate fit, alignment, and tolerancing.">
+        <img src="images/portable-tester/proto_27.jpg" alt="• Prototype Testing: Inserted printed layers into ABS enclosure to evaluate fit, alignment, and tolerancing." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• Wiring & Electronics Layout: Tested wiring paths and electronics placement on printed layers to validate fit.">
+        <img src="images/portable-tester/proto_28.jpg" alt="• Wiring & Electronics Layout: Tested wiring paths and electronics placement on printed layers to validate fit." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• Wiring & Electronics Layout: Tested wiring paths and electronics placement on printed layers to validate fit.">
+        <img src="images/portable-tester/proto_29.jpg" alt="• Wiring & Electronics Layout: Tested wiring paths and electronics placement on printed layers to validate fit." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• Wiring & Electronics Layout: Tested wiring paths and electronics placement on printed layers to validate fit.">
+        <img src="images/portable-tester/proto_30.jpg" alt="• Wiring & Electronics Layout: Tested wiring paths and electronics placement on printed layers to validate fit." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• Wiring & Electronics Layout: Tested wiring paths and electronics placement on printed layers to validate fit.">
+        <img src="images/portable-tester/proto_31.jpg" alt="• Wiring & Electronics Layout: Tested wiring paths and electronics placement on printed layers to validate fit." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• Wiring & Electronics Layout: Tested wiring paths and electronics placement on printed layers to validate fit.">
+        <img src="images/portable-tester/proto_32.jpg" alt="• Wiring & Electronics Layout: Tested wiring paths and electronics placement on printed layers to validate fit." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• 3D Printed Parts: Printed prototype parts and dremeled enclosures, went through multiple design iterations.">
+        <img src="images/portable-tester/proto_33.jpg" alt="• 3D Printed Parts: Printed prototype parts and dremeled enclosures, went through multiple design iterations." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• 3D Printed Parts: Printed prototype parts and dremeled enclosures, went through multiple design iterations.">
+        <img src="images/portable-tester/proto_34.jpg" alt="• 3D Printed Parts: Printed prototype parts and dremeled enclosures, went through multiple design iterations." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• Portable Tester v1: Featured LCD screen and hard dremeled USB port cutouts, mainly a prototype design.">
+        <img src="images/portable-tester/proto_35.jpg" alt="• Portable Tester v1: Featured LCD screen and hard dremeled USB port cutouts, mainly a prototype design." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• Portable Tester v1: Featured LCD screen and hard dremeled USB port cutouts, mainly a prototype design.">
+        <img src="images/portable-tester/proto_36.jpg" alt="• Portable Tester v1: Featured LCD screen and hard dremeled USB port cutouts, mainly a prototype design." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• Portable Tester v1: Featured LCD screen and hard dremeled USB port cutouts, mainly a prototype design.">
+        <img src="images/portable-tester/proto_37.jpg" alt="• Portable Tester v1: Featured LCD screen and hard dremeled USB port cutouts, mainly a prototype design." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• Portable Tester v1 Software: Featured a python Tkinter GUI for firmware flashing running on Ubuntu RPI 4.">
+        <img src="images/portable-tester/proto_38.jpg" alt="• Portable Tester v1 Software: Featured a python Tkinter GUI for firmware flashing running on Ubuntu RPI 4." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• Portable Tester v1 Software: Featured a python Tkinter GUI for firmware flashing running on Ubuntu RPI 4.">
+        <img src="images/portable-tester/proto_39.jpg" alt="• Portable Tester v1 Software: Featured a python Tkinter GUI for firmware flashing running on Ubuntu RPI 4." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• Portable Tester v1 Software: Featured a python Tkinter GUI for firmware flashing running on Ubuntu RPI 4.">
+        <img src="images/portable-tester/proto_40.jpg" alt="• Portable Tester v1 Software: Featured a python Tkinter GUI for firmware flashing running on Ubuntu RPI 4." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• Design Choice: Version 2 added port covers for a cleaner look, upgraded to a glass touchscreen with Raspberry Pi 5, and included an HDMI port to help debug PCBs on the big screen, as the tool is also a computer. Port covers were also added, which solved the issue of hard Dremel cutouts from version 1 (left).">
+        <img src="images/portable-tester/proto_41.jpg" alt="• Design Choice: Version 2 added port covers for a cleaner look, upgraded to a glass touchscreen with Raspberry Pi 5, and included an HDMI port to help debug PCBs on the big screen, as the tool is also a computer. Port covers were also added, which solved the issue of hard Dremel cutouts from version 1 (left)." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• Design Choice: Version 2 added port covers for a cleaner look, upgraded to a glass touchscreen with Raspberry Pi 5, and included an HDMI port to help debug PCBs on the big screen, as the tool is also a computer. Port covers were also added, which solved the issue of hard Dremel cutouts from version 1 (left).">
+        <img src="images/portable-tester/proto_42.jpg" alt="• Design Choice: Version 2 added port covers for a cleaner look, upgraded to a glass touchscreen with Raspberry Pi 5, and included an HDMI port to help debug PCBs on the big screen, as the tool is also a computer. Port covers were also added, which solved the issue of hard Dremel cutouts from version 1 (left)." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• Sliding Lid Cover: Replaced rough Dremel cutouts from version 1 with sliding lid track for the harness plug.">
+        <img src="images/portable-tester/proto_43.jpg" alt="• Sliding Lid Cover: Replaced rough Dremel cutouts from version 1 with sliding lid track for the harness plug." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• Sliding Lid Cover: Replaced rough Dremel cutouts from version 1 with sliding lid track for the harness plug.">
+        <img src="images/portable-tester/proto_44.jpg" alt="• Sliding Lid Cover: Replaced rough Dremel cutouts from version 1 with sliding lid track for the harness plug." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• Sliding Lid Cover: Replaced rough Dremel cutouts from version 1 with sliding lid track for the harness plug.">
+        <img src="images/portable-tester/proto_45.jpg" alt="• Sliding Lid Cover: Replaced rough Dremel cutouts from version 1 with sliding lid track for the harness plug." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• Sliding Lid Cover: Replaced rough Dremel cutouts from version 1 with sliding lid track for the harness plug.">
+        <img src="images/portable-tester/proto_46.jpg" alt="• Sliding Lid Cover: Replaced rough Dremel cutouts from version 1 with sliding lid track for the harness plug." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• USB Port Cover: Precise cutouts aligned with the Raspberry Pi 5 ports for a secure fit, while also blocking out debris and dust.">
+        <img src="images/portable-tester/proto_47.jpg" alt="• USB Port Cover: Precise cutouts aligned with the Raspberry Pi 5 ports for a secure fit, while also blocking out debris and dust." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• USB Port Cover: Precise cutouts aligned with the Raspberry Pi 5 ports for a secure fit, while also blocking out debris and dust.">
+        <img src="images/portable-tester/proto_48.jpg" alt="• USB Port Cover: Precise cutouts aligned with the Raspberry Pi 5 ports for a secure fit, while also blocking out debris and dust." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="Portable Tester Tool — PROTO">
+        <img src="images/portable-tester/proto_49.jpg" alt="Portable Tester Tool — PROTO" loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• Battery Cover: The battery cover allowed for a battery LED status indicator and switch cutout.">
+        <img src="images/portable-tester/proto_50.jpg" alt="• Battery Cover: The battery cover allowed for a battery LED status indicator and switch cutout." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• Battery Cover: The battery cover allowed for a battery LED status indicator and switch cutout.">
+        <img src="images/portable-tester/proto_51.jpg" alt="• Battery Cover: The battery cover allowed for a battery LED status indicator and switch cutout." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• Battery Cover: The battery cover allowed for a battery LED status indicator and switch cutout.">
+        <img src="images/portable-tester/proto_52.jpg" alt="• Battery Cover: The battery cover allowed for a battery LED status indicator and switch cutout." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="Portable Tester Tool — PROTO">
+        <img src="images/portable-tester/proto_53.jpg" alt="Portable Tester Tool — PROTO" loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="were revised for more wire routing space.">
+        <img src="images/portable-tester/proto_54.jpg" alt="were revised for more wire routing space." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="were revised for more wire routing space.">
+        <img src="images/portable-tester/proto_55.jpg" alt="were revised for more wire routing space." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="were revised for more wire routing space.">
+        <img src="images/portable-tester/proto_56.jpg" alt="were revised for more wire routing space." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="were revised for more wire routing space.">
+        <img src="images/portable-tester/proto_57.jpg" alt="were revised for more wire routing space." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• Final V1 & V2 Comparison: V1 is a functional prototype with all core features working, while V2 is a more finalized, field-ready product. The updated version features a cleaner, compact design, additional ports, and upgraded internals including a Raspberry Pi 5 running Windows 11. This allows for faster GUI performance and compatibility with a wider range of Windows-based PCB tools.">
+        <img src="images/portable-tester/proto_58.jpg" alt="• Final V1 & V2 Comparison: V1 is a functional prototype with all core features working, while V2 is a more finalized, field-ready product. The updated version features a cleaner, compact design, additional ports, and upgraded internals including a Raspberry Pi 5 running Windows 11. This allows for faster GUI performance and compatibility with a wider range of Windows-based PCB tools." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• Final V1 & V2 Comparison: V1 is a functional prototype with all core features working, while V2 is a more finalized, field-ready product. The updated version features a cleaner, compact design, additional ports, and upgraded internals including a Raspberry Pi 5 running Windows 11. This allows for faster GUI performance and compatibility with a wider range of Windows-based PCB tools.">
+        <img src="images/portable-tester/proto_59.jpg" alt="• Final V1 & V2 Comparison: V1 is a functional prototype with all core features working, while V2 is a more finalized, field-ready product. The updated version features a cleaner, compact design, additional ports, and upgraded internals including a Raspberry Pi 5 running Windows 11. This allows for faster GUI performance and compatibility with a wider range of Windows-based PCB tools." loading="lazy">
+      </div>
+      </div>
+      <button class="carousel-btn prev" aria-label="Previous slide">&#10094;</button>
+      <button class="carousel-btn next" aria-label="Next slide">&#10095;</button>
+      <div class="carousel-caption-bar">
+        <span class="carousel-counter">[01/42]</span>
+        <span class="carousel-caption-text">• 3D Printed Layers: Printed prototype layer frames and to separate components and test fit and tolerancing.</span>
+      </div>
+      <div class="carousel-dots"></div>
+    </div>
+  </div>
+  </section>
+
+  <!-- ============ 03: ELECTRICAL / EMBEDDED / DETAILS ============ -->
+  <section class="psection">
+    <h2><span class="num">03</span>Electrical, Firmware & Hardware Integration</h2>
+    <p class="caption" style="margin-bottom:18px">
+      Schematic capture, PCB routing, sensor interfacing, actuator control, and embedded firmware implementation.
+    </p>
+  <div class="carousel-box" data-autoplay="true" data-delay="4500">
+    <div class="carousel-viewport">
+      <div class="carousel-track">
+      <div class="carousel-slide" data-caption="• Wire Routing: 3D printed layers include strategic slots for clean wire routing, allowing cables to be layered between sections for a compact and organized design.">
+        <img src="images/portable-tester/elec_60.jpg" alt="• Wire Routing: 3D printed layers include strategic slots for clean wire routing, allowing cables to be layered between sections for a compact and organized design." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• Wire Routing: 3D printed layers include strategic slots for clean wire routing, allowing cables to be layered between sections for a compact and organized design.">
+        <img src="images/portable-tester/elec_61.jpg" alt="• Wire Routing: 3D printed layers include strategic slots for clean wire routing, allowing cables to be layered between sections for a compact and organized design." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• Integrated Raspberry Pi & Screen: Mounted a Raspberry Pi with a 4-inch display into the ABS enclosure.">
+        <img src="images/portable-tester/elec_62.jpg" alt="• Integrated Raspberry Pi & Screen: Mounted a Raspberry Pi with a 4-inch display into the ABS enclosure." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• Integrated Raspberry Pi & Screen: Mounted a Raspberry Pi with a 4-inch display into the ABS enclosure.">
+        <img src="images/portable-tester/elec_63.jpg" alt="• Integrated Raspberry Pi & Screen: Mounted a Raspberry Pi with a 4-inch display into the ABS enclosure." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• Integrated Raspberry Pi & Screen: Mounted a Raspberry Pi with a 4-inch display into the ABS enclosure.">
+        <img src="images/portable-tester/elec_64.jpg" alt="• Integrated Raspberry Pi & Screen: Mounted a Raspberry Pi with a 4-inch display into the ABS enclosure." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• PCB Tester Board: Directly soldered the harness connector onto the tester board for less cable connections.">
+        <img src="images/portable-tester/elec_65.jpg" alt="• PCB Tester Board: Directly soldered the harness connector onto the tester board for less cable connections." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• PCB Tester Board: Directly soldered the harness connector onto the tester board for less cable connections.">
+        <img src="images/portable-tester/elec_66.jpg" alt="• PCB Tester Board: Directly soldered the harness connector onto the tester board for less cable connections." loading="lazy">
+      </div>
+      <div class="carousel-slide" data-caption="• Wire Routing: Mounted the tester board within the 3D printed layers and routed the cables internally.">
+        <img src="images/portable-tester/elec_67.jpg" alt="• Wire Routing: Mounted the tester board within the 3D printed layers and routed the cables internally." loading="lazy">
+      </div>
+      </div>
+      <button class="carousel-btn prev" aria-label="Previous slide">&#10094;</button>
+      <button class="carousel-btn next" aria-label="Next slide">&#10095;</button>
+      <div class="carousel-caption-bar">
+        <span class="carousel-counter">[01/08]</span>
+        <span class="carousel-caption-text">• Wire Routing: 3D printed layers include strategic slots for clean wire routing, allowing cables to be layered between sections for a compact and organized design.</span>
+      </div>
+      <div class="carousel-dots"></div>
+    </div>
+  </div>
+  </section>
+
+  <nav class="project-nav">
+    <a href="pcb-fixture.html">← Modular PCB Fixture</a>
+    <a href="claw-machine.html">Robotic Claw Machine →</a>
+  </nav>
+
+</main>
+
+<div class="circuit-edge bottom"></div>
+
+<footer>
+  <div class="footer-inner">
+    <span>© 2026 Huamin Lu — built with HTML/CSS, no frameworks</span>
+    <span><a href="projects.html">all projects →</a></span>
+  </div>
+</footer>
+
+<script src="js/reveal.js?v=26"></script>
+<script src="js/carousel.js?v=26"></script>
+</body>
+</html>

@@ -1,0 +1,244 @@
+{
+  "title": "Robotic Claw Machine",
+  "folder": "claw-machine",
+  "what": "A functional claw machine built using LEGO robotics with operational claw, joystick, and grab mechanism. Features accurate grab-and-drop and smooth joystick control of the claw along LEGO axis.",
+  "why": "Created as a team project for a first-year Mechatronics robotics course to apply mechanical, programming, and design concepts learned throughout first year courses while earning course credit.",
+  "how": "Constructed using LEGO motors, designed claw parts in CAD for planning, constructed final parts in LEGO, mounted robotic parts to a frame, and programmed joystick for servo movement using RobotC (C++).",
+  "slides": [
+    {
+      "filename": "overview_01.jpg",
+      "section": "overview",
+      "caption": "How: Constructed using LEGO motors, designed claw parts in CAD for planning, constructed final parts in LEGO, mounted robotic parts to a frame, and programmed joystick for servo movement using RobotC (C++)."
+    },
+    {
+      "filename": "overview_02.jpg",
+      "section": "overview",
+      "caption": "How: Constructed using LEGO motors, designed claw parts in CAD for planning, constructed final parts in LEGO, mounted robotic parts to a frame, and programmed joystick for servo movement using RobotC (C++)."
+    },
+    {
+      "filename": "overview_03.jpg",
+      "section": "overview",
+      "caption": "How: Constructed using LEGO motors, designed claw parts in CAD for planning, constructed final parts in LEGO, mounted robotic parts to a frame, and programmed joystick for servo movement using RobotC (C++)."
+    },
+    {
+      "filename": "overview_04.jpg",
+      "section": "overview",
+      "caption": "How: Constructed using LEGO motors, designed claw parts in CAD for planning, constructed final parts in LEGO, mounted robotic parts to a frame, and programmed joystick for servo movement using RobotC (C++)."
+    },
+    {
+      "filename": "overview_05.jpg",
+      "section": "overview",
+      "caption": "How: Constructed using LEGO motors, designed claw parts in CAD for planning, constructed final parts in LEGO, mounted robotic parts to a frame, and programmed joystick for servo movement using RobotC (C++)."
+    },
+    {
+      "filename": "overview_06.jpg",
+      "section": "overview",
+      "caption": "How: Constructed using LEGO motors, designed claw parts in CAD for planning, constructed final parts in LEGO, mounted robotic parts to a frame, and programmed joystick for servo movement using RobotC (C++)."
+    },
+    {
+      "filename": "overview_07.jpg",
+      "section": "overview",
+      "caption": "How: Constructed using LEGO motors, designed claw parts in CAD for planning, constructed final parts in LEGO, mounted robotic parts to a frame, and programmed joystick for servo movement using RobotC (C++)."
+    },
+    {
+      "filename": "overview_08.jpg",
+      "section": "overview",
+      "caption": "How: Constructed using LEGO motors, designed claw parts in CAD for planning, constructed final parts in LEGO, mounted robotic parts to a frame, and programmed joystick for servo movement using RobotC (C++)."
+    },
+    {
+      "filename": "overview_09.jpg",
+      "section": "overview",
+      "caption": "How: Constructed using LEGO motors, designed claw parts in CAD for planning, constructed final parts in LEGO, mounted robotic parts to a frame, and programmed joystick for servo movement using RobotC (C++)."
+    },
+    {
+      "filename": "cad_10.jpg",
+      "section": "cad",
+      "caption": "Joystick CAD: Designed in SolidWorks to visualize joystick movement and ensure a compact fit on the EV3."
+    },
+    {
+      "filename": "cad_11.jpg",
+      "section": "cad",
+      "caption": "Joystick CAD: Designed in SolidWorks to visualize joystick movement and ensure a compact fit on the EV3."
+    },
+    {
+      "filename": "cad_12.jpg",
+      "section": "cad",
+      "caption": "Joystick CAD: Designed in SolidWorks to visualize joystick movement and ensure a compact fit on the EV3."
+    },
+    {
+      "filename": "cad_13.jpg",
+      "section": "cad",
+      "caption": "Tilting Plate: Connects at two points and supports the joystick at two others for two-directional movement."
+    },
+    {
+      "filename": "cad_14.jpg",
+      "section": "cad",
+      "caption": "Tilting Plate: Connects at two points and supports the joystick at two others for two-directional movement."
+    },
+    {
+      "filename": "cad_15.jpg",
+      "section": "cad",
+      "caption": "Tilting Plate: Connects at two points and supports the joystick at two others for two-directional movement."
+    },
+    {
+      "filename": "cad_16.jpg",
+      "section": "cad",
+      "caption": "Joystick EV3 Mount: Joystick mounts directly onto the EV3, with buttons aligned for input as the joystick tilts."
+    },
+    {
+      "filename": "cad_17.jpg",
+      "section": "cad",
+      "caption": "Joystick EV3 Mount: Joystick mounts directly onto the EV3, with buttons aligned for input as the joystick tilts."
+    },
+    {
+      "filename": "cad_18.jpg",
+      "section": "cad",
+      "caption": "Joystick EV3 Mount: Joystick mounts directly onto the EV3, with buttons aligned for input as the joystick tilts."
+    },
+    {
+      "filename": "proto_19.jpg",
+      "section": "proto",
+      "caption": "\u2022 LEGO Joystick: Built final joystick using LEGO parts, closely matching the CAD design structure. [VIDEO]"
+    },
+    {
+      "filename": "proto_20.jpg",
+      "section": "proto",
+      "caption": "\u2022 LEGO Joystick: Built final joystick using LEGO parts, closely matching the CAD design structure. [VIDEO]"
+    },
+    {
+      "filename": "proto_21.jpg",
+      "section": "proto",
+      "caption": "\u2022 LEGO Joystick: Built final joystick using LEGO parts, closely matching the CAD design structure. [VIDEO]"
+    },
+    {
+      "filename": "proto_22.jpg",
+      "section": "proto",
+      "caption": "\u2022 LEGO Joystick: Built final joystick using LEGO parts, closely matching the CAD design structure. [VIDEO]"
+    },
+    {
+      "filename": "proto_23.jpg",
+      "section": "proto",
+      "caption": "\u2022 LEGO Joystick: Built final joystick using LEGO parts, closely matching the CAD design structure. [VIDEO]"
+    },
+    {
+      "filename": "proto_24.jpg",
+      "section": "proto",
+      "caption": "\u2022 LEGO Joystick: Built final joystick using LEGO parts, closely matching the CAD design structure. [VIDEO]"
+    },
+    {
+      "filename": "proto_25.jpg",
+      "section": "proto",
+      "caption": "\u2022 LEGO Joystick: Built final joystick using LEGO parts, closely matching the CAD design structure. [VIDEO]"
+    },
+    {
+      "filename": "proto_26.jpg",
+      "section": "proto",
+      "caption": "\u2022 LEGO Tracks: Prototyped an alternative claw axis system using LEGO for the claw\u2019s XY axis movement."
+    },
+    {
+      "filename": "proto_27.jpg",
+      "section": "proto",
+      "caption": "\u2022 LEGO Tracks: Prototyped an alternative claw axis system using LEGO for the claw\u2019s XY axis movement."
+    },
+    {
+      "filename": "proto_28.jpg",
+      "section": "proto",
+      "caption": "\u2022 LEGO Tracks: Prototyped an alternative claw axis system using LEGO for the claw\u2019s XY axis movement."
+    },
+    {
+      "filename": "proto_29.jpg",
+      "section": "proto",
+      "caption": "\u2022 LEGO Claw: Built two prototypes\u2014one with a single motor for both claw grab and Z movement, and the second prototype with separate motors for claw grabbing and lowering, allowing for more accurate control."
+    },
+    {
+      "filename": "proto_30.jpg",
+      "section": "proto",
+      "caption": "\u2022 LEGO Claw: Built two prototypes\u2014one with a single motor for both claw grab and Z movement, and the second prototype with separate motors for claw grabbing and lowering, allowing for more accurate control."
+    },
+    {
+      "filename": "proto_31.jpg",
+      "section": "proto",
+      "caption": "\u2022 LEGO Claw: Built two prototypes\u2014one with a single motor for both claw grab and Z movement, and the second prototype with separate motors for claw grabbing and lowering, allowing for more accurate control."
+    },
+    {
+      "filename": "proto_32.jpg",
+      "section": "proto",
+      "caption": "\u2022 Claw Prototype 1 & 2: Different concepts including four-finger claw and extended gripping mechanisms."
+    },
+    {
+      "filename": "proto_33.jpg",
+      "section": "proto",
+      "caption": "\u2022 Claw Prototype 1 & 2: Different concepts including four-finger claw and extended gripping mechanisms."
+    },
+    {
+      "filename": "proto_34.jpg",
+      "section": "proto",
+      "caption": "\u2022 Claw Prototype 1 & 2: Different concepts including four-finger claw and extended gripping mechanisms."
+    },
+    {
+      "filename": "proto_35.jpg",
+      "section": "proto",
+      "caption": "\u2022 Final Claw: Used two motors with a wider two-finger claw and a pulley system for claw vertical drop control."
+    },
+    {
+      "filename": "proto_36.jpg",
+      "section": "proto",
+      "caption": "\u2022 Final Claw: Used two motors with a wider two-finger claw and a pulley system for claw vertical drop control."
+    },
+    {
+      "filename": "proto_37.jpg",
+      "section": "proto",
+      "caption": "\u2022 Final Claw: Used two motors with a wider two-finger claw and a pulley system for claw vertical drop control."
+    },
+    {
+      "filename": "proto_38.jpg",
+      "section": "proto",
+      "caption": "\u2022 Final Claw: Used two motors with a wider two-finger claw and a pulley system for claw vertical drop control."
+    },
+    {
+      "filename": "proto_39.jpg",
+      "section": "proto",
+      "caption": "\u2022 Parts Sketch: Initial sketches showing claw machine concepts, early prototypes, and overall design process."
+    },
+    {
+      "filename": "proto_40.jpg",
+      "section": "proto",
+      "caption": "\u2022 Parts Sketch: Initial sketches showing claw machine concepts, early prototypes, and overall design process."
+    },
+    {
+      "filename": "proto_41.jpg",
+      "section": "proto",
+      "caption": "\u2022 Joystick Calculations: Calculated joystick motion and button press positions to support the CAD design."
+    },
+    {
+      "filename": "proto_42.jpg",
+      "section": "proto",
+      "caption": "\u2022 Joystick Calculations: Calculated joystick motion and button press positions to support the CAD design."
+    },
+    {
+      "filename": "elec_43.jpg",
+      "section": "elec",
+      "caption": "\u2022 Ribbon Routing: Mounted claw onto axis and joystick onto wooden frame, then routed LEGO ribbons to EV3."
+    },
+    {
+      "filename": "elec_44.jpg",
+      "section": "elec",
+      "caption": "\u2022 Ribbon Routing: Mounted claw onto axis and joystick onto wooden frame, then routed LEGO ribbons to EV3."
+    },
+    {
+      "filename": "elec_45.jpg",
+      "section": "elec",
+      "caption": "\u2022 EV3 Code Testing: Verified all functions including claw lift, drop, grab, and joystick control. Adjusted wiring to prevent tangling during movement, tested object pickup and drop sequence. [VIDEO]"
+    },
+    {
+      "filename": "elec_46.jpg",
+      "section": "elec",
+      "caption": "\u2022 EV3 Code Testing: Verified all functions including claw lift, drop, grab, and joystick control. Adjusted wiring to prevent tangling during movement, tested object pickup and drop sequence. [VIDEO]"
+    },
+    {
+      "filename": "elec_47.jpg",
+      "section": "elec",
+      "caption": "\u2022 EV3 Code Testing: Verified all functions including claw lift, drop, grab, and joystick control. Adjusted wiring to prevent tangling during movement, tested object pickup and drop sequence. [VIDEO]"
+    }
+  ]
+}

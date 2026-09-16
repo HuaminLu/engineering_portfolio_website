@@ -1,0 +1,439 @@
+{
+  "title": "Scale Model Car Koenigsegg CCX",
+  "folder": "model-car",
+  "what": "A realistic 1:20 scale high-detail model of the Koenigsegg CCX, including painted interior components such as seats, dashboard, and steering wheel. Encased in an acrylic display box with an info plate.",
+  "why": "Built as a gift for a previous manager and as a personal hobby project to explore surface modeling, gain experience with 3D printing, and learn model painting techniques.",
+  "how": "Modified and prepared a 3D model in Blender, 3D printed all parts, then sanded, primed, and hand-painted using acrylic paints. Final assembly clear coated and enclosed in an acrylic case for presentation.",
+  "slides": [
+    {
+      "filename": "overview_01.jpg",
+      "section": "overview",
+      "caption": "How: Modified and prepared a 3D model in Blender, 3D printed all parts, then sanded, primed, and hand-painted using acrylic paints. Final assembly clear coated and enclosed in an acrylic case for presentation."
+    },
+    {
+      "filename": "overview_02.jpg",
+      "section": "overview",
+      "caption": "How: Modified and prepared a 3D model in Blender, 3D printed all parts, then sanded, primed, and hand-painted using acrylic paints. Final assembly clear coated and enclosed in an acrylic case for presentation."
+    },
+    {
+      "filename": "overview_03.jpg",
+      "section": "overview",
+      "caption": "How: Modified and prepared a 3D model in Blender, 3D printed all parts, then sanded, primed, and hand-painted using acrylic paints. Final assembly clear coated and enclosed in an acrylic case for presentation."
+    },
+    {
+      "filename": "overview_04.jpg",
+      "section": "overview",
+      "caption": "How: Modified and prepared a 3D model in Blender, 3D printed all parts, then sanded, primed, and hand-painted using acrylic paints. Final assembly clear coated and enclosed in an acrylic case for presentation."
+    },
+    {
+      "filename": "overview_05.jpg",
+      "section": "overview",
+      "caption": "Scale Model Car Koenigsegg CCX \u2014 OVERVIEW"
+    },
+    {
+      "filename": "overview_06.jpg",
+      "section": "overview",
+      "caption": "Scale Model Car Koenigsegg CCX \u2014 OVERVIEW"
+    },
+    {
+      "filename": "overview_07.jpg",
+      "section": "overview",
+      "caption": "Scale Model Car Koenigsegg CCX \u2014 OVERVIEW"
+    },
+    {
+      "filename": "overview_08.jpg",
+      "section": "overview",
+      "caption": "Scale Model Car Koenigsegg CCX \u2014 OVERVIEW"
+    },
+    {
+      "filename": "overview_09.jpg",
+      "section": "overview",
+      "caption": "Scale Model Car Koenigsegg CCX \u2014 OVERVIEW"
+    },
+    {
+      "filename": "overview_10.jpg",
+      "section": "overview",
+      "caption": "Scale Model Car Koenigsegg CCX \u2014 OVERVIEW"
+    },
+    {
+      "filename": "overview_11.jpg",
+      "section": "overview",
+      "caption": "Scale Model Car Koenigsegg CCX \u2014 OVERVIEW"
+    },
+    {
+      "filename": "overview_12.jpg",
+      "section": "overview",
+      "caption": "Scale Model Car Koenigsegg CCX \u2014 OVERVIEW"
+    },
+    {
+      "filename": "overview_13.jpg",
+      "section": "overview",
+      "caption": "Scale Model Car Koenigsegg CCX \u2014 OVERVIEW"
+    },
+    {
+      "filename": "overview_14.jpg",
+      "section": "overview",
+      "caption": "Scale Model Car Koenigsegg CCX \u2014 OVERVIEW"
+    },
+    {
+      "filename": "overview_15.jpg",
+      "section": "overview",
+      "caption": "Scale Model Car Koenigsegg CCX \u2014 OVERVIEW"
+    },
+    {
+      "filename": "overview_16.jpg",
+      "section": "overview",
+      "caption": "Scale Model Car Koenigsegg CCX \u2014 OVERVIEW"
+    },
+    {
+      "filename": "cad_17.jpg",
+      "section": "cad",
+      "caption": "Car Model Exterior: Low-poly Blender design of hollow frame with detailed features like headlights and rear."
+    },
+    {
+      "filename": "cad_18.jpg",
+      "section": "cad",
+      "caption": "Car Model Exterior: Low-poly Blender design of hollow frame with detailed features like headlights and rear."
+    },
+    {
+      "filename": "cad_19.jpg",
+      "section": "cad",
+      "caption": "Car Model Exterior: Low-poly Blender design of hollow frame with detailed features like headlights and rear."
+    },
+    {
+      "filename": "cad_20.jpg",
+      "section": "cad",
+      "caption": "Car Model Exterior: Low-poly Blender design of hollow frame with detailed features like headlights and rear."
+    },
+    {
+      "filename": "cad_21.jpg",
+      "section": "cad",
+      "caption": "Car Model Exterior: Low-poly Blender design of hollow frame with detailed features like headlights and rear."
+    },
+    {
+      "filename": "cad_22.jpg",
+      "section": "cad",
+      "caption": "Car Model Exterior: Low-poly Blender design of hollow frame with detailed features like headlights and rear."
+    },
+    {
+      "filename": "cad_23.jpg",
+      "section": "cad",
+      "caption": "Car Model Interior: Low-poly Blender design with a removable mounting structure for easy painting access."
+    },
+    {
+      "filename": "cad_24.jpg",
+      "section": "cad",
+      "caption": "Car Model Interior: Low-poly Blender design with a removable mounting structure for easy painting access."
+    },
+    {
+      "filename": "cad_25.jpg",
+      "section": "cad",
+      "caption": "Car Model Interior: Low-poly Blender design with a removable mounting structure for easy painting access."
+    },
+    {
+      "filename": "cad_26.jpg",
+      "section": "cad",
+      "caption": "Full Car Model: Mounted interior into exterior from bottom, showing interior details like dashboard and seat."
+    },
+    {
+      "filename": "cad_27.jpg",
+      "section": "cad",
+      "caption": "Full Car Model: Mounted interior into exterior from bottom, showing interior details like dashboard and seat."
+    },
+    {
+      "filename": "cad_28.jpg",
+      "section": "cad",
+      "caption": "Full Car Model: Mounted interior into exterior from bottom, showing interior details like dashboard and seat."
+    },
+    {
+      "filename": "cad_29.jpg",
+      "section": "cad",
+      "caption": "\u2022 Slicing Exterior STL Model: Exported STL from blender and sliced file with tree supports in Bambu Studio."
+    },
+    {
+      "filename": "cad_30.jpg",
+      "section": "cad",
+      "caption": "\u2022 Slicing Exterior STL Model: Exported STL from blender and sliced file with tree supports in Bambu Studio."
+    },
+    {
+      "filename": "cad_31.jpg",
+      "section": "cad",
+      "caption": "\u2022 Slicing Exterior STL Model: Exported STL from blender and sliced file with tree supports in Bambu Studio."
+    },
+    {
+      "filename": "cad_32.jpg",
+      "section": "cad",
+      "caption": "\u2022 Slicing Exterior STL Model: Exported STL from blender and sliced file with tree supports in Bambu Studio."
+    },
+    {
+      "filename": "cad_33.jpg",
+      "section": "cad",
+      "caption": "\u2022 Slicing Interior STL Model: Sliced interior model with tree supports."
+    },
+    {
+      "filename": "cad_34.jpg",
+      "section": "cad",
+      "caption": "\u2022 Slicing Interior STL Model: Sliced interior model with tree supports."
+    },
+    {
+      "filename": "proto_35.jpg",
+      "section": "proto",
+      "caption": "\u2022 3D Print Exterior: Sliced and printed exterior frame with tree supports using Bambu Studio."
+    },
+    {
+      "filename": "proto_36.jpg",
+      "section": "proto",
+      "caption": "\u2022 3D Print Exterior: Sliced and printed exterior frame with tree supports using Bambu Studio."
+    },
+    {
+      "filename": "proto_37.jpg",
+      "section": "proto",
+      "caption": "\u2022 3D Print Exterior: Sliced and printed exterior frame with tree supports using Bambu Studio."
+    },
+    {
+      "filename": "proto_38.jpg",
+      "section": "proto",
+      "caption": "\u2022 3D Print Exterior: Sliced and printed exterior frame with tree supports using Bambu Studio."
+    },
+    {
+      "filename": "proto_39.jpg",
+      "section": "proto",
+      "caption": "\u2022 3D Print Exterior: Sliced and printed exterior frame with tree supports using Bambu Studio."
+    },
+    {
+      "filename": "proto_40.jpg",
+      "section": "proto",
+      "caption": "\u2022 3D Print Exterior: Sliced and printed exterior frame with tree supports using Bambu Studio."
+    },
+    {
+      "filename": "proto_41.jpg",
+      "section": "proto",
+      "caption": "\u2022 3D Print Interior: Sliced and printed interior features with tree supports using Bambu Studio."
+    },
+    {
+      "filename": "proto_42.jpg",
+      "section": "proto",
+      "caption": "\u2022 3D Print Interior: Sliced and printed interior features with tree supports using Bambu Studio."
+    },
+    {
+      "filename": "proto_43.jpg",
+      "section": "proto",
+      "caption": "\u2022 3D Print Interior: Sliced and printed interior features with tree supports using Bambu Studio."
+    },
+    {
+      "filename": "proto_44.jpg",
+      "section": "proto",
+      "caption": "\u2022 Dry Assembly Test: Tested if parts fit before putting on primer and acrylic paint to avoid future modifications."
+    },
+    {
+      "filename": "proto_45.jpg",
+      "section": "proto",
+      "caption": "\u2022 Dry Assembly Test: Tested if parts fit before putting on primer and acrylic paint to avoid future modifications."
+    },
+    {
+      "filename": "proto_46.jpg",
+      "section": "proto",
+      "caption": "\u2022 Dry Assembly Test: Tested if parts fit before putting on primer and acrylic paint to avoid future modifications."
+    },
+    {
+      "filename": "proto_47.jpg",
+      "section": "proto",
+      "caption": "\u2022 Dry Assembly Test: Tested if parts fit before putting on primer and acrylic paint to avoid future modifications."
+    },
+    {
+      "filename": "proto_48.jpg",
+      "section": "proto",
+      "caption": "\u2022 Primer Coat: Applied primer using brushes and foam tools to prepare the 3D model for painting."
+    },
+    {
+      "filename": "proto_49.jpg",
+      "section": "proto",
+      "caption": "\u2022 Primer Coat: Applied primer using brushes and foam tools to prepare the 3D model for painting."
+    },
+    {
+      "filename": "proto_50.jpg",
+      "section": "proto",
+      "caption": "\u2022 Primer Coat: Applied primer using brushes and foam tools to prepare the 3D model for painting."
+    },
+    {
+      "filename": "proto_51.jpg",
+      "section": "proto",
+      "caption": "\u2022 Acrylic Coat 1: Applied first layer of acrylic paint, black for one model and silver for other, dried for 2 hours."
+    },
+    {
+      "filename": "proto_52.jpg",
+      "section": "proto",
+      "caption": "\u2022 Acrylic Coat 1: Applied first layer of acrylic paint, black for one model and silver for other, dried for 2 hours."
+    },
+    {
+      "filename": "proto_53.jpg",
+      "section": "proto",
+      "caption": "\u2022 Acrylic Coat 1: Applied first layer of acrylic paint, black for one model and silver for other, dried for 2 hours."
+    },
+    {
+      "filename": "proto_54.jpg",
+      "section": "proto",
+      "caption": "\u2022 Acrylic Coat 1: Applied first layer of acrylic paint, black for one model and silver for other, dried for 2 hours."
+    },
+    {
+      "filename": "proto_55.jpg",
+      "section": "proto",
+      "caption": "\u2022 Acrylic Coat 1: Applied first layer of acrylic paint, black for one model and silver for other, dried for 2 hours."
+    },
+    {
+      "filename": "proto_56.jpg",
+      "section": "proto",
+      "caption": "\u2022 Acrylic Coat 1: Applied first layer of acrylic paint, black for one model and silver for other, dried for 2 hours."
+    },
+    {
+      "filename": "proto_57.jpg",
+      "section": "proto",
+      "caption": "\u2022 Acrylic Coat 1: Applied first layer of acrylic paint, black for one model and silver for other, dried for 2 hours."
+    },
+    {
+      "filename": "proto_58.jpg",
+      "section": "proto",
+      "caption": "\u2022 Acrylic Coat 1: Applied first layer of acrylic paint, black for one model and silver for other, dried for 2 hours."
+    },
+    {
+      "filename": "proto_59.jpg",
+      "section": "proto",
+      "caption": "\u2022 Acrylic Coat 2: Applied second layer of acrylic paint, dried for 2 hours, then painted details with fine brush."
+    },
+    {
+      "filename": "proto_60.jpg",
+      "section": "proto",
+      "caption": "\u2022 Acrylic Coat 2: Applied second layer of acrylic paint, dried for 2 hours, then painted details with fine brush."
+    },
+    {
+      "filename": "proto_61.jpg",
+      "section": "proto",
+      "caption": "\u2022 Acrylic Coat 2: Applied second layer of acrylic paint, dried for 2 hours, then painted details with fine brush."
+    },
+    {
+      "filename": "proto_62.jpg",
+      "section": "proto",
+      "caption": "\u2022 Mask Painting: Used masking tape to cover up silver body paint to paint side and front bumpers in detail."
+    },
+    {
+      "filename": "proto_63.jpg",
+      "section": "proto",
+      "caption": "\u2022 Mask Painting: Used masking tape to cover up silver body paint to paint side and front bumpers in detail."
+    },
+    {
+      "filename": "proto_64.jpg",
+      "section": "proto",
+      "caption": "\u2022 Mask Painting: Used masking tape to cover up silver body paint to paint side and front bumpers in detail."
+    },
+    {
+      "filename": "proto_65.jpg",
+      "section": "proto",
+      "caption": "\u2022 Mask Painting: Used masking tape to cover up silver body paint to paint side and front bumpers in detail."
+    },
+    {
+      "filename": "proto_66.jpg",
+      "section": "proto",
+      "caption": "\u2022 Fine Details: Painted bumper, body lines, rear glass, headlights, taillights, and display plaque."
+    },
+    {
+      "filename": "proto_67.jpg",
+      "section": "proto",
+      "caption": "\u2022 Fine Details: Painted bumper, body lines, rear glass, headlights, taillights, and display plaque."
+    },
+    {
+      "filename": "proto_68.jpg",
+      "section": "proto",
+      "caption": "\u2022 Fine Details: Painted bumper, body lines, rear glass, headlights, taillights, and display plaque."
+    },
+    {
+      "filename": "proto_69.jpg",
+      "section": "proto",
+      "caption": "\u2022 Fine Details: Painted bumper, body lines, rear glass, headlights, taillights, and display plaque."
+    },
+    {
+      "filename": "proto_70.jpg",
+      "section": "proto",
+      "caption": "\u2022 Plaque: Modeled, printed, and painted an information display plaque to mount inside the acrylic box."
+    },
+    {
+      "filename": "proto_71.jpg",
+      "section": "proto",
+      "caption": "\u2022 Plaque: Modeled, printed, and painted an information display plaque to mount inside the acrylic box."
+    },
+    {
+      "filename": "proto_72.jpg",
+      "section": "proto",
+      "caption": "\u2022 Plaque: Modeled, printed, and painted an information display plaque to mount inside the acrylic box."
+    },
+    {
+      "filename": "proto_73.jpg",
+      "section": "proto",
+      "caption": "\u2022 Plaque: Modeled, printed, and painted an information display plaque to mount inside the acrylic box."
+    },
+    {
+      "filename": "proto_74.jpg",
+      "section": "proto",
+      "caption": "\u2022 Plaque: Modeled, printed, and painted an information display plaque to mount inside the acrylic box."
+    },
+    {
+      "filename": "proto_75.jpg",
+      "section": "proto",
+      "caption": "\u2022 Plaque: Modeled, printed, and painted an information display plaque to mount inside the acrylic box."
+    },
+    {
+      "filename": "proto_76.jpg",
+      "section": "proto",
+      "caption": "\u2022 Clear Coat: Applied Mod Podge as a clear coat on the black car to preserver model and for a polished finish."
+    },
+    {
+      "filename": "proto_77.jpg",
+      "section": "proto",
+      "caption": "\u2022 Clear Coat: Applied Mod Podge as a clear coat on the black car to preserver model and for a polished finish."
+    },
+    {
+      "filename": "proto_78.jpg",
+      "section": "proto",
+      "caption": "\u2022 Clear Coat: Applied Mod Podge as a clear coat on the black car to preserver model and for a polished finish."
+    },
+    {
+      "filename": "proto_79.jpg",
+      "section": "proto",
+      "caption": "\u2022 Acrylic Casing: Mounted scale model cars in acrylic cases with informational plaques for display."
+    },
+    {
+      "filename": "proto_80.jpg",
+      "section": "proto",
+      "caption": "\u2022 Acrylic Casing: Mounted scale model cars in acrylic cases with informational plaques for display."
+    },
+    {
+      "filename": "proto_81.jpg",
+      "section": "proto",
+      "caption": "\u2022 Acrylic Casing: Mounted scale model cars in acrylic cases with informational plaques for display."
+    },
+    {
+      "filename": "proto_82.jpg",
+      "section": "proto",
+      "caption": "\u2022 Acrylic Casing: Mounted scale model cars in acrylic cases with informational plaques for display."
+    },
+    {
+      "filename": "proto_83.jpg",
+      "section": "proto",
+      "caption": "\u2022 Acrylic Casing: Mounted scale model cars in acrylic cases with informational plaques for display."
+    },
+    {
+      "filename": "proto_84.jpg",
+      "section": "proto",
+      "caption": "\u2022 Acrylic Casing: Mounted scale model cars in acrylic cases with informational plaques for display."
+    },
+    {
+      "filename": "proto_85.jpg",
+      "section": "proto",
+      "caption": "\u2022 Acrylic Casing: Mounted scale model cars in acrylic cases with informational plaques for display."
+    },
+    {
+      "filename": "proto_86.jpg",
+      "section": "proto",
+      "caption": "\u2022 Acrylic Casing: Mounted scale model cars in acrylic cases with informational plaques for display."
+    }
+  ]
+}

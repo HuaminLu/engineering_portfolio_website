@@ -1,0 +1,284 @@
+{
+  "title": "Modular PCB Fixture",
+  "folder": "pcb-fixture",
+  "what": "A modular and cost-effective PCB fixture designed to support multiple board layouts using interchangeable pogo pin plates and adjustable mounting features. Includes a quick-lock lid mechanism that secures the PCB onto a spring-loaded plate for fast and reliable connection setup.",
+  "why": "To reduce cost and provide a flexible testing solution for prototype PCBs, which frequently change in design and require a fixture that can adapt without needing a full rebuild. This design offered a reusable, adaptable, and far more cost-effective alternative to rigid and expensive commercial options.",
+  "how": "Modeled in SolidWorks with a removable pogo pin plate and spring-loaded base to accommodate different board sizes. Fabricated the enclosure using 3D printing and Dremeled ABS enclosure. Designed the layout for easy internal wiring access, reducing testing setup time and supporting quick board layout swaps.",
+  "slides": [
+    {
+      "filename": "overview_01.jpg",
+      "section": "overview",
+      "caption": "How: Modeled in SolidWorks with a removable pogo pin plate and spring-loaded base to accommodate different board sizes. Fabricated the enclosure using 3D printing and Dremeled ABS enclosure. Designed the layout for easy internal wiring access, reducing testing setup time and supporting quick board layout swaps."
+    },
+    {
+      "filename": "overview_02.jpg",
+      "section": "overview",
+      "caption": "How: Modeled in SolidWorks with a removable pogo pin plate and spring-loaded base to accommodate different board sizes. Fabricated the enclosure using 3D printing and Dremeled ABS enclosure. Designed the layout for easy internal wiring access, reducing testing setup time and supporting quick board layout swaps."
+    },
+    {
+      "filename": "overview_03.jpg",
+      "section": "overview",
+      "caption": "How: Modeled in SolidWorks with a removable pogo pin plate and spring-loaded base to accommodate different board sizes. Fabricated the enclosure using 3D printing and Dremeled ABS enclosure. Designed the layout for easy internal wiring access, reducing testing setup time and supporting quick board layout swaps."
+    },
+    {
+      "filename": "overview_04.jpg",
+      "section": "overview",
+      "caption": "How: Modeled in SolidWorks with a removable pogo pin plate and spring-loaded base to accommodate different board sizes. Fabricated the enclosure using 3D printing and Dremeled ABS enclosure. Designed the layout for easy internal wiring access, reducing testing setup time and supporting quick board layout swaps."
+    },
+    {
+      "filename": "overview_05.jpg",
+      "section": "overview",
+      "caption": "How: Modeled in SolidWorks with a removable pogo pin plate and spring-loaded base to accommodate different board sizes. Fabricated the enclosure using 3D printing and Dremeled ABS enclosure. Designed the layout for easy internal wiring access, reducing testing setup time and supporting quick board layout swaps."
+    },
+    {
+      "filename": "cad_06.jpg",
+      "section": "cad",
+      "caption": "Full Assembly: CAD model of the modular PCB fixture."
+    },
+    {
+      "filename": "cad_07.jpg",
+      "section": "cad",
+      "caption": "Full Assembly: CAD model of the modular PCB fixture."
+    },
+    {
+      "filename": "cad_08.jpg",
+      "section": "cad",
+      "caption": "Full Assembly: CAD model of the modular PCB fixture."
+    },
+    {
+      "filename": "cad_09.jpg",
+      "section": "cad",
+      "caption": "Full Assembly: CAD model of the modular PCB fixture."
+    },
+    {
+      "filename": "cad_10.jpg",
+      "section": "cad",
+      "caption": "Assembly Breakdown: Exploded view show PCB plate layers, pogo pin alignment, hinge and lid mechanism, lock and release system, springs, screws, ABS enclosure, and cutouts to illustrate full assembly."
+    },
+    {
+      "filename": "cad_11.jpg",
+      "section": "cad",
+      "caption": "Assembly Breakdown: Exploded view show PCB plate layers, pogo pin alignment, hinge and lid mechanism, lock and release system, springs, screws, ABS enclosure, and cutouts to illustrate full assembly."
+    },
+    {
+      "filename": "cad_12.jpg",
+      "section": "cad",
+      "caption": "Assembly Breakdown: Exploded view show PCB plate layers, pogo pin alignment, hinge and lid mechanism, lock and release system, springs, screws, ABS enclosure, and cutouts to illustrate full assembly."
+    },
+    {
+      "filename": "cad_13.jpg",
+      "section": "cad",
+      "caption": "Assembly Breakdown: Exploded view show PCB plate layers, pogo pin alignment, hinge and lid mechanism, lock and release system, springs, screws, ABS enclosure, and cutouts to illustrate full assembly."
+    },
+    {
+      "filename": "cad_14.jpg",
+      "section": "cad",
+      "caption": "Assembly Breakdown: Exploded view show PCB plate layers, pogo pin alignment, hinge and lid mechanism, lock and release system, springs, screws, ABS enclosure, and cutouts to illustrate full assembly."
+    },
+    {
+      "filename": "cad_15.jpg",
+      "section": "cad",
+      "caption": "Lid Mechanism: Lid stops parallel above PCB, leaving a gap to press to PCB down flat onto the pogo pins."
+    },
+    {
+      "filename": "cad_16.jpg",
+      "section": "cad",
+      "caption": "Lid Mechanism: Lid stops parallel above PCB, leaving a gap to press to PCB down flat onto the pogo pins."
+    },
+    {
+      "filename": "cad_17.jpg",
+      "section": "cad",
+      "caption": "Hinge Mechanism: Spring-loaded hinge allows the lid to press down flat and lift automatically when opened."
+    },
+    {
+      "filename": "cad_18.jpg",
+      "section": "cad",
+      "caption": "Hinge Mechanism: Spring-loaded hinge allows the lid to press down flat and lift automatically when opened."
+    },
+    {
+      "filename": "cad_19.jpg",
+      "section": "cad",
+      "caption": "Hinge Mechanism: Spring-loaded hinge allows the lid to press down flat and lift automatically when opened."
+    },
+    {
+      "filename": "cad_20.jpg",
+      "section": "cad",
+      "caption": "Hinge Mechanism: Spring-loaded hinge allows the lid to press down flat and lift automatically when opened."
+    },
+    {
+      "filename": "cad_21.jpg",
+      "section": "cad",
+      "caption": "Lock Mechanism: Spring-loaded latch locks onto the edge when the lid is pressed down. Pressing the buttons moves the latch off the edge, releasing the lid. Allows for easy PCB mounting onto the test probes."
+    },
+    {
+      "filename": "cad_22.jpg",
+      "section": "cad",
+      "caption": "Lock Mechanism: Spring-loaded latch locks onto the edge when the lid is pressed down. Pressing the buttons moves the latch off the edge, releasing the lid. Allows for easy PCB mounting onto the test probes."
+    },
+    {
+      "filename": "cad_23.jpg",
+      "section": "cad",
+      "caption": "Lock Mechanism: Spring-loaded latch locks onto the edge when the lid is pressed down. Pressing the buttons moves the latch off the edge, releasing the lid. Allows for easy PCB mounting onto the test probes."
+    },
+    {
+      "filename": "cad_24.jpg",
+      "section": "cad",
+      "caption": "\u2022 PCB Pin Plates: The top plate has stubs that align with PCB gaps to press it down safely as the lid closes. The bottom plate holds the pogo pins and spring columns. Both plates are swappable for different PCB designs."
+    },
+    {
+      "filename": "cad_25.jpg",
+      "section": "cad",
+      "caption": "\u2022 PCB Pin Plates: The top plate has stubs that align with PCB gaps to press it down safely as the lid closes. The bottom plate holds the pogo pins and spring columns. Both plates are swappable for different PCB designs."
+    },
+    {
+      "filename": "cad_26.jpg",
+      "section": "cad",
+      "caption": "\u2022 PCB Pin Plates: The top plate has stubs that align with PCB gaps to press it down safely as the lid closes. The bottom plate holds the pogo pins and spring columns. Both plates are swappable for different PCB designs."
+    },
+    {
+      "filename": "cad_27.jpg",
+      "section": "cad",
+      "caption": "\u2022 Spring-Loaded Plate: Contoured plate aligns the PCB, with test probe cutouts on a spring-loaded base to reduce pressure on PCB. Swappable for different layouts, making the fixture modular and cost-effective."
+    },
+    {
+      "filename": "cad_28.jpg",
+      "section": "cad",
+      "caption": "\u2022 Spring-Loaded Plate: Contoured plate aligns the PCB, with test probe cutouts on a spring-loaded base to reduce pressure on PCB. Swappable for different layouts, making the fixture modular and cost-effective."
+    },
+    {
+      "filename": "cad_29.jpg",
+      "section": "cad",
+      "caption": "\u2022 Spring-Loaded Plate: Contoured plate aligns the PCB, with test probe cutouts on a spring-loaded base to reduce pressure on PCB. Swappable for different layouts, making the fixture modular and cost-effective."
+    },
+    {
+      "filename": "proto_30.jpg",
+      "section": "proto",
+      "caption": "\u2022 3D Printed Parts: Printed and tested parts for spring fit, screw alignment, and plate functionality."
+    },
+    {
+      "filename": "proto_31.jpg",
+      "section": "proto",
+      "caption": "\u2022 3D Printed Parts: Printed and tested parts for spring fit, screw alignment, and plate functionality."
+    },
+    {
+      "filename": "proto_32.jpg",
+      "section": "proto",
+      "caption": "\u2022 3D Printed Parts: Printed and tested parts for spring fit, screw alignment, and plate functionality."
+    },
+    {
+      "filename": "proto_33.jpg",
+      "section": "proto",
+      "caption": "\u2022 Dremel & McMaster Carr: Used McMaster for springs and screws, dremeled abs enclosure for buttons."
+    },
+    {
+      "filename": "proto_34.jpg",
+      "section": "proto",
+      "caption": "\u2022 Dremel & McMaster Carr: Used McMaster for springs and screws, dremeled abs enclosure for buttons."
+    },
+    {
+      "filename": "proto_35.jpg",
+      "section": "proto",
+      "caption": "\u2022 Spring Loaded Parts: Assembled springs into slots to test the hinge and lock mechanism functionality."
+    },
+    {
+      "filename": "proto_36.jpg",
+      "section": "proto",
+      "caption": "\u2022 Spring Loaded Parts: Assembled springs into slots to test the hinge and lock mechanism functionality."
+    },
+    {
+      "filename": "proto_37.jpg",
+      "section": "proto",
+      "caption": "\u2022 PCB Platform Plate: Inserted printed plates into the ABS enclosure to check fit, alignment, and tolerancing."
+    },
+    {
+      "filename": "proto_38.jpg",
+      "section": "proto",
+      "caption": "\u2022 PCB Platform Plate: Inserted printed plates into the ABS enclosure to check fit, alignment, and tolerancing."
+    },
+    {
+      "filename": "proto_39.jpg",
+      "section": "proto",
+      "caption": "\u2022 Lid Locking Latch: Tested the spring-loaded latch by inserting screws, nuts, and springs."
+    },
+    {
+      "filename": "proto_40.jpg",
+      "section": "proto",
+      "caption": "\u2022 Lid Locking Latch: Tested the spring-loaded latch by inserting screws, nuts, and springs."
+    },
+    {
+      "filename": "proto_41.jpg",
+      "section": "proto",
+      "caption": "\u2022 Lid Assembly: Assembled lid with lock latch and pin push plate into ABS lid cover and drilled screw holes."
+    },
+    {
+      "filename": "proto_42.jpg",
+      "section": "proto",
+      "caption": "\u2022 Lid Assembly: Assembled lid with lock latch and pin push plate into ABS lid cover and drilled screw holes."
+    },
+    {
+      "filename": "proto_43.jpg",
+      "section": "proto",
+      "caption": "\u2022 Fixture Assembly: Assembled body and lid, connected hinge, and assembled into the ABS enclosure."
+    },
+    {
+      "filename": "proto_44.jpg",
+      "section": "proto",
+      "caption": "\u2022 Fixture Assembly: Assembled body and lid, connected hinge, and assembled into the ABS enclosure."
+    },
+    {
+      "filename": "proto_45.jpg",
+      "section": "proto",
+      "caption": "\u2022 Fixture Testing: Tested lid mechanism, PCB mounting, and probe alignment. Built two complete fixtures."
+    },
+    {
+      "filename": "proto_46.jpg",
+      "section": "proto",
+      "caption": "\u2022 Fixture Testing: Tested lid mechanism, PCB mounting, and probe alignment. Built two complete fixtures."
+    },
+    {
+      "filename": "proto_47.jpg",
+      "section": "proto",
+      "caption": "\u2022 Fixture Testing: Tested lid mechanism, PCB mounting, and probe alignment. Built two complete fixtures."
+    },
+    {
+      "filename": "proto_48.jpg",
+      "section": "proto",
+      "caption": "\u2022 Fixture Testing: Tested lid mechanism, PCB mounting, and probe alignment. Built two complete fixtures."
+    },
+    {
+      "filename": "proto_49.jpg",
+      "section": "proto",
+      "caption": "\u2022 Fixture Testing: Tested lid mechanism, PCB mounting, and probe alignment. Built two complete fixtures."
+    },
+    {
+      "filename": "elec_50.jpg",
+      "section": "elec",
+      "caption": "\u2022 Electronics: First image shows example internal electronics layout. Second shows spring-loaded test probe plate mechanism, with top for PCB support, and bottom for probe alignment, with springs in between."
+    },
+    {
+      "filename": "elec_51.jpg",
+      "section": "elec",
+      "caption": "\u2022 Electronics: First image shows example internal electronics layout. Second shows spring-loaded test probe plate mechanism, with top for PCB support, and bottom for probe alignment, with springs in between."
+    },
+    {
+      "filename": "elec_52.jpg",
+      "section": "elec",
+      "caption": "\u2022 Test Probe Mount: The fixture was designed so only these plates need to be redesigned and swapped for new PCB layouts, keeping it modular and reusable. It has contour inset for PCB mounting and holes for test probes."
+    },
+    {
+      "filename": "elec_53.jpg",
+      "section": "elec",
+      "caption": "\u2022 Test Probe Mount: The fixture was designed so only these plates need to be redesigned and swapped for new PCB layouts, keeping it modular and reusable. It has contour inset for PCB mounting and holes for test probes."
+    },
+    {
+      "filename": "elec_54.jpg",
+      "section": "elec",
+      "caption": "\u2022 Test Probe Mount: The fixture was designed so only these plates need to be redesigned and swapped for new PCB layouts, keeping it modular and reusable. It has contour inset for PCB mounting and holes for test probes."
+    },
+    {
+      "filename": "elec_55.jpg",
+      "section": "elec",
+      "caption": "\u2022 Test Probe Mount: The fixture was designed so only these plates need to be redesigned and swapped for new PCB layouts, keeping it modular and reusable. It has contour inset for PCB mounting and holes for test probes."
+    }
+  ]
+}

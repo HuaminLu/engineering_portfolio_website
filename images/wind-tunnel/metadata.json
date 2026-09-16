@@ -1,0 +1,144 @@
+{
+  "title": "Airfoil Wind Tunnel",
+  "folder": "wind-tunnel",
+  "what": "A custom wind tunnel for measuring lift and drag on our design team\u2019s airfoils under controlled airflow.",
+  "why": "To research and optimize the aerodynamic performance of our plane by developing the more efficient airfoils for improved liftoff and in-flight control of our aircraft.",
+  "how": "Modeled the wind tunnel in CAD, fabricated components via CNC and 3D printing, then integrated a stepper-motor drive, load cells, and wiring to a Raspberry Pi for data capture and analysis.",
+  "slides": [
+    {
+      "filename": "overview_01.jpg",
+      "section": "overview",
+      "caption": "How: Modeled the wind tunnel in CAD, fabricated components via CNC and 3D printing, then integrated a stepper-motor drive, load cells, and wiring to a Raspberry Pi for data capture and analysis."
+    },
+    {
+      "filename": "overview_02.jpg",
+      "section": "overview",
+      "caption": "How: Modeled the wind tunnel in CAD, fabricated components via CNC and 3D printing, then integrated a stepper-motor drive, load cells, and wiring to a Raspberry Pi for data capture and analysis."
+    },
+    {
+      "filename": "overview_03.jpg",
+      "section": "overview",
+      "caption": "How: Modeled the wind tunnel in CAD, fabricated components via CNC and 3D printing, then integrated a stepper-motor drive, load cells, and wiring to a Raspberry Pi for data capture and analysis."
+    },
+    {
+      "filename": "overview_04.jpg",
+      "section": "overview",
+      "caption": "How: Modeled the wind tunnel in CAD, fabricated components via CNC and 3D printing, then integrated a stepper-motor drive, load cells, and wiring to a Raspberry Pi for data capture and analysis."
+    },
+    {
+      "filename": "overview_05.jpg",
+      "section": "overview",
+      "caption": "How: Modeled the wind tunnel in CAD, fabricated components via CNC and 3D printing, then integrated a stepper-motor drive, load cells, and wiring to a Raspberry Pi for data capture and analysis."
+    },
+    {
+      "filename": "cad_06.jpg",
+      "section": "cad",
+      "caption": "Full Assembly: CAD model of the wind tunnel, engineered for quick mounting and remote airfoil control."
+    },
+    {
+      "filename": "cad_07.jpg",
+      "section": "cad",
+      "caption": "Full Assembly: CAD model of the wind tunnel, engineered for quick mounting and remote airfoil control."
+    },
+    {
+      "filename": "cad_08.jpg",
+      "section": "cad",
+      "caption": "Electronics Integration: 90\u00b0 load cell mounts for lift/drag measurements, stepper motor for airfoil control."
+    },
+    {
+      "filename": "cad_09.jpg",
+      "section": "cad",
+      "caption": "Electronics Integration: 90\u00b0 load cell mounts for lift/drag measurements, stepper motor for airfoil control."
+    },
+    {
+      "filename": "cad_10.jpg",
+      "section": "cad",
+      "caption": "Electronics Integration: 90\u00b0 load cell mounts for lift/drag measurements, stepper motor for airfoil control."
+    },
+    {
+      "filename": "cad_11.jpg",
+      "section": "cad",
+      "caption": "Assembly Breakdown: Exploded view and assembly drawing with BOM callouts showing every component."
+    },
+    {
+      "filename": "cad_12.jpg",
+      "section": "cad",
+      "caption": "Assembly Breakdown: Exploded view and assembly drawing with BOM callouts showing every component."
+    },
+    {
+      "filename": "proto_13.jpg",
+      "section": "proto",
+      "caption": "\u2022 3D Printed Parts: Printed prototype PLA stepper motor mounts, load-cell brackets, and wind tunnel mounts."
+    },
+    {
+      "filename": "proto_14.jpg",
+      "section": "proto",
+      "caption": "\u2022 3D Printed Parts: Printed prototype PLA stepper motor mounts, load-cell brackets, and wind tunnel mounts."
+    },
+    {
+      "filename": "proto_15.jpg",
+      "section": "proto",
+      "caption": "\u2022 Precision Tolerancing: Applied \u00b10.1 mm tolerances to mounts, ensuring secure load-cell alignment."
+    },
+    {
+      "filename": "proto_16.jpg",
+      "section": "proto",
+      "caption": "\u2022 Precision Tolerancing: Applied \u00b10.1 mm tolerances to mounts, ensuring secure load-cell alignment."
+    },
+    {
+      "filename": "proto_17.jpg",
+      "section": "proto",
+      "caption": "\u2022 Precision Tolerancing: Applied \u00b10.1 mm tolerances to mounts, ensuring secure load-cell alignment."
+    },
+    {
+      "filename": "proto_18.jpg",
+      "section": "proto",
+      "caption": "\u2022 Precision Tolerancing: Applied \u00b10.1 mm tolerances to mounts, ensuring secure load-cell alignment."
+    },
+    {
+      "filename": "proto_19.jpg",
+      "section": "proto",
+      "caption": "\u2022 Parts Assembly: Lined side mounts with sandpaper for improved grip and installed electronics onto base."
+    },
+    {
+      "filename": "proto_20.jpg",
+      "section": "proto",
+      "caption": "\u2022 Parts Assembly: Lined side mounts with sandpaper for improved grip and installed electronics onto base."
+    },
+    {
+      "filename": "proto_21.jpg",
+      "section": "proto",
+      "caption": "\u2022 Parts Assembly: Lined side mounts with sandpaper for improved grip and installed electronics onto base."
+    },
+    {
+      "filename": "elec_22.jpg",
+      "section": "elec",
+      "caption": "\u2022 Soldering: Soldered load-cell PCB connections, including removable connector plugs for replaceability."
+    },
+    {
+      "filename": "elec_23.jpg",
+      "section": "elec",
+      "caption": "\u2022 Soldering: Soldered load-cell PCB connections, including removable connector plugs for replaceability."
+    },
+    {
+      "filename": "elec_24.jpg",
+      "section": "elec",
+      "caption": "\u2022 Embedded Electronics: Wired stepper motor and load cells to a Raspberry Pi for data collection."
+    },
+    {
+      "filename": "elec_25.jpg",
+      "section": "elec",
+      "caption": "\u2022 Embedded Electronics: Wired stepper motor and load cells to a Raspberry Pi for data collection."
+    },
+    {
+      "filename": "elec_26.jpg",
+      "section": "elec",
+      "caption": "\u2022 Mounting & Wiring: Secured PCBs and components to the base, then routed cables neatly along the base."
+    },
+    {
+      "filename": "elec_27.jpg",
+      "section": "elec",
+      "caption": "\u2022 Mounting & Wiring: Secured PCBs and components to the base, then routed cables neatly along the base."
+    }
+  ]
+}

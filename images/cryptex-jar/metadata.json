@@ -1,0 +1,54 @@
+{
+  "title": "Cryptex Storage Cylinder (Locking Jar)",
+  "folder": "cryptex-jar",
+  "what": "A purely mechanical combination locking cylinder with interlocking notched tumblers.",
+  "why": "Engineered as an advanced mechanism challenge to demonstrate precision mechanical design, rotating cam tracks, and tight 3D printing tolerances.",
+  "how": "Designed in SolidWorks with multi-ring internal locking grooves and alignment pins, 3D printed with tuned dimensional tolerances for smooth rotational feel without binding.",
+  "slides": [
+    {
+      "filename": "slide_21_1.jpg",
+      "section": "cad",
+      "caption": "Cryptex Cylinder Assembly \u2014 Custom mechanical cryptex-style lid with locking pins"
+    },
+    {
+      "filename": "slide_21_2.jpg",
+      "section": "cad",
+      "caption": "Cross-Section View \u2014 Internal tumbler rings and alignment channels"
+    },
+    {
+      "filename": "slide_21_3.jpg",
+      "section": "cad",
+      "caption": "Outer Dial Rings \u2014 Numbered combination dials with tactile detents"
+    },
+    {
+      "filename": "slide_22_1.jpg",
+      "section": "proto",
+      "caption": "Lock Pin Mechanism \u2014 3-notch locking pin with bottom unlocking gate"
+    },
+    {
+      "filename": "slide_22_2.jpg",
+      "section": "proto",
+      "caption": "Inner Core Shaft \u2014 Precision keyway grooves for sequential code alignment"
+    },
+    {
+      "filename": "slide_22_3.jpg",
+      "section": "proto",
+      "caption": "Pin & Ring Tolerancing \u2014 Designed with \u00b10.15 mm clearance for reliable rotation"
+    },
+    {
+      "filename": "slide_23_1.jpg",
+      "section": "proto",
+      "caption": "3D Printed Prototype \u2014 Printed on Bambu Lab in PLA with tuned flow rates"
+    },
+    {
+      "filename": "slide_23_2.jpg",
+      "section": "proto",
+      "caption": "Assembly & Fitment Check \u2014 Sanded and fitted tumbler rings before final assembly"
+    },
+    {
+      "filename": "slide_23_3.jpg",
+      "section": "proto",
+      "caption": "Final Functional Model \u2014 Smooth locking mechanism demonstration"
+    }
+  ]
+}

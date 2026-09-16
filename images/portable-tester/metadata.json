@@ -1,0 +1,344 @@
+{
+  "title": "Portable Tester Tool",
+  "folder": "portable-tester",
+  "what": "A portable PCB testing tool for in-field firmware flashing and diagnostics, equipped with essential electronics including a battery for portable use, USB ports, required PCB harnesses, and a responsive touchscreen with a simple GUI. Features include port covers and cutouts for easy access to USB connections.",
+  "why": "Designed for developers and clients who need a compact, user-friendly solution for flashing and debugging PCBs in the field, minimizing delays from limited remote support or return wait times. Combines all essential tools and electronics for working with products in a clean, streamlined enclosure.",
+  "how": "Designed an enclosure in CAD with compartments for the screen, battery, ports, and test board. Assembled the tool with 3D printing and organized internal wiring to components. Programmed a GUI on a Raspberry Pi 5 embedded in the tool to streamline firmware flashing and device diagnostics during field use.",
+  "slides": [
+    {
+      "filename": "overview_01.jpg",
+      "section": "overview",
+      "caption": "How: Designed an enclosure in CAD with compartments for the screen, battery, ports, and test board. Assembled the tool with 3D printing and organized internal wiring to components. Programmed a GUI on a Raspberry Pi 5 embedded in the tool to streamline firmware flashing and device diagnostics during field use."
+    },
+    {
+      "filename": "overview_02.jpg",
+      "section": "overview",
+      "caption": "How: Designed an enclosure in CAD with compartments for the screen, battery, ports, and test board. Assembled the tool with 3D printing and organized internal wiring to components. Programmed a GUI on a Raspberry Pi 5 embedded in the tool to streamline firmware flashing and device diagnostics during field use."
+    },
+    {
+      "filename": "overview_03.jpg",
+      "section": "overview",
+      "caption": "How: Designed an enclosure in CAD with compartments for the screen, battery, ports, and test board. Assembled the tool with 3D printing and organized internal wiring to components. Programmed a GUI on a Raspberry Pi 5 embedded in the tool to streamline firmware flashing and device diagnostics during field use."
+    },
+    {
+      "filename": "overview_04.jpg",
+      "section": "overview",
+      "caption": "How: Designed an enclosure in CAD with compartments for the screen, battery, ports, and test board. Assembled the tool with 3D printing and organized internal wiring to components. Programmed a GUI on a Raspberry Pi 5 embedded in the tool to streamline firmware flashing and device diagnostics during field use."
+    },
+    {
+      "filename": "overview_05.jpg",
+      "section": "overview",
+      "caption": "How: Designed an enclosure in CAD with compartments for the screen, battery, ports, and test board. Assembled the tool with 3D printing and organized internal wiring to components. Programmed a GUI on a Raspberry Pi 5 embedded in the tool to streamline firmware flashing and device diagnostics during field use."
+    },
+    {
+      "filename": "cad_06.jpg",
+      "section": "cad",
+      "caption": "Full Assembly: CAD model of the portable tester tool, designed as a compact all-in-one device for field use."
+    },
+    {
+      "filename": "cad_07.jpg",
+      "section": "cad",
+      "caption": "Full Assembly: CAD model of the portable tester tool, designed as a compact all-in-one device for field use."
+    },
+    {
+      "filename": "cad_08.jpg",
+      "section": "cad",
+      "caption": "Full Assembly: CAD model of the portable tester tool, designed as a compact all-in-one device for field use."
+    },
+    {
+      "filename": "cad_09.jpg",
+      "section": "cad",
+      "caption": "Port Cutout Covers: Raspberry Pi 5 USB ports, battery interface, and harness connector all feature precise cutouts and sliding covers that mount cleanly to the enclosure for a polished, integrated design."
+    },
+    {
+      "filename": "cad_10.jpg",
+      "section": "cad",
+      "caption": "Port Cutout Covers: Raspberry Pi 5 USB ports, battery interface, and harness connector all feature precise cutouts and sliding covers that mount cleanly to the enclosure for a polished, integrated design."
+    },
+    {
+      "filename": "cad_11.jpg",
+      "section": "cad",
+      "caption": "Port Cutout Covers: Raspberry Pi 5 USB ports, battery interface, and harness connector all feature precise cutouts and sliding covers that mount cleanly to the enclosure for a polished, integrated design."
+    },
+    {
+      "filename": "cad_12.jpg",
+      "section": "cad",
+      "caption": "Cover Attachment: Port covers glues to the enclosure and provides a clean solution for covering cutouts."
+    },
+    {
+      "filename": "cad_13.jpg",
+      "section": "cad",
+      "caption": "Cover Attachment: Port covers glues to the enclosure and provides a clean solution for covering cutouts."
+    },
+    {
+      "filename": "cad_14.jpg",
+      "section": "cad",
+      "caption": "Layered Component Assembly: Exploded view showing organized component layers with dedicated spaces for electronics and wire routing, enabling a clean and compact internal layout."
+    },
+    {
+      "filename": "cad_15.jpg",
+      "section": "cad",
+      "caption": "Layered Component Assembly: Exploded view showing organized component layers with dedicated spaces for electronics and wire routing, enabling a clean and compact internal layout."
+    },
+    {
+      "filename": "cad_16.jpg",
+      "section": "cad",
+      "caption": "Electronics Integration: Each enclosure layer houses a specific component\u2014battery, PCB tester, Raspberry Pi, and screen\u2014for a compact and organized internal layout."
+    },
+    {
+      "filename": "cad_17.jpg",
+      "section": "cad",
+      "caption": "Electronics Integration: Each enclosure layer houses a specific component\u2014battery, PCB tester, Raspberry Pi, and screen\u2014for a compact and organized internal layout."
+    },
+    {
+      "filename": "proto_18.jpg",
+      "section": "proto",
+      "caption": "\u2022 3D Printed Layers: Printed prototype layer frames and to separate components and test fit and tolerancing."
+    },
+    {
+      "filename": "proto_19.jpg",
+      "section": "proto",
+      "caption": "\u2022 3D Printed Layers: Printed prototype layer frames and to separate components and test fit and tolerancing."
+    },
+    {
+      "filename": "proto_20.jpg",
+      "section": "proto",
+      "caption": "\u2022 3D Printed Layers: Printed prototype layer frames and to separate components and test fit and tolerancing."
+    },
+    {
+      "filename": "proto_21.jpg",
+      "section": "proto",
+      "caption": "\u2022 Testing Component Layers: Assembled stacked enclosure layers to evaluate tolerancing and component fit."
+    },
+    {
+      "filename": "proto_22.jpg",
+      "section": "proto",
+      "caption": "\u2022 Testing Component Layers: Assembled stacked enclosure layers to evaluate tolerancing and component fit."
+    },
+    {
+      "filename": "proto_23.jpg",
+      "section": "proto",
+      "caption": "\u2022 3D Printed Port Covers: Printed cover prototypes to test fit and alignment around USB and harness ports."
+    },
+    {
+      "filename": "proto_24.jpg",
+      "section": "proto",
+      "caption": "\u2022 3D Printed Port Covers: Printed cover prototypes to test fit and alignment around USB and harness ports."
+    },
+    {
+      "filename": "proto_25.jpg",
+      "section": "proto",
+      "caption": "\u2022 3D Printed Port Covers: Printed cover prototypes to test fit and alignment around USB and harness ports."
+    },
+    {
+      "filename": "proto_26.jpg",
+      "section": "proto",
+      "caption": "\u2022 Prototype Testing: Inserted printed layers into ABS enclosure to evaluate fit, alignment, and tolerancing."
+    },
+    {
+      "filename": "proto_27.jpg",
+      "section": "proto",
+      "caption": "\u2022 Prototype Testing: Inserted printed layers into ABS enclosure to evaluate fit, alignment, and tolerancing."
+    },
+    {
+      "filename": "proto_28.jpg",
+      "section": "proto",
+      "caption": "\u2022 Wiring & Electronics Layout: Tested wiring paths and electronics placement on printed layers to validate fit."
+    },
+    {
+      "filename": "proto_29.jpg",
+      "section": "proto",
+      "caption": "\u2022 Wiring & Electronics Layout: Tested wiring paths and electronics placement on printed layers to validate fit."
+    },
+    {
+      "filename": "proto_30.jpg",
+      "section": "proto",
+      "caption": "\u2022 Wiring & Electronics Layout: Tested wiring paths and electronics placement on printed layers to validate fit."
+    },
+    {
+      "filename": "proto_31.jpg",
+      "section": "proto",
+      "caption": "\u2022 Wiring & Electronics Layout: Tested wiring paths and electronics placement on printed layers to validate fit."
+    },
+    {
+      "filename": "proto_32.jpg",
+      "section": "proto",
+      "caption": "\u2022 Wiring & Electronics Layout: Tested wiring paths and electronics placement on printed layers to validate fit."
+    },
+    {
+      "filename": "proto_33.jpg",
+      "section": "proto",
+      "caption": "\u2022 3D Printed Parts: Printed prototype parts and dremeled enclosures, went through multiple design iterations."
+    },
+    {
+      "filename": "proto_34.jpg",
+      "section": "proto",
+      "caption": "\u2022 3D Printed Parts: Printed prototype parts and dremeled enclosures, went through multiple design iterations."
+    },
+    {
+      "filename": "proto_35.jpg",
+      "section": "proto",
+      "caption": "\u2022 Portable Tester v1: Featured LCD screen and hard dremeled USB port cutouts, mainly a prototype design."
+    },
+    {
+      "filename": "proto_36.jpg",
+      "section": "proto",
+      "caption": "\u2022 Portable Tester v1: Featured LCD screen and hard dremeled USB port cutouts, mainly a prototype design."
+    },
+    {
+      "filename": "proto_37.jpg",
+      "section": "proto",
+      "caption": "\u2022 Portable Tester v1: Featured LCD screen and hard dremeled USB port cutouts, mainly a prototype design."
+    },
+    {
+      "filename": "proto_38.jpg",
+      "section": "proto",
+      "caption": "\u2022 Portable Tester v1 Software: Featured a python Tkinter GUI for firmware flashing running on Ubuntu RPI 4."
+    },
+    {
+      "filename": "proto_39.jpg",
+      "section": "proto",
+      "caption": "\u2022 Portable Tester v1 Software: Featured a python Tkinter GUI for firmware flashing running on Ubuntu RPI 4."
+    },
+    {
+      "filename": "proto_40.jpg",
+      "section": "proto",
+      "caption": "\u2022 Portable Tester v1 Software: Featured a python Tkinter GUI for firmware flashing running on Ubuntu RPI 4."
+    },
+    {
+      "filename": "proto_41.jpg",
+      "section": "proto",
+      "caption": "\u2022 Design Choice: Version 2 added port covers for a cleaner look, upgraded to a glass touchscreen with Raspberry Pi 5, and included an HDMI port to help debug PCBs on the big screen, as the tool is also a computer. Port covers were also added, which solved the issue of hard Dremel cutouts from version 1 (left)."
+    },
+    {
+      "filename": "proto_42.jpg",
+      "section": "proto",
+      "caption": "\u2022 Design Choice: Version 2 added port covers for a cleaner look, upgraded to a glass touchscreen with Raspberry Pi 5, and included an HDMI port to help debug PCBs on the big screen, as the tool is also a computer. Port covers were also added, which solved the issue of hard Dremel cutouts from version 1 (left)."
+    },
+    {
+      "filename": "proto_43.jpg",
+      "section": "proto",
+      "caption": "\u2022 Sliding Lid Cover: Replaced rough Dremel cutouts from version 1 with sliding lid track for the harness plug."
+    },
+    {
+      "filename": "proto_44.jpg",
+      "section": "proto",
+      "caption": "\u2022 Sliding Lid Cover: Replaced rough Dremel cutouts from version 1 with sliding lid track for the harness plug."
+    },
+    {
+      "filename": "proto_45.jpg",
+      "section": "proto",
+      "caption": "\u2022 Sliding Lid Cover: Replaced rough Dremel cutouts from version 1 with sliding lid track for the harness plug."
+    },
+    {
+      "filename": "proto_46.jpg",
+      "section": "proto",
+      "caption": "\u2022 Sliding Lid Cover: Replaced rough Dremel cutouts from version 1 with sliding lid track for the harness plug."
+    },
+    {
+      "filename": "proto_47.jpg",
+      "section": "proto",
+      "caption": "\u2022 USB Port Cover: Precise cutouts aligned with the Raspberry Pi 5 ports for a secure fit, while also blocking out debris and dust."
+    },
+    {
+      "filename": "proto_48.jpg",
+      "section": "proto",
+      "caption": "\u2022 USB Port Cover: Precise cutouts aligned with the Raspberry Pi 5 ports for a secure fit, while also blocking out debris and dust."
+    },
+    {
+      "filename": "proto_49.jpg",
+      "section": "proto",
+      "caption": "Portable Tester Tool \u2014 PROTO"
+    },
+    {
+      "filename": "proto_50.jpg",
+      "section": "proto",
+      "caption": "\u2022 Battery Cover: The battery cover allowed for a battery LED status indicator and switch cutout."
+    },
+    {
+      "filename": "proto_51.jpg",
+      "section": "proto",
+      "caption": "\u2022 Battery Cover: The battery cover allowed for a battery LED status indicator and switch cutout."
+    },
+    {
+      "filename": "proto_52.jpg",
+      "section": "proto",
+      "caption": "\u2022 Battery Cover: The battery cover allowed for a battery LED status indicator and switch cutout."
+    },
+    {
+      "filename": "proto_53.jpg",
+      "section": "proto",
+      "caption": "Portable Tester Tool \u2014 PROTO"
+    },
+    {
+      "filename": "proto_54.jpg",
+      "section": "proto",
+      "caption": "were revised for more wire routing space."
+    },
+    {
+      "filename": "proto_55.jpg",
+      "section": "proto",
+      "caption": "were revised for more wire routing space."
+    },
+    {
+      "filename": "proto_56.jpg",
+      "section": "proto",
+      "caption": "were revised for more wire routing space."
+    },
+    {
+      "filename": "proto_57.jpg",
+      "section": "proto",
+      "caption": "were revised for more wire routing space."
+    },
+    {
+      "filename": "proto_58.jpg",
+      "section": "proto",
+      "caption": "\u2022 Final V1 & V2 Comparison: V1 is a functional prototype with all core features working, while V2 is a more finalized, field-ready product. The updated version features a cleaner, compact design, additional ports, and upgraded internals including a Raspberry Pi 5 running Windows 11. This allows for faster GUI performance and compatibility with a wider range of Windows-based PCB tools."
+    },
+    {
+      "filename": "proto_59.jpg",
+      "section": "proto",
+      "caption": "\u2022 Final V1 & V2 Comparison: V1 is a functional prototype with all core features working, while V2 is a more finalized, field-ready product. The updated version features a cleaner, compact design, additional ports, and upgraded internals including a Raspberry Pi 5 running Windows 11. This allows for faster GUI performance and compatibility with a wider range of Windows-based PCB tools."
+    },
+    {
+      "filename": "elec_60.jpg",
+      "section": "elec",
+      "caption": "\u2022 Wire Routing: 3D printed layers include strategic slots for clean wire routing, allowing cables to be layered between sections for a compact and organized design."
+    },
+    {
+      "filename": "elec_61.jpg",
+      "section": "elec",
+      "caption": "\u2022 Wire Routing: 3D printed layers include strategic slots for clean wire routing, allowing cables to be layered between sections for a compact and organized design."
+    },
+    {
+      "filename": "elec_62.jpg",
+      "section": "elec",
+      "caption": "\u2022 Integrated Raspberry Pi & Screen: Mounted a Raspberry Pi with a 4-inch display into the ABS enclosure."
+    },
+    {
+      "filename": "elec_63.jpg",
+      "section": "elec",
+      "caption": "\u2022 Integrated Raspberry Pi & Screen: Mounted a Raspberry Pi with a 4-inch display into the ABS enclosure."
+    },
+    {
+      "filename": "elec_64.jpg",
+      "section": "elec",
+      "caption": "\u2022 Integrated Raspberry Pi & Screen: Mounted a Raspberry Pi with a 4-inch display into the ABS enclosure."
+    },
+    {
+      "filename": "elec_65.jpg",
+      "section": "elec",
+      "caption": "\u2022 PCB Tester Board: Directly soldered the harness connector onto the tester board for less cable connections."
+    },
+    {
+      "filename": "elec_66.jpg",
+      "section": "elec",
+      "caption": "\u2022 PCB Tester Board: Directly soldered the harness connector onto the tester board for less cable connections."
+    },
+    {
+      "filename": "elec_67.jpg",
+      "section": "elec",
+      "caption": "\u2022 Wire Routing: Mounted the tester board within the 3D printed layers and routed the cables internally."
+    }
+  ]
+}
