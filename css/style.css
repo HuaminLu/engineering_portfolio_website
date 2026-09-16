@@ -575,10 +575,44 @@ body { overflow-x: hidden; } /* full-bleed row must never cause sideways page sc
   font-weight: 800;
   padding-bottom: 12px;
   border-bottom: 1px solid var(--line);
-  margin-bottom: 28px;
+  margin-bottom: 24px;
 }
 
 .psection > h2 .num { color: var(--fg-faint); margin-right: 12px; }
+
+/* subsection galleries within project pages */
+.sub-gallery {
+  margin: 32px 0 40px;
+}
+
+.sub-gallery:first-of-type {
+  margin-top: 18px;
+}
+
+.sub-heading {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--fg);
+  margin-bottom: 6px;
+  letter-spacing: 0.03em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sub-heading .sub-num {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--fg-faint);
+  letter-spacing: 0.08em;
+}
+
+.sub-gallery > .caption {
+  font-size: 13.5px;
+  color: var(--fg-dim);
+  margin-bottom: 14px;
+  line-height: 1.45;
+}
 
 /* image placeholders */
 
