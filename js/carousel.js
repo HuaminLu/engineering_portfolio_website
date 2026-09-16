@@ -1,4 +1,4 @@
-// js/carousel.js — Interactive Project Image Carousel with Auto-Scroll, Mouse Drag, Infinite Wrap & Translucent Captions
+// js/carousel.js — Interactive Project Image Carousel with Fast Slide Transition & Continuous Auto-Scroll
 
 function initCarousels() {
   const carousels = document.querySelectorAll('.carousel-box');
@@ -18,11 +18,14 @@ function initCarousels() {
     if (!track || origSlides.length === 0) return;
 
     const total = origSlides.length;
-    const delay = parseInt(box.dataset.delay || '3500', 10);
+    // 2.0s per image as requested ("have 2 sec on each image and just make it always be sliding")
+    const delay = 2000;
+    const TRANSITION_STYLE = 'transform 0.35s cubic-bezier(0.25, 0.1, 0.25, 1.0)';
+
     let autoTimer = null;
-    let isHovered = false;
-    let isVisible = true;
+    let isVisible = false;
     let isTransitioning = false;
+    let transitionFallbackTimer = null;
 
     let currentIndex = 1; // Start at real slide 1 (slide 0 is clone of last)
 
@@ -43,7 +46,7 @@ function initCarousels() {
     track.style.transition = 'none';
     track.style.transform = `translateX(-${currentIndex * 100}%)`;
     void track.offsetWidth;
-    track.style.transition = 'transform 0.45s cubic-bezier(0.25, 1, 0.5, 1)';
+    track.style.transition = TRANSITION_STYLE;
 
     // Build dots (only for real slides)
     if (dotsContainer && dotsContainer.children.length === 0) {
@@ -72,11 +75,7 @@ function initCarousels() {
       const activeSlide = origSlides[realIdx];
       const cap = activeSlide ? activeSlide.dataset.caption || '' : '';
       if (captionText) {
-        captionText.style.opacity = '0';
-        setTimeout(() => {
-          captionText.textContent = cap;
-          captionText.style.opacity = '1';
-        }, 120);
+        captionText.textContent = cap;
       }
       if (counter) {
         const padCur = String(realIdx + 1).padStart(2, '0');
@@ -88,38 +87,8 @@ function initCarousels() {
       });
     }
 
-    function moveTo(index, animate = true) {
-      currentIndex = index;
-      if (animate) {
-        track.style.transition = 'transform 0.45s cubic-bezier(0.25, 1, 0.5, 1)';
-        isTransitioning = true;
-      } else {
-        track.style.transition = 'none';
-      }
-      track.style.transform = `translateX(-${currentIndex * 100}%)`;
-      updateCaption(currentIndex);
-    }
-
-    function nextSlide() {
-      if (total <= 1 || isTransitioning) return;
-      moveTo(currentIndex + 1, true);
-      resetAutoTimer();
-    }
-
-    function prevSlide() {
-      if (total <= 1 || isTransitioning) return;
-      moveTo(currentIndex - 1, true);
-      resetAutoTimer();
-    }
-
-    function goToRealSlide(realIdx) {
-      if (isTransitioning) return;
-      moveTo(total > 1 ? realIdx + 1 : realIdx, true);
-      resetAutoTimer();
-    }
-
-    // Seamless loop reset on transitionend
-    track.addEventListener('transitionend', () => {
+    function onTransitionDone() {
+      clearTimeout(transitionFallbackTimer);
       isTransitioning = false;
       if (total > 1) {
         if (currentIndex >= total + 1) {
@@ -134,7 +103,40 @@ function initCarousels() {
           void track.offsetWidth;
         }
       }
-    });
+    }
+
+    track.addEventListener('transitionend', onTransitionDone);
+
+    function moveTo(index, animate = true) {
+      currentIndex = index;
+      clearTimeout(transitionFallbackTimer);
+      if (animate) {
+        track.style.transition = TRANSITION_STYLE;
+        isTransitioning = true;
+        transitionFallbackTimer = setTimeout(onTransitionDone, 400);
+      } else {
+        track.style.transition = 'none';
+      }
+      track.style.transform = `translateX(-${currentIndex * 100}%)`;
+      updateCaption(currentIndex);
+    }
+
+    function nextSlide() {
+      if (total <= 1) return;
+      moveTo(currentIndex + 1, true);
+      resetAutoTimer();
+    }
+
+    function prevSlide() {
+      if (total <= 1) return;
+      moveTo(currentIndex - 1, true);
+      resetAutoTimer();
+    }
+
+    function goToRealSlide(realIdx) {
+      moveTo(total > 1 ? realIdx + 1 : realIdx, true);
+      resetAutoTimer();
+    }
 
     if (nextBtn) {
       nextBtn.addEventListener('click', (e) => {
@@ -150,9 +152,9 @@ function initCarousels() {
       });
     }
 
-    // Auto-scroll loop
+    // Auto-scroll loop — continuously sliding every 2 seconds when in view
     function startAutoTimer() {
-      if (autoTimer || !isVisible || isHovered || total <= 1) return;
+      if (autoTimer || !isVisible || total <= 1) return;
       autoTimer = setInterval(() => {
         nextSlide();
       }, delay);
@@ -170,17 +172,6 @@ function initCarousels() {
       startAutoTimer();
     }
 
-    // Hover pauses auto-scroll
-    box.addEventListener('mouseenter', () => {
-      isHovered = true;
-      stopAutoTimer();
-    });
-
-    box.addEventListener('mouseleave', () => {
-      isHovered = false;
-      startAutoTimer();
-    });
-
     // --- Pointer / Mouse Drag & Touch Swipe Support ---
     let isDragging = false;
     let startX = 0;
@@ -188,7 +179,7 @@ function initCarousels() {
     let dragDist = 0;
 
     function onPointerDown(clientX) {
-      if (total <= 1 || isTransitioning) return;
+      if (total <= 1) return;
       isDragging = true;
       startX = clientX;
       currentX = clientX;
@@ -212,7 +203,7 @@ function initCarousels() {
       isDragging = false;
       box.classList.remove('dragging');
       const boxWidth = box.offsetWidth || 1;
-      const threshold = boxWidth * 0.12; // 12% swipe threshold
+      const threshold = boxWidth * 0.12;
 
       if (dragDist < -threshold) {
         moveTo(currentIndex + 1, true);
@@ -221,7 +212,7 @@ function initCarousels() {
       } else {
         moveTo(currentIndex, true);
       }
-      startAutoTimer();
+      resetAutoTimer();
     }
 
     // Mouse drag events
@@ -268,12 +259,12 @@ function initCarousels() {
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) {
         stopAutoTimer();
-      } else if (isVisible && !isHovered) {
+      } else if (isVisible) {
         startAutoTimer();
       }
     });
 
-    // IntersectionObserver
+    // "only start when user is close to that section of the page"
     if ('IntersectionObserver' in window) {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -285,16 +276,15 @@ function initCarousels() {
             stopAutoTimer();
           }
         });
-      }, { threshold: 0.05, rootMargin: '80px 0px' });
+      }, { threshold: 0.05, rootMargin: '200px 0px' });
       observer.observe(box);
     } else {
       isVisible = true;
       startAutoTimer();
     }
 
-    // Initial caption update & start
+    // Initial caption update
     updateCaption(currentIndex);
-    startAutoTimer();
   });
 }
 
