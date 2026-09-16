@@ -428,38 +428,41 @@ body { overflow-x: hidden; } /* full-bleed row must never cause sideways page sc
 
 /* ---------- project pages ---------- */
 
-.project-header { padding: 56px 0 8px; }
+.project-header { padding: 14px 0 4px; }
 
-.project-header .crumb { font-size: 18px; color: var(--fg-faint); margin-bottom: 20px; }
+.project-header .crumb { font-size: 13px; color: var(--fg-faint); margin-bottom: 4px; letter-spacing: 0.04em; }
 
 .project-header .crumb a { color: var(--fg-dim); }
 
 .project-header .crumb a:hover { color: var(--fg); }
 
 .project-header h1 {
-  font-size: clamp(28px, 4.5vw, 42px);
+  font-size: clamp(20px, min(3.2vw, 3.6vh), 28px);
   font-weight: 800;
-  line-height: 1.3;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
 }
 
 .project-header .meta {
-  margin-top: 14px;
+  margin-top: 6px;
   display: flex;
-  gap: 24px;
+  gap: 10px 18px;
   flex-wrap: wrap;
-  font-size: 19px;
+  font-size: 12.5px;
   color: var(--fg-dim);
+  line-height: 1.3;
 }
 
-.project-header .meta span b { color: var(--fg); font-weight: 800; }
+.project-header .meta span b { color: var(--fg); font-weight: 700; }
 
 .project-intro {
-  margin-top: 14px;
-  padding: 12px 20px;
+  margin-top: 8px;
+  padding: 8px 14px;
   border-left: 2px solid var(--fg);
   background: var(--bg-raised);
   color: var(--fg-dim);
-  font-size: 16px;
+  font-size: 13px;
+  line-height: 1.45;
 }
 
 /* key achievements — recruiter hook at top of each project */
@@ -751,17 +754,23 @@ footer {
 .carousel-box {
   position: relative;
   width: 100%;
-  margin: 0 0 36px;
+  margin: 0 0 24px;
   border: 1px solid var(--line);
   background: #080808;
   overflow: hidden;
   user-select: none;
+  cursor: grab;
+}
+
+.carousel-box.dragging {
+  cursor: grabbing;
 }
 
 .carousel-viewport {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16 / 9.5;
+  max-height: 60vh;
   overflow: hidden;
   background: #050505;
 }
@@ -951,11 +960,11 @@ footer {
   .project-grid { gap: 14px; }
 
   /* --- project pages --- */
-  .project-header { padding: 28px 0 8px; }
-  .project-header .crumb { font-size: 11.5px; margin-bottom: 12px; }
-  .project-header h1 { font-size: clamp(19px, 6vw, 26px); }
-  .project-header .meta { gap: 10px 16px; font-size: 11.5px; margin-top: 10px; }
-  .project-intro { font-size: 14px; padding: 12px 14px; margin-top: 16px; }
+  .project-header { padding: 8px 0 4px; }
+  .project-header .crumb { font-size: 11px; margin-bottom: 2px; }
+  .project-header h1 { font-size: clamp(17px, 5.5vw, 22px); line-height: 1.2; }
+  .project-header .meta { gap: 6px 12px; font-size: 11px; margin-top: 4px; }
+  .project-intro { font-size: 11.5px; padding: 6px 10px; margin-top: 6px; line-height: 1.35; }
 
   .achievements { gap: 8px; margin-top: 18px; }
   .achievements li { font-size: 13px; padding: 9px 12px; }
@@ -991,7 +1000,7 @@ footer {
   .footer-inner { font-size: 10.5px; padding: 16px; }
 
   /* carousel mobile */
-  .carousel-viewport { aspect-ratio: 4 / 3; }
+  .carousel-viewport { aspect-ratio: 16 / 10; max-height: 52vh; }
   .carousel-btn { width: 34px; height: 34px; font-size: 16px; }
   .carousel-btn.prev { left: 8px; }
   .carousel-btn.next { right: 8px; }
@@ -1020,22 +1029,23 @@ footer {
   min-height: 0;
 }
 
-.pfold .project-header { padding-top: 12px; flex-shrink: 0; }
+.pfold .project-header { padding-top: 4px; flex-shrink: 0; }
 
 .pfold .fig-wide {
   flex: 1;
-  min-height: 160px;
-  margin: 18px 0 40px;
+  min-height: 200px;
+  margin: 8px 0 20px;
   display: flex;
 }
 
+.pfold .fig-wide .carousel-box,
 .pfold .fig-wide .ph,
 .pfold .fig-wide img,
 .pfold .fig-wide video {
-  aspect-ratio: auto;
   width: 100%;
   height: 100%;
   flex: 1;
+  margin: 0;
 }
 
 /* clip inside G1 sub-project cards: [num] [clip] [text] [arrow].
