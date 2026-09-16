@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=35">
+  <link rel="stylesheet" href="css/style.css?v=36">
 </head>
 <body>
 
@@ -90,10 +90,10 @@
     </a>
 
     <a class="tile" href="unitree-g1.html">
-      <div class="tile-img ph">
-        <div class="ph-icon">⌖</div>
-        <div class="ph-label">[ clip: unitree g1 ]</div>
-        <div class="ph-desc">3–6 s loop — the G1 walking a few steps in the lab</div>
+      <div class="tile-img">
+        <video autoplay loop muted playsinline poster="videos/unitree-g1/showcase-g1-walk.jpg">
+          <source src="videos/unitree-g1/showcase-g1-walk.mp4" type="video/mp4">
+        </video>
       </div>
       <div class="tile-body">
         <h2>Unitree G1 Humanoid</h2>
@@ -262,15 +262,43 @@
       </div>
     </a>
     <a class="tile" href="g1-hand-mimic.html">
-      <div class="tile-img ph">
-        <div class="ph-icon">⌇</div>
-        <div class="ph-label">[ clip: hand mimic ]</div>
-        <div class="ph-desc">3–6 s loop — your hand and the robot hand mirroring in real time</div>
+      <div class="tile-img">
+        <video autoplay loop muted playsinline poster="videos/unitree-g1/showcase-hand-mimic.jpg">
+          <source src="videos/unitree-g1/showcase-hand-mimic.mp4" type="video/mp4">
+        </video>
       </div>
       <div class="tile-body">
         <h2>Hand Mimic Teleop</h2>
         <div class="tags">MediaPipe · RS-485 · ~30 ms latency</div>
         <p>Webcam hand tracking mirrored live to a 6-DOF dexterous robot hand.</p>
+        <span class="cta">view project</span>
+      </div>
+    </a>
+
+    <a class="tile" href="g1-hand-recorder.html">
+      <div class="tile-img">
+        <video autoplay loop muted playsinline poster="videos/unitree-g1/showcase-hand-recorder.jpg">
+          <source src="videos/unitree-g1/showcase-hand-recorder.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="tile-body">
+        <h2>Hand Recorder GUI</h2>
+        <div class="tags">Flet · 25 Hz · YAML presets</div>
+        <p>Desktop GUI for authoring and combining precise hand gesture animations.</p>
+        <span class="cta">view project</span>
+      </div>
+    </a>
+
+    <a class="tile" href="g1-arm-recorder.html">
+      <div class="tile-img">
+        <video autoplay loop muted playsinline poster="videos/unitree-g1/showcase-arm-recorder.jpg">
+          <source src="videos/unitree-g1/showcase-arm-recorder.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="tile-body">
+        <h2>Arm Recorder GUI</h2>
+        <div class="tags">LowCmd @ 50 Hz · MLP policy</div>
+        <p>Dial, record, and replay full 14-DOF arm trajectories over CycloneDDS.</p>
         <span class="cta">view project</span>
       </div>
     </a>
@@ -290,10 +318,10 @@
     </a>
 
     <a class="tile" href="g1-walk.html">
-      <div class="tile-img ph">
-        <div class="ph-icon">⌨</div>
-        <div class="ph-label">[ clip: keyboard walk ]</div>
-        <div class="ph-desc">3–6 s loop — G1 stepping under keyboard control, GUI in frame</div>
+      <div class="tile-img">
+        <video autoplay loop muted playsinline poster="videos/unitree-g1/showcase-g1-walk.jpg">
+          <source src="videos/unitree-g1/showcase-g1-walk.mp4" type="video/mp4">
+        </video>
       </div>
       <div class="tile-body">
         <h2>WASDQE Walk</h2>
@@ -342,7 +370,7 @@
   </div>
 </footer>
 
-<script src="js/reveal.js?v=35"></script>
-<script src="js/dragscroll.js?v=35"></script>
+<script src="js/reveal.js?v=36"></script>
+<script src="js/dragscroll.js?v=36"></script>
 </body>
 </html>

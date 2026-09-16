@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=35">
+  <link rel="stylesheet" href="css/style.css?v=36">
 </head>
 <body>
 
@@ -69,11 +69,23 @@
   </section>
 
   <!-- ============ HERO ============ -->
-  <div class="fig-wide">
-    <div class="ph">
-      <div class="ph-icon">✋</div>
-      <div class="ph-label">[ img: gesture mirroring ]</div>
-      <div class="ph-desc">Side-by-side — operator's hand in a peace sign, Inspire RH56 mirroring it live</div>
+  <div class="dual-feed">
+    <div class="dual-feed-media">
+      <div class="feed-pane">
+        <span class="feed-tag">Phone Side · Inspire RH56 Hands</span>
+        <video autoplay loop muted playsinline poster="videos/unitree-g1/mimic-both-take1-phone.jpg">
+          <source src="videos/unitree-g1/mimic-both-take1-phone.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="feed-pane">
+        <span class="feed-tag pc-tag">PC Side · MediaPipe Hand Tracking</span>
+        <video autoplay loop muted playsinline poster="videos/unitree-g1/mimic-both-take1-pc.jpg">
+          <source src="videos/unitree-g1/mimic-both-take1-pc.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+    <div class="dual-feed-caption">
+      <span class="caption-title">Real-Time Hand Teleoperation (~30 ms Latency)</span> — Left: Physical dual Inspire RH56 dexterous hands mirroring finger curl and thumb articulation live. Right: OpenCV / MediaPipe perception window tracking 21 3D landmarks per hand at 30 Hz.
     </div>
   </div>
   </div><!-- /pfold -->
@@ -110,15 +122,28 @@ _FINGER_TRIPLETS = {
         np.clip(np.dot(v1, v2) / (norm(v1) * norm(v2)), -<span class="nm">1.0</span>, <span class="nm">1.0</span>)
     )))</code></pre>
 
-    <div class="fig-split reverse landscape">
-      <div>
-        <p class="caption"><b>Angle → register mapping.</b> The interior angle maps linearly onto the Inspire's <b>0–1000</b> integer scale: ~<b>170°</b> fully extended → 1000, ~<b>50°</b> fully curled → 0.</p>
-        <p class="caption"><b>Gesture overlay.</b> Colored circles mark detected gestures on the fingertips — orange = fist, blue = 3-finger pinch, red = 2-finger pinch.</p>
+    <div>
+      <p class="caption"><b>Angle → register mapping.</b> The interior angle maps linearly onto the Inspire's <b>0–1000</b> integer scale: ~<b>170°</b> fully extended → 1000, ~<b>50°</b> fully curled → 0.</p>
+      <p class="caption"><b>Gesture overlay.</b> Colored circles mark detected gestures on the fingertips — orange = fist, blue = 3-finger pinch, red = 2-finger pinch.</p>
+    </div>
+
+    <div class="dual-feed">
+      <div class="dual-feed-media">
+        <div class="feed-pane">
+          <span class="feed-tag">Phone Side · Single Hand Close-Up</span>
+          <video autoplay loop muted playsinline poster="videos/unitree-g1/mimic-single-take1-phone.jpg">
+            <source src="videos/unitree-g1/mimic-single-take1-phone.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="feed-pane">
+          <span class="feed-tag pc-tag">PC Side · 21-Landmark Tracking</span>
+          <video autoplay loop muted playsinline poster="videos/unitree-g1/mimic-single-take1-pc.jpg">
+            <source src="videos/unitree-g1/mimic-single-take1-pc.mp4" type="video/mp4">
+          </video>
+        </div>
       </div>
-      <div class="ph">
-        <div class="ph-icon">⌖</div>
-        <div class="ph-label">[ img: skeleton overlay ]</div>
-        <div class="ph-desc">OpenCV window — green landmark dots and bones, pinch circles, angle array printed top-left</div>
+      <div class="dual-feed-caption">
+        <span class="caption-title">Single Hand Teleoperation</span> — Left: Close-up of 6-DOF hand responding to individual finger curls and pinch postures. Right: MediaPipe tracking skeleton with real-time register angle calculations.
       </div>
     </div>
   </section>
@@ -177,11 +202,17 @@ hand.set_force([<span class="nm">400</span>] * <span class="nm">6</span>)
 <span class="cm"># 6-integer angle vector → angle register writes</span>
 hand.set_angles([pinky, ring, middle, index, thumb_bend, thumb_rot], wait=<span class="kw">False</span>)</code></pre>
 
-    <div class="fig-wide">
-      <div class="ph">
-        <div class="ph-icon">▶</div>
-        <div class="ph-label">[ video: live mimic demo ]</div>
-        <div class="ph-desc">Operator cycles fist / pinch / peace sign — the Inspire hand follows at ~30 ms latency</div>
+    <div class="dual-feed">
+      <div class="dual-feed-media">
+        <div class="feed-pane" style="flex:1;">
+          <span class="feed-tag">Live Hardware Grasp Demo</span>
+          <video autoplay loop muted playsinline poster="videos/unitree-g1/barcode-scanner-grasp-1.jpg">
+            <source src="videos/unitree-g1/barcode-scanner-grasp-1.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="dual-feed-caption">
+        <span class="caption-title">Physical Grasp Verification — Barcode Scanner Teleoperation</span> — Operator commands fingers into an adaptive power grasp; the physical Inspire RH56 securely encloses around the barcode scanner body and holds it with stable compliance.
       </div>
     </div>
   </section>
@@ -202,6 +233,6 @@ hand.set_angles([pinky, ring, middle, index, thumb_bend, thumb_rot], wait=<span 
   </div>
 </footer>
 
-<script src="js/reveal.js?v=35"></script>
+<script src="js/reveal.js?v=36"></script>
 </body>
 </html>

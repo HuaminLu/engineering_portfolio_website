@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=35">
+  <link rel="stylesheet" href="css/style.css?v=36">
 </head>
 <body>
 
@@ -69,12 +69,24 @@
   </section>
 
   <!-- ============ HERO ============ -->
-  <div class="fig-wide" style="margin-top:36px">
-      <div class="ph">
-        <div class="ph-icon">⌖</div>
-        <div class="ph-label">[ img: G1 — hero ]</div>
-        <div class="ph-desc">The G1 humanoid standing / walking, full body in frame</div>
+  <div class="dual-feed" style="margin-top:36px">
+    <div class="dual-feed-media">
+      <div class="feed-pane">
+        <span class="feed-tag">Phone Side · Hardware In Lab</span>
+        <video autoplay loop muted playsinline poster="videos/unitree-g1/walk-1-phone.jpg">
+          <source src="videos/unitree-g1/walk-1-phone.mp4" type="video/mp4">
+        </video>
       </div>
+      <div class="feed-pane">
+        <span class="feed-tag pc-tag">PC Side · Locomotion &amp; Joint Control</span>
+        <video autoplay loop muted playsinline poster="videos/unitree-g1/walk-1-pc.jpg">
+          <source src="videos/unitree-g1/walk-1-pc.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+    <div class="dual-feed-caption">
+      <span class="caption-title">Unitree G1 EDU Platform Demonstration</span> — Physical 29-DOF humanoid bipedal platform operating across low-level 50 Hz joint-space streaming, whole-body locomotion RPCs, and serial dexterous manipulation.
+    </div>
   </div>
   </div><!-- /pfold -->
 
@@ -110,7 +122,11 @@
 
       <a class="subproject" href="g1-hand-mimic.html">
         <span class="sp-num">01</span>
-        <div class="ph sp-clip"><div class="ph-label">[ clip: hand mimic ]</div><div class="ph-desc">Loop — hand and robot hand mirroring</div></div>
+        <div class="sp-clip">
+          <video autoplay loop muted playsinline poster="videos/unitree-g1/showcase-hand-mimic.jpg">
+            <source src="videos/unitree-g1/showcase-hand-mimic.mp4" type="video/mp4">
+          </video>
+        </div>
         <div>
           <h3>Hand Mimic — Camera → Robot Hand</h3>
           <p class="sp-desc">Webcam hand tracking mirrored live to the Inspire hand — MediaPipe landmarks, geometric retargeting, pinch detection, EMA smoothing.</p>
@@ -121,7 +137,11 @@
 
       <a class="subproject" href="g1-hand-recorder.html">
         <span class="sp-num">02</span>
-        <div class="ph sp-clip"><div class="ph-label">[ clip: hand recorder ]</div><div class="ph-desc">Loop — sliders moving, hand following</div></div>
+        <div class="sp-clip">
+          <video autoplay loop muted playsinline poster="videos/unitree-g1/showcase-hand-recorder.jpg">
+            <source src="videos/unitree-g1/showcase-hand-recorder.mp4" type="video/mp4">
+          </video>
+        </div>
         <div>
           <h3>Hand Recorder GUI — Keyframe Gesture Animator</h3>
           <p class="sp-desc">Desktop GUI for authoring precise hand gestures — live sliders, recorded takes, combinable sequences, YAML preset playback.</p>
@@ -143,7 +163,11 @@
 
       <a class="subproject" href="g1-arm-recorder.html">
         <span class="sp-num">04</span>
-        <div class="ph sp-clip"><div class="ph-label">[ clip: arm recorder ]</div><div class="ph-desc">Loop — arm replaying a trajectory</div></div>
+        <div class="sp-clip">
+          <video autoplay loop muted playsinline poster="videos/unitree-g1/showcase-arm-recorder.jpg">
+            <source src="videos/unitree-g1/showcase-arm-recorder.mp4" type="video/mp4">
+          </video>
+        </div>
         <div>
           <h3>Arm Recorder GUI — 14-DOF Joint Animator</h3>
           <p class="sp-desc">Dial, record, and replay full-arm trajectories — 50 Hz LowCmd streaming with PD gains; recordings train a continuous 3-axis arm policy.</p>
@@ -154,7 +178,11 @@
 
       <a class="subproject" href="g1-walk.html">
         <span class="sp-num">05</span>
-        <div class="ph sp-clip"><div class="ph-label">[ clip: wasdqe walk ]</div><div class="ph-desc">Loop — G1 stepping under keyboard control</div></div>
+        <div class="sp-clip">
+          <video autoplay loop muted playsinline poster="videos/unitree-g1/showcase-g1-walk.jpg">
+            <source src="videos/unitree-g1/showcase-g1-walk.mp4" type="video/mp4">
+          </video>
+        </div>
         <div>
           <h3>WASDQE Walk — Locomotion Teleop</h3>
           <p class="sp-desc">Keyboard-driven bipedal walking through the high-level velocity RPC — tap-to-inch pulses, safety clamps, and the error-3102 firmware fix.</p>
@@ -209,6 +237,6 @@
   </div>
 </footer>
 
-<script src="js/reveal.js?v=35"></script>
+<script src="js/reveal.js?v=36"></script>
 </body>
 </html>

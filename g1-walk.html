@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=35">
+  <link rel="stylesheet" href="css/style.css?v=36">
 </head>
 <body>
 
@@ -70,11 +70,23 @@
   </section>
 
   <!-- ============ HERO ============ -->
-  <div class="fig-wide">
-    <div class="ph">
-      <div class="ph-icon">⌨</div>
-      <div class="ph-label">[ img: keyboard walk GUI ]</div>
-      <div class="ph-desc">Compact dark 400×540 px window — Q/W/E / A/S/D key grid with yellow highlight on the pressed key, ENABLE switch, SPEED slider at 0.30 m/s, vx/vy/ω readout</div>
+  <div class="dual-feed">
+    <div class="dual-feed-media">
+      <div class="feed-pane">
+        <span class="feed-tag">Phone Side · Unitree G1 Bipedal Walk</span>
+        <video autoplay loop muted playsinline poster="videos/unitree-g1/walk-1-phone.jpg">
+          <source src="videos/unitree-g1/walk-1-phone.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="feed-pane">
+        <span class="feed-tag pc-tag">PC Side · WASD Locomotion Teleop</span>
+        <video autoplay loop muted playsinline poster="videos/unitree-g1/walk-1-pc.jpg">
+          <source src="videos/unitree-g1/walk-1-pc.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+    <div class="dual-feed-caption">
+      <span class="caption-title">High-Level Locomotion RPC Teleoperation</span> — Left: Bipedal Unitree G1 executing dynamic stepping in the lab. Right: Always-on-top Linux teleop GUI commanding linear and angular velocity setpoints over CycloneDDS at 15 Hz.
     </div>
   </div>
   </div><!-- /pfold -->
@@ -90,15 +102,28 @@
 code = loco_client.<span class="fn">SetVelocity</span>(vx, vy, omega, duration=<span class="nm">864000.0</span>)
 <span class="cm"># vx = forward/back (m/s), vy = strafe (m/s), omega = yaw rate (rad/s)</span></code></pre>
 
-    <div class="fig-split">
-      <div class="ph">
-        <div class="ph-icon">⚲</div>
-        <div class="ph-label">[ img: G1 walking in lab ]</div>
-        <div class="ph-desc">The G1 walking forward in the robotics lab, bipedal gait mid-stride, teleop GUI visible on a screen in the background</div>
+    <div>
+      <p class="caption"><b>Velocity in, gait out.</b> The onboard whole-body controller receives the setpoint and runs its full gait pipeline — none of that is visible to this project.</p>
+      <p class="caption"><b>WASDQE mapping.</b> W/S drive forward/back, Q/E strafe, A/D turn — familiar game controls for precise floor-level teleop.</p>
+    </div>
+
+    <div class="dual-feed">
+      <div class="dual-feed-media">
+        <div class="feed-pane">
+          <span class="feed-tag">Phone Side · Lab Floor Strides</span>
+          <video autoplay loop muted playsinline poster="videos/unitree-g1/walk-2-phone.jpg">
+            <source src="videos/unitree-g1/walk-2-phone.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="feed-pane">
+          <span class="feed-tag pc-tag">PC Side · Velocity Grid &amp; State Readout</span>
+          <video autoplay loop muted playsinline poster="videos/unitree-g1/walk-2-pc.jpg">
+            <source src="videos/unitree-g1/walk-2-pc.mp4" type="video/mp4">
+          </video>
+        </div>
       </div>
-      <div>
-        <p class="caption"><b>Velocity in, gait out.</b> The onboard whole-body controller receives the setpoint and runs its full gait pipeline — none of that is visible to this project.</p>
-        <p class="caption"><b>WASDQE mapping.</b> W/S drive forward/back, Q/E strafe, A/D turn — familiar game controls for precise floor-level teleop.</p>
+      <div class="dual-feed-caption">
+        <span class="caption-title">Tap-to-Inch Precision Stepping</span> — Left: Bipedal gait responding to bounded pulses. Right: Active key highlights (W/A/S/D) with instantaneous vx/vy/ω telemetry.
       </div>
     </div>
   </section>
@@ -165,6 +190,6 @@ _loco_api.LOCO_SERVICE_NAME = <span class="st">"sport"</span>   <span class="cm"
   </div>
 </footer>
 
-<script src="js/reveal.js?v=35"></script>
+<script src="js/reveal.js?v=36"></script>
 </body>
 </html>

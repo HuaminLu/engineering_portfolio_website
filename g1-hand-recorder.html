@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=35">
+  <link rel="stylesheet" href="css/style.css?v=36">
 </head>
 <body>
 
@@ -69,11 +69,23 @@
   </section>
 
   <!-- ============ HERO ============ -->
-  <div class="fig-wide">
-    <div class="ph">
-      <div class="ph-icon">⌇</div>
-      <div class="ph-label">[ img: recorder GUI ]</div>
-      <div class="ph-desc">Dark-themed Flet window — 6 vertical sliders (Pinky / Ring / Middle / Index / Thumb Bend / Thumb Rot), TAKES list below, REC / STOP / COMBINE / SAVE buttons</div>
+  <div class="dual-feed">
+    <div class="dual-feed-media">
+      <div class="feed-pane">
+        <span class="feed-tag">Phone Side · Dual Hands</span>
+        <video autoplay loop muted playsinline poster="videos/unitree-g1/hand-rec-1-phone.jpg">
+          <source src="videos/unitree-g1/hand-rec-1-phone.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="feed-pane">
+        <span class="feed-tag pc-tag">PC Side · Hand Recorder GUI</span>
+        <video autoplay loop muted playsinline poster="videos/unitree-g1/hand-rec-1-pc.jpg">
+          <source src="videos/unitree-g1/hand-rec-1-pc.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+    <div class="dual-feed-caption">
+      <span class="caption-title">Dual-Hand Keyframe Recorder GUI</span> — Left: Dual Inspire RH56 dexterous hands responding live to dialled joint angles. Right: Flet desktop GUI streaming 6-DOF register values at 25 Hz over RS-485 serial.
     </div>
   </div>
   </div><!-- /pfold -->
@@ -82,15 +94,28 @@
   <section class="psection">
     <h2><span class="num">01</span>The GUI &amp; Live Streaming</h2>
 
-    <div class="fig-split">
-      <div class="ph">
-        <div class="ph-icon">▣</div>
-        <div class="ph-label">[ img: blue vs bw themes ]</div>
-        <div class="ph-desc">Side-by-side of the two color themes — blue/black (default) and black/white (--theme bw)</div>
+    <div>
+      <p class="caption"><b>Six sliders, six DOF.</b> Each slider maps to one joint — pinky, ring, middle, index, thumb bend, thumb rotation — and values stream to the hand at <b>25 Hz</b> while adjusting, giving tactile live feedback.</p>
+      <p class="caption"><b>Two themes.</b> A <b>blue/black</b> default and a <b>black/white</b> mode (<b>--theme bw</b>) match the operator environment.</p>
+    </div>
+
+    <div class="dual-feed">
+      <div class="dual-feed-media">
+        <div class="feed-pane">
+          <span class="feed-tag">Phone Side · Single Hand Articulation</span>
+          <video autoplay loop muted playsinline poster="videos/unitree-g1/hand-rec-2-phone.jpg">
+            <source src="videos/unitree-g1/hand-rec-2-phone.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="feed-pane">
+          <span class="feed-tag pc-tag">PC Side · 6-Slider Control GUI</span>
+          <video autoplay loop muted playsinline poster="videos/unitree-g1/hand-rec-2-pc.jpg">
+            <source src="videos/unitree-g1/hand-rec-2-pc.mp4" type="video/mp4">
+          </video>
+        </div>
       </div>
-      <div>
-        <p class="caption"><b>Six sliders, six DOF.</b> Each slider maps to one joint — pinky, ring, middle, index, thumb bend, thumb rotation — and values stream to the hand at <b>25 Hz</b> while adjusting, giving tactile live feedback.</p>
-        <p class="caption"><b>Two themes.</b> A <b>blue/black</b> default and a <b>black/white</b> mode (<b>--theme bw</b>) match the operator environment.</p>
+      <div class="dual-feed-caption">
+        <span class="caption-title">6-DOF Joint Space Streaming</span> — Left: Physical hand executing commanded joint values. Right: Interactive Flet sliders for Pinky, Ring, Middle, Index, Thumb Bend, and Thumb Rotation.
       </div>
     </div>
 
@@ -163,6 +188,6 @@ frames:
   </div>
 </footer>
 
-<script src="js/reveal.js?v=35"></script>
+<script src="js/reveal.js?v=36"></script>
 </body>
 </html>

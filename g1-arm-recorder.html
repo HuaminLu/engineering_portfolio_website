@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=35">
+  <link rel="stylesheet" href="css/style.css?v=36">
 </head>
 <body>
 
@@ -70,11 +70,23 @@
   </section>
 
   <!-- ============ HERO ============ -->
-  <div class="fig-wide">
-    <div class="ph">
-      <div class="ph-icon">⌇</div>
-      <div class="ph-label">[ img: arm recorder GUI ]</div>
-      <div class="ph-desc">Yellow-black Flet window — 7 vertical sliders per arm (Shoulder Pitch → Wrist Yaw), TAKES list, ARM selector, DIRECTION dropdown, REC/STOP/COMBINE/PLAY/SAVE buttons</div>
+  <div class="dual-feed">
+    <div class="dual-feed-media">
+      <div class="feed-pane">
+        <span class="feed-tag">Phone Side · G1 Arm</span>
+        <video autoplay loop muted playsinline poster="videos/unitree-g1/arm-gui-1-phone.jpg">
+          <source src="videos/unitree-g1/arm-gui-1-phone.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="feed-pane">
+        <span class="feed-tag pc-tag">PC Side · Arm Recorder GUI</span>
+        <video autoplay loop muted playsinline poster="videos/unitree-g1/arm-gui-1-pc.jpg">
+          <source src="videos/unitree-g1/arm-gui-1-pc.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+    <div class="dual-feed-caption">
+      <span class="caption-title">Live 50 Hz Joint-Space Teleoperation</span> — Left: Physical Unitree G1 7-DOF arm matching commanded joint targets in real time. Right: Custom Flet GUI slider interface publishing <b>LowCmd_</b> packets over CycloneDDS.
     </div>
   </div>
   </div><!-- /pfold -->
@@ -127,16 +139,29 @@ msg.motor_cmd[<span class="nm">29</span>].q = <span class="nm">1.0</span>
   <section class="psection">
     <h2><span class="num">02</span>Operator Safety &amp; Ergonomics</h2>
 
-    <div class="fig-split reverse landscape">
-      <div>
-        <p class="caption"><b>Damp mode.</b> Setting kp=kd=0 for an arm makes it go limp so the operator can physically hand-guide it into a start pose.</p>
-        <p class="caption"><b>Mirror mode.</b> Left-arm recordings mirror to the right arm; axes {1, 2, 4, 6} — shoulder roll, shoulder yaw, wrist roll, wrist yaw — flip sign due to kinematic chirality.</p>
-        <p class="caption"><b>NIC auto-detection.</b> The GUI scans <b>/sys/class/net</b> for interfaces on <b>192.168.123.x</b> and populates a connection dropdown — no hardcoded USB-Ethernet adapter names.</p>
+    <div>
+      <p class="caption"><b>Damp mode.</b> Setting kp=kd=0 for an arm makes it go limp so the operator can physically hand-guide it into a start pose.</p>
+      <p class="caption"><b>Mirror mode.</b> Left-arm recordings mirror to the right arm; axes {1, 2, 4, 6} — shoulder roll, shoulder yaw, wrist roll, wrist yaw — flip sign due to kinematic chirality.</p>
+      <p class="caption"><b>NIC auto-detection.</b> The GUI scans <b>/sys/class/net</b> for interfaces on <b>192.168.123.x</b> and populates a connection dropdown — no hardcoded USB-Ethernet adapter names.</p>
+    </div>
+
+    <div class="dual-feed">
+      <div class="dual-feed-media">
+        <div class="feed-pane">
+          <span class="feed-tag">Phone Side · Trajectory Replay</span>
+          <video autoplay loop muted playsinline poster="videos/unitree-g1/arm-gui-2-phone.jpg">
+            <source src="videos/unitree-g1/arm-gui-2-phone.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="feed-pane">
+          <span class="feed-tag pc-tag">PC Side · Multi-Joint Playback</span>
+          <video autoplay loop muted playsinline poster="videos/unitree-g1/arm-gui-2-pc.jpg">
+            <source src="videos/unitree-g1/arm-gui-2-pc.mp4" type="video/mp4">
+          </video>
+        </div>
       </div>
-      <div class="ph">
-        <div class="ph-icon">▶</div>
-        <div class="ph-label">[ video: trajectory playback ]</div>
-        <div class="ph-desc">Time-lapse of the arm moving smoothly through a recorded "up" trajectory</div>
+      <div class="dual-feed-caption">
+        <span class="caption-title">Trajectory Playback &amp; Coordination</span> — Left: Physical G1 arm replaying recorded keyframe joint angles smoothly without jerk. Right: Flet GUI timeline progressing through recorded frames.
       </div>
     </div>
   </section>
@@ -198,6 +223,6 @@ model.<span class="fn">fit</span>(X_scaled, Y_scaled)
   </div>
 </footer>
 
-<script src="js/reveal.js?v=35"></script>
+<script src="js/reveal.js?v=36"></script>
 </body>
 </html>
