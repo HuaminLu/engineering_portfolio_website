@@ -167,11 +167,11 @@ nav ul > li > a:hover, nav ul > li > a.active { border-color: var(--fg-dim); }
 main { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
 
 .section-label {
-  font-size: 18px;
-  letter-spacing: 0.25em;
+  font-size: 12.5px;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--fg-faint);
-  margin-bottom: 16px;
+  margin-bottom: 6px;
 }
 
 .section-label::before { content: "// "; }
@@ -392,16 +392,16 @@ body { overflow-x: hidden; } /* full-bleed row must never cause sideways page sc
 
 /* ---------- projects grid page ---------- */
 
-.grid-page { padding: 56px 0 72px; }
+.grid-page { padding: 16px 0 48px; }
 
-.grid-page h1 { font-size: 34px; font-weight: 800; margin-bottom: 6px; }
+.grid-page h1 { font-size: clamp(22px, 3.2vw, 28px); font-weight: 800; margin-bottom: 4px; line-height: 1.2; }
 
-.grid-page .lede { color: var(--fg-dim); font-size: 21px; margin-bottom: 36px; }
+.grid-page .lede { color: var(--fg-dim); font-size: 13.5px; margin-bottom: 18px; line-height: 1.4; }
 
 .project-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 16px;
 }
 
 /* On large screens, break the whole section (title + grid) out of the 1100px
@@ -424,7 +424,9 @@ body { overflow-x: hidden; } /* full-bleed row must never cause sideways page sc
 
 .grid-tile .tile-img { aspect-ratio: 1 / 1; }
 
-.grid-tile .tile-body { padding: 14px 16px 16px; }
+.grid-tile .tile-body { padding: 10px 12px 12px; }
+.grid-tile .tile-body h2 { font-size: 15px; font-weight: 700; line-height: 1.25; }
+.grid-tile .tile-body .tags { font-size: 11px; margin-top: 3px; color: var(--fg-faint); }
 
 /* ---------- project pages ---------- */
 
@@ -954,10 +956,10 @@ footer {
   .about-photo { width: 100%; max-width: none; margin: 10px auto 0; }
 
   /* --- projects grid page --- */
-  .grid-page { padding: 32px 0 48px; }
-  .grid-page h1 { font-size: 24px; }
-  .grid-page .lede { font-size: 13.5px; margin-bottom: 22px; }
-  .project-grid { gap: 14px; }
+  .grid-page { padding: 12px 0 32px; }
+  .grid-page h1 { font-size: 20px; margin-bottom: 3px; }
+  .grid-page .lede { font-size: 12px; margin-bottom: 12px; }
+  .project-grid { gap: 12px; }
 
   /* --- project pages --- */
   .project-header { padding: 8px 0 4px; }
