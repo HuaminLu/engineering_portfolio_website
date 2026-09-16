@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MC Building / Eco-Monitor Dashboard</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        :root {
+            --primary-eco: #059669; 
+            --primary-dark: #064e3b; 
+            --accent-light: #10b981;
+            --text-dark: #1f2937;
+            --text-muted: #6b7280;
+            --bg-gradient: linear-gradient(135deg, #f0fdf4 0%, #d1fae5 100%);
+            --glass-bg: rgba(255, 255, 255, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --shadow-soft: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
+        body { background: var(--bg-gradient); color: var(--text-dark); min-height: 100vh; display: flex; overflow-x: hidden; }
+
+        .glass-panel { background: var(--glass-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--glass-border); border-radius: 16px; box-shadow: var(--shadow-soft); }
+
+        /* Sidebar */
+        .sidebar { width: 260px; padding: 2rem 1.5rem; display: flex; flex-direction: column; gap: 2rem; border-right: 1px solid var(--glass-border); background: rgba(255, 255, 255, 0.4); z-index: 100; }
+        .logo { font-size: 1.3rem; font-weight: 700; color: var(--primary-dark); display: flex; align-items: center; gap: 0.5rem; white-space: nowrap; }
+        .logo i { color: var(--primary-eco); }
+        .nav-links { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+        .nav-links li a { text-decoration: none; color: var(--text-muted); font-weight: 500; padding: 0.75rem 1rem; border-radius: 10px; display: flex; align-items: center; gap: 1rem; transition: all 0.3s ease; cursor: pointer; }
+        .nav-links li a:hover, .nav-links li a.active { background: var(--primary-eco); color: white; box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2); }
+
+        /* Main Content */
+        .main-content { flex: 1; padding: 2rem 3rem; display: flex; flex-direction: column; height: 100vh; overflow-y: auto; }
+        .view-section { display: none; flex-direction: column; gap: 2rem; animation: fadeIn 0.4s ease-in-out; }
+        .view-section.active { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Header */
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+        header h1 { font-size: 1.8rem; color: var(--primary-dark); }
+        header p { color: var(--text-muted); font-size: 0.9rem; margin-top: 0.25rem; }
+        .status-badge { background: rgba(16, 185, 129, 0.15); color: var(--primary-eco); padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem; border: 1px solid rgba(16, 185, 129, 0.3); }
+
+        .section-title { font-size: 1.1rem; font-weight: 600; color: var(--primary-dark); margin-bottom: 1.2rem; }
+
+        /* Metrics & Dashboards */
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
+        .metric-card { padding: 1.5rem; transition: transform 0.3s ease; position: relative; overflow: hidden; }
+        .metric-card:hover { transform: translateY(-5px); }
+        .metric-icon { position: absolute; top: -10px; right: -10px; font-size: 5rem; opacity: 0.05; color: var(--primary-dark); }
+        .metric-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; color: var(--text-muted); font-size: 0.95rem; font-weight: 500; }
+        .metric-value { font-size: 2.2rem; font-weight: 700; color: var(--primary-dark); margin-bottom: 0.5rem; }
+        .metric-trend { font-size: 0.85rem; font-weight: 500; }
+        .trend-down { color: var(--primary-eco); }
+        
+        .middle-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; }
+        .chart-container { padding: 1.5rem; height: 100%; min-height: 400px; display: flex; flex-direction: column; }
+        .insights-panel { padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+        .insight-item { background: rgba(255, 255, 255, 0.5); border: 1px solid var(--glass-border); border-radius: 12px; padding: 1.2rem; }
+        .insight-text { font-size: 0.9rem; line-height: 1.4; margin-bottom: 0.8rem; }
+        .btn-execute { background: var(--primary-eco); color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; font-weight: 600; font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; }
+        .btn-execute:hover { background: var(--primary-dark); }
+
+        /* Tables */
+        .table-container { padding: 1.5rem; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th, td { padding: 1rem; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        th { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
+        .tag { padding: 0.3rem 0.8rem; border-radius: 12px; font-size: 0.8rem; font-weight: 600; }
+        .tag-active { background: rgba(16, 185, 129, 0.15); color: var(--primary-eco); }
+        .tag-warning { background: rgba(245, 158, 11, 0.15); color: #d97706; }
+        .tag-ai { background: rgba(99, 102, 241, 0.15); color: #4f46e5; border: 1px solid rgba(99, 102, 241, 0.3); }
+
+        /* --- 3D THERMAL ZONES --- */
+        .thermal-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 1.5rem; height: 600px; }
+
+        .viewer-3d-container { position: relative; perspective: 1500px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.2); border-radius: 16px; overflow: hidden; cursor: grab; }
+        .viewer-3d-container:active { cursor: grabbing; }
+        
+        .mc-3d-model { position: relative; width: 300px; height: 220px; transform-style: preserve-3d; transform: rotateX(65deg) rotateZ(-35deg) translateZ(-150px); transition: transform 0.1s ease-out; margin-top: 50px; }
+        
+        .mc-floor { 
+            position: absolute; 
+            background: rgba(255, 255, 255, 0.15); border: 2px solid rgba(16, 185, 129, 0.5); 
+            display: flex; align-items: center; justify-content: center; flex-direction: column;
+            color: var(--primary-dark); font-weight: 700; font-size: 1.1rem; cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: inset 0 0 15px rgba(16, 185, 129, 0.1);
+        }
+        
+        /* The MC Building is a massive rectangular brutalist block. Lower floors are wider podiums. */
+        /* Floor 6 (Top) */
+        .floor-6 { width: 80%; height: 80%; left: 10%; top: 10%; transform: translateZ(350px); border-radius: 4px; }
+        /* Floor 5 */
+        .floor-5 { width: 80%; height: 80%; left: 10%; top: 10%; transform: translateZ(280px); border-radius: 4px; }
+        /* Floor 4 */
+        .floor-4 { width: 80%; height: 80%; left: 10%; top: 10%; transform: translateZ(210px); border-radius: 4px; }
+        /* Floor 3 (Wider podium base) */
+        .floor-3 { width: 100%; height: 100%; left: 0; top: 0; transform: translateZ(140px); border-radius: 6px; }
+        /* Floor 2 */
+        .floor-2 { width: 100%; height: 100%; left: 0; top: 0; transform: translateZ(70px); border-radius: 6px; }
+        /* Floor 1 (Ground) */
+        .floor-1 { width: 100%; height: 100%; left: 0; top: 0; transform: translateZ(0px); border-radius: 6px; background: rgba(16, 185, 129, 0.05); }
+
+
+        .mc-floor:hover, .mc-floor.selected { 
+            background: rgba(16, 185, 129, 0.6); border-color: #059669;
+            box-shadow: 0 0 40px rgba(16, 185, 129, 0.5), inset 0 0 20px rgba(255,255,255,0.6);
+            color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .floor-6:hover, .floor-6.selected { transform: scale(1.05) translateZ(370px); }
+        .floor-5:hover, .floor-5.selected { transform: scale(1.05) translateZ(300px); }
+        .floor-4:hover, .floor-4.selected { transform: scale(1.05) translateZ(230px); }
+        .floor-3:hover, .floor-3.selected { transform: scale(1.05) translateZ(160px); }
+        .floor-2:hover, .floor-2.selected { transform: scale(1.05) translateZ(90px); }
+        .floor-1:hover, .floor-1.selected { transform: scale(1.05) translateZ(20px); }
+        
+        .floor-stats { font-size: 0.85rem; font-weight: 500; margin-top: 0.3rem; opacity: 0.9; }
+        .mc-floor:hover .floor-stats, .mc-floor.selected .floor-stats { color: rgba(255,255,255,0.9); }
+
+        .viewer-controls { position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; background: rgba(255,255,255,0.8); padding: 8px; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .viewer-controls button { border: none; background: var(--primary-eco); color: white; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; }
+        .viewer-controls button:hover { background: var(--primary-dark); }
+
+        /* 2D Vector Plan */
+        .vector-plan-container { background: #ffffff; border-radius: 16px; padding: 1.5rem; position: relative; box-shadow: inset 0 0 10px rgba(0,0,0,0.05); overflow: hidden; display: flex; flex-direction: column; }
+        .floor-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+        
+        .svg-floor-plan { width: 100%; height: 100%; background: #fdfdfd; border: 1px solid #eee; border-radius: 8px; }
+        
+        /* SVG Classes */
+        .wall { fill: none; stroke: #374151; stroke-width: 4; stroke-linecap: square; }
+        .wall-thin { fill: none; stroke: #6b7280; stroke-width: 2; }
+        .room-bg { fill: #f9fafb; transition: fill 0.3s; cursor: pointer; }
+        .room-bg:hover { fill: #d1fae5; }
+        .corridor { fill: #f3f4f6; }
+        .room-label { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; fill: #4b5563; text-anchor: middle; pointer-events: none;}
+        .room-sublabel { font-family: 'Outfit', sans-serif; font-size: 10px; fill: #6b7280; text-anchor: middle; pointer-events: none;}
+        .door { fill: none; stroke: #9ca3af; stroke-width: 1.5; }
+        
+        /* Sensors */
+        .svg-sensor { cursor: pointer; transition: transform 0.2s; transform-origin: center; }
+        
+        .sensor-bg-optimal { fill: rgba(16, 185, 129, 0.2); stroke: var(--primary-eco); stroke-width: 2; }
+        .sensor-bg-warning { fill: rgba(245, 158, 11, 0.2); stroke: #f59e0b; stroke-width: 2; }
+        .sensor-bg-danger { fill: rgba(239, 68, 68, 0.2); stroke: #ef4444; stroke-width: 2; }
+        .sensor-dot { fill: var(--primary-dark); }
+        
+        #sensor-tooltip { position: absolute; background: var(--text-dark); color: white; padding: 10px 15px; border-radius: 8px; font-size: 0.85rem; pointer-events: none; opacity: 0; transition: opacity 0.2s; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: flex; flex-direction: column; gap: 5px; }
+        .tooltip-row { display: flex; justify-content: space-between; gap: 15px; }
+        .tooltip-val { font-weight: 700; color: var(--accent-light); }
+
+        /* --- MODAL STYLES --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: none; align-items: center; justify-content: center;
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .modal-overlay.open { display: flex; opacity: 1; }
+        
+        .modal-content {
+            width: 800px; max-width: 90%; background: white;
+            padding: 2.5rem; position: relative;
+            transform: translateY(20px); transition: transform 0.3s;
+        }
+        .modal-overlay.open .modal-content { transform: translateY(0); }
+        
+        .close-modal {
+            position: absolute; top: 1.5rem; right: 1.5rem;
+            font-size: 1.8rem; color: var(--text-muted);
+            cursor: pointer; transition: color 0.2s;
+        }
+        .close-modal:hover { color: var(--primary-dark); }
+
+        .modal-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1.5rem;
+        }
+        
+        .modal-room-plan {
+            background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px;
+            height: 300px; display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
+        }
+        
+        .modal-stats { display: flex; flex-direction: column; gap: 1rem; }
+        .stat-item {
+            background: #f1f5f9; padding: 1rem; border-radius: 8px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .stat-label { font-size: 0.9rem; color: var(--text-muted); font-weight: 600; }
+        .stat-value { font-size: 1.1rem; font-weight: 700; color: var(--primary-dark); }
+        .stat-value.danger { color: #ef4444; }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 4px rgba(255, 255, 255, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar glass-panel">
+        <div class="logo"><i class="fa-solid fa-building-columns"></i> MC Eco-Monitor</div>
+        <ul class="nav-links">
+            <li><a class="active" onclick="switchView('dashboard', this)"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
+            <li><a onclick="switchView('thermal', this)"><i class="fa-solid fa-cubes"></i> 3D Thermal Zones</a></li>
+            <li><a onclick="switchView('hvac', this)"><i class="fa-solid fa-wind"></i> HVAC Control</a></li>
+            <li><a onclick="switchView('analytics', this)"><i class="fa-solid fa-bolt"></i> Energy Analytics</a></li>
+            <li><a onclick="switchView('scaling', this)"><i class="fa-solid fa-network-wired"></i> Sensor Scalability</a></li>
+            <li><a onclick="switchView('renewables', this)"><i class="fa-solid fa-leaf"></i> Renewable Retrofits</a></li>
+            <li><a onclick="switchView('hvac-layout', this)"><i class="fa-solid fa-fan"></i> HVAC Infrastructure</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <header>
+            <div><h1 id="page-title">MC Building Dashboard</h1><p id="current-datetime"></p></div>
+            <div class="status-badge"><i class="fa-solid fa-circle"></i> System Status: Optimal</div>
+        </header>
+
+        <!-- DASHBOARD VIEW -->
+        <div id="view-dashboard" class="view-section active">
+            <section class="metrics-grid">
+                <div class="metric-card glass-panel"><i class="fa-solid fa-temperature-low metric-icon"></i><div class="metric-header"><span>Avg Temperature</span><i class="fa-solid fa-temperature-half"></i></div><div class="metric-value">22.1°C</div><div class="metric-trend trend-down"><i class="fa-solid fa-arrow-down"></i> 0.5°C vs yesterday</div></div>
+                <div class="metric-card glass-panel"><i class="fa-solid fa-cloud metric-icon"></i><div class="metric-header"><span>CO2 Levels</span><i class="fa-solid fa-wind" style="color: var(--accent-light);"></i></div><div class="metric-value" style="color: var(--accent-light);">510 ppm</div><div class="metric-trend trend-down"><i class="fa-solid fa-arrow-down"></i> 8% vs last week</div></div>
+                <div class="metric-card glass-panel"><i class="fa-solid fa-server metric-icon"></i><div class="metric-header"><span>Server Heat Recovered</span><i class="fa-solid fa-recycle"></i></div><div class="metric-value">450 kW</div><div class="metric-trend trend-down" style="color: var(--primary-eco);"><i class="fa-solid fa-arrow-up"></i> +15% AI optimization</div></div>
+                <div class="metric-card glass-panel"><i class="fa-solid fa-bolt metric-icon"></i><div class="metric-header"><span>Energy Saved Today</span><i class="fa-solid fa-bolt" style="color: #f59e0b;"></i></div><div class="metric-value">320 kWh</div><div class="metric-trend trend-down"><i class="fa-solid fa-arrow-up" style="color: var(--primary-eco);"></i> Tracking to target</div></div>
+            </section>
+            <section class="middle-grid">
+                <div class="chart-container glass-panel"><h2 class="section-title">Temperature vs. CO2 Over 24h</h2><div style="position:relative; flex:1; min-height:0;"><canvas id="ecoChart"></canvas></div></div>
+                <div class="insights-panel glass-panel">
+                    <h2 class="section-title"><i class="fa-solid fa-brain" style="color: #6366f1;"></i> AI Optimization Insights</h2>
+                    <div class="insight-item"><p class="insight-text"><strong>MC 2066 (Lecture Hall):</strong> CO2 rising above 900ppm. Class in session.</p><button class="btn-execute"><i class="fa-solid fa-fan"></i> Increase Vent +20%</button></div>
+                    <div class="insight-item"><p class="insight-text"><strong>Server Room (3rd Floor):</strong> Excess heat available from compute load.</p><button class="btn-execute"><i class="fa-solid fa-recycle"></i> Divert to 1st Floor Heat</button></div>
+                    <div class="insight-item"><p class="insight-text"><strong>Faculty Offices (5th Floor):</strong> Empty for 2 hours.</p><button class="btn-execute"><i class="fa-solid fa-power-off"></i> Enter Deep Setback</button></div>
+                </div>
+            </section>
+            
+            <section class="bottom-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                
+                <!-- Pinned Room: Hottest Room -->
+                <div class="glass-panel" style="padding: 1.5rem; display: flex; flex-direction: column;">
+                    <h2 class="section-title"><i class="fa-solid fa-fire" style="color: #ef4444;"></i> Critical Zone: Hottest Room</h2>
+                    <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+                        <h3 style="font-size: 1.5rem; color: var(--primary-dark); margin-bottom: 0.5rem;">Server Room (3rd Floor)</h3>
+                        <div style="font-size: 3.5rem; font-weight: 700; color: #ef4444; margin-bottom: 0.5rem;">29.0°C</div>
+                        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">Heat recovery system active. Diverting excess thermal energy to Floor 1 radiators.</p>
+                        <button class="btn-execute" style="width: 100%; justify-content: center; background: #ef4444;">Increase Liquid Cooling Loop</button>
+                    </div>
+                </div>
+
+                <!-- Pinned Room: Highest Occupancy -->
+                <div class="glass-panel" style="padding: 1.5rem; display: flex; flex-direction: column;">
+                    <h2 class="section-title"><i class="fa-solid fa-users" style="color: #3b82f6;"></i> Critical Zone: Highest Occupancy</h2>
+                    <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+                        <h3 style="font-size: 1.5rem; color: var(--primary-dark); margin-bottom: 0.5rem;">Lecture Hall 2066</h3>
+                        <div style="font-size: 3.5rem; font-weight: 700; color: var(--primary-dark); margin-bottom: 0.5rem;">300<span style="font-size:1.5rem; color:var(--text-muted);">/300</span></div>
+                        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">Room at maximum capacity. CO2 levels rising rapidly (1100ppm). AI preparing ventilation boost.</p>
+                        <button class="btn-execute" style="width: 100%; justify-content: center;"><i class="fa-solid fa-fan"></i> Force Max Ventilation</button>
+                    </div>
+                </div>
+
+                <!-- Main Dashboard Pie Chart -->
+                <div class="chart-container glass-panel" style="display: flex; flex-direction: column; height: auto; min-height: 350px;">
+                    <h2 class="section-title">Current HVAC Load Distribution</h2>
+                    <div style="position:relative; flex:1; min-height:0;">
+                        <canvas id="mainPieChart"></canvas>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+
+        <!-- 3D THERMAL ZONES VIEW -->
+        <div id="view-thermal" class="view-section">
+            <div class="thermal-grid">
+                
+                <div class="glass-panel viewer-3d-container" id="model-container">
+                    <h2 class="section-title" style="position: absolute; top: 1.5rem; left: 1.5rem; margin:0;">MC Building 3D View</h2>
+                    <p style="position: absolute; top: 3.5rem; left: 1.5rem; font-size:0.8rem; color:var(--text-muted);">Drag to rotate. Click a floor to inspect.</p>
+                    
+                    <div class="mc-3d-model" id="mc-model">
+                        <!-- HVAC/Wireframe lines removed per user request -->
+                        <div class="mc-floor floor-6" onclick="selectFloor(6)">Floor 6<span class="floor-stats">Dean & Admin</span></div>
+                        <div class="mc-floor floor-5" onclick="selectFloor(5)">Floor 5<span class="floor-stats">Math Offices</span></div>
+                        <div class="mc-floor floor-4" onclick="selectFloor(4)">Floor 4<span class="floor-stats">CS Offices</span></div>
+                        <div class="mc-floor floor-3 selected" onclick="selectFloor(3)">Floor 3<span class="floor-stats">Server Rooms</span></div>
+                        <div class="mc-floor floor-2" onclick="selectFloor(2)">Floor 2<span class="floor-stats">Classrooms</span></div>
+                        <div class="mc-floor floor-1" onclick="selectFloor(1)">Floor 1<span class="floor-stats">Main Lobby</span></div>
+                    </div>
+
+                    <div class="viewer-controls"><button onclick="reset3DView()" title="Reset View"><i class="fa-solid fa-cube"></i></button></div>
+                </div>
+
+                <div class="vector-plan-container glass-panel">
+                    <div class="floor-header">
+                        <h2 class="section-title" style="margin:0;">Detailed Floor Plan</h2>
+                        <div class="status-badge" id="floor-indicator">Floor 3 Selected</div>
+                    </div>
+                    
+                    <!-- Dynamic SVG Container -->
+                    <div id="svg-container" style="flex:1; width:100%; height:100%;">
+                        <!-- Injected by JS -->
+                    </div>
+
+                    <div id="sensor-tooltip">
+                        <div style="font-weight:600; margin-bottom:4px; border-bottom:1px solid rgba(255,255,255,0.2); padding-bottom:4px;" id="tt-room">Room</div>
+                        <div class="tooltip-row"><span>Temp:</span> <span class="tooltip-val" id="tt-temp">22°C</span></div>
+                        <div class="tooltip-row"><span>CO2:</span> <span class="tooltip-val" id="tt-co2">400 ppm</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-panel table-container">
+                <h2 class="section-title" id="table-title">Floor 3 Active Sensor Nodes</h2>
+                <table id="sensor-table">
+                    <thead><tr><th>Node ID</th><th>Room Type</th><th>Current Temp</th><th>CO2 Level</th><th>Status</th></tr></thead>
+                    <tbody id="sensor-table-body">
+                        <!-- Injected by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- HVAC CONTROL VIEW -->
+        <div id="view-hvac" class="view-section">
+            <div class="glass-panel table-container">
+                <h2 class="section-title">MC Building HVAC Subsystems & AI Overrides</h2>
+                <table>
+                    <thead><tr><th>Equipment</th><th>Zone Served</th><th>Current Load</th><th>AI Recommendation</th><th>Action</th></tr></thead>
+                    <tbody>
+                        <tr><td>Central Steam Exchanger</td><td>Whole Building</td><td>65%</td><td>Stable</td><td><button class="btn-execute" style="background:#6b7280">Manual Override</button></td></tr>
+                        <tr><td>AHU - Lecture Halls</td><td>Floor 1-3</td><td>40%</td><td>Increase to 80% (High CO2)</td><td><button class="btn-execute">Apply AI Tuning</button></td></tr>
+                        <tr><td>Liquid Cooling Loop</td><td>Server Rooms</td><td>95%</td><td>Divert heat to Corridor Radiators</td><td><button class="btn-execute">Apply AI Tuning</button></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ENERGY ANALYTICS VIEW -->
+        <div id="view-analytics" class="view-section">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                <div class="chart-container glass-panel"><h2 class="section-title">Energy Consumption Breakdown</h2><div style="position:relative; flex:1; min-height:0;"><canvas id="pieChart"></canvas></div></div>
+                <div class="chart-container glass-panel"><h2 class="section-title">Server Heat Recycled (kWh)</h2><div style="position:relative; flex:1; min-height:0;"><canvas id="barChart"></canvas></div></div>
+            </div>
+            <section class="table-container glass-panel" style="margin-top: 1.5rem;">
+                <h2 class="section-title">Extended Historical Logs & AI Actions</h2>
+                <table>
+                    <thead><tr><th>Timestamp</th><th>Zone Location</th><th>Issue Detected</th><th>AI Action Taken</th><th>Est. Savings</th></tr></thead>
+                    <tbody>
+                        <tr><td>Today, 10:45 AM</td><td>3rd Floor Servers</td><td>Excess Heat Detected</td><td><span class="tag tag-ai">Diverted to 1st Floor Radiators</span></td><td>+45 kWh</td></tr>
+                        <tr><td>Today, 09:30 AM</td><td>Faculty Offices</td><td>Empty Zone (Calendar Sync)</td><td><span class="tag tag-ai">HVAC Setback applied</span></td><td>+18 kWh</td></tr>
+                        <tr><td>Yest, 14:15 PM</td><td>Lecture Hall 2066</td><td>CO2 Spike (1200 ppm)</td><td><span class="tag tag-active">Triggered VAV Box 100%</span></td><td>N/A (Health)</td></tr>
+                    </tbody>
+                </table>
+            </section>
+        </div>
+
+        <!-- RENEWABLES VIEW -->
+        <div id="view-renewables" class="view-section">
+            <header style="margin-bottom: 0;">
+                <h2 class="section-title" style="font-size: 1.5rem;"><i class="fa-solid fa-leaf" style="color: var(--primary-eco);"></i> Brookfield Challenge: Renewable Retrofits</h2>
+                <p style="color: var(--text-muted);">Cost-effective sustainability through waste-energy harvesting.</p>
+            </header>
+
+            <section class="metrics-grid">
+                <div class="metric-card glass-panel"><i class="fa-solid fa-shoe-prints metric-icon"></i><div class="metric-header"><span>Kinetic Energy Harvested</span></div><div class="metric-value">4.2 Wh</div><div class="metric-trend trend-down"><i class="fa-solid fa-battery-full"></i> Powers 142 Nodes (100%)</div></div>
+                <div class="metric-card glass-panel"><i class="fa-solid fa-server metric-icon"></i><div class="metric-header"><span>Server Heat Recovered</span></div><div class="metric-value">450 kW</div><div class="metric-trend trend-down"><i class="fa-solid fa-arrow-up"></i> +15% vs yesterday</div></div>
+                <div class="metric-card glass-panel"><i class="fa-solid fa-money-bill-trend-up metric-icon"></i><div class="metric-header"><span>Est. Payback Period</span></div><div class="metric-value">3.2 Yrs</div><div class="metric-trend trend-down"><i class="fa-solid fa-check"></i> High ROI (Brookfield Spec)</div></div>
+            </section>
+
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem;">
+                <div class="chart-container glass-panel" style="display: flex; flex-direction: column; height: 400px;">
+                    <h2 class="section-title">Kinetic Tile Generation vs. Class Schedule</h2>
+                    <div style="position:relative; flex:1; min-height:0;">
+                        <canvas id="kineticChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="glass-panel" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; overflow-y: auto;">
+                    <h2 class="section-title">Battery-less IoT Network</h2>
+                    <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); padding: 1rem; border-radius: 8px;">
+                        <h4 style="color: var(--primary-dark); margin-bottom: 0.5rem;"><i class="fa-solid fa-microchip"></i> Battery-less IoT</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-dark); line-height: 1.5;">Replacing batteries in 500+ wireless sensors is a massive maintenance cost. By embedding ultra-cheap piezoelectric materials in the high-traffic Floor 1 lobby, we harvest just enough ambient kinetic energy to trickle-charge the mesh network.</p>
+                    </div>
+                    <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); padding: 1rem; border-radius: 8px;">
+                        <h4 style="color: #b91c1c; margin-bottom: 0.5rem;"><i class="fa-solid fa-fire"></i> Waste Heat as a Renewable</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-dark); line-height: 1.5;">MC's 3rd Floor server farm generates massive heat. Instead of venting it, liquid-to-liquid exchangers capture this thermal load and pump it into the building's hydronic heating loop. A massive CapEx saver.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- HVAC LAYOUT VIEW -->
+        <div id="view-hvac-layout" class="view-section">
+            <header style="margin-bottom: 1.5rem;">
+                <h2 class="section-title" style="font-size: 1.5rem;"><i class="fa-solid fa-fan" style="color: #3b82f6;"></i> Digital Twin: HVAC Infrastructure</h2>
+                <p style="color: var(--text-muted);">Floor 3: Live Ductwork & AI Damper Control.</p>
+            </header>
+
+            <div class="glass-panel" style="padding: 2rem; display: flex; justify-content: center; align-items: center; background: #f8fafc;">
+                <!-- SVGs -->
+                <svg class="svg-floor-plan" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid meet" style="max-height: 600px; background: white; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05);">
+                    <!-- FAINT FLOOR PLAN (Floor 3 Base) -->
+                    <g opacity="0.2">
+                        <rect x="50" y="50" width="700" height="500" fill="none" stroke="#64748b" stroke-width="2" rx="10"/>
+                        <rect x="150" y="250" width="500" height="100" fill="#f1f5f9" stroke="#94a3b8"/>
+                        <rect x="50" y="50" width="250" height="200" fill="#f8fafc" stroke="#94a3b8"/><text x="175" y="150" font-family="Inter" font-size="14" fill="#64748b" font-weight="600" text-anchor="middle">Lecture Hall 3036</text>
+                        <rect x="300" y="50" width="250" height="200" fill="#f8fafc" stroke="#94a3b8"/><text x="425" y="150" font-family="Inter" font-size="14" fill="#64748b" font-weight="600" text-anchor="middle">Mac Lab</text>
+                        <rect x="550" y="50" width="200" height="200" fill="#fef2f2" stroke="#94a3b8"/><text x="650" y="140" font-family="Inter" font-size="14" fill="#64748b" font-weight="600" text-anchor="middle">Server Room</text>
+                        <rect x="50" y="350" width="300" height="200" fill="#f8fafc" stroke="#94a3b8"/><text x="200" y="450" font-family="Inter" font-size="14" fill="#64748b" font-weight="600" text-anchor="middle">Linux Lab</text>
+                        <rect x="350" y="350" width="400" height="200" fill="#f8fafc" stroke="#94a3b8"/><text x="550" y="450" font-family="Inter" font-size="14" fill="#64748b" font-weight="600" text-anchor="middle">Grad Student Lounge</text>
+                    </g>
+                    
+                    <!-- HVAC DUCTWORK -->
+                    <!-- Main Supply Trunk (Blue) -->
+                    <path d="M 50 300 L 750 300" fill="none" stroke="#3b82f6" stroke-width="12" stroke-linecap="round" stroke-opacity="0.8"/>
+                    <!-- Supply Branches -->
+                    <path d="M 175 300 L 175 150 M 425 300 L 425 150 M 650 300 L 650 150 M 200 300 L 200 450 M 550 300 L 550 450" fill="none" stroke="#3b82f6" stroke-width="8" stroke-opacity="0.8"/>
+                    
+                    <!-- Main Return Trunk (Red/Orange) -->
+                    <path d="M 50 320 L 750 320" fill="none" stroke="#f97316" stroke-width="12" stroke-linecap="round" stroke-opacity="0.8"/>
+                    <!-- Return Branches (Exhausting Server Room heavily) -->
+                    <path d="M 670 320 L 670 150 M 220 320 L 220 450" fill="none" stroke="#f97316" stroke-width="8" stroke-opacity="0.8"/>
+
+                    <!-- Flow Animations (Supply) -->
+                    <circle r="4" fill="#fff" opacity="0.8"><animateMotion dur="3s" repeatCount="indefinite" path="M 50 300 L 750 300"/></circle>
+                    <circle r="3" fill="#fff" opacity="0.8"><animateMotion dur="2s" repeatCount="indefinite" path="M 175 300 L 175 150"/></circle>
+                    <circle r="3" fill="#fff" opacity="0.8"><animateMotion dur="2s" repeatCount="indefinite" path="M 425 300 L 425 150"/></circle>
+                    <circle r="3" fill="#fff" opacity="0.8"><animateMotion dur="2s" repeatCount="indefinite" path="M 200 300 L 200 450"/></circle>
+                    
+                    <!-- Flow Animations (Return - pulling from Server room) -->
+                    <circle r="3" fill="#fff" opacity="0.8"><animateMotion dur="1.5s" repeatCount="indefinite" path="M 670 150 L 670 320"/></circle>
+                    <circle r="4" fill="#fff" opacity="0.8"><animateMotion dur="2s" repeatCount="indefinite" path="M 750 320 L 50 320"/></circle>
+
+                    <!-- VAV Boxes (Smart Dampers) -->
+                    <g class="svg-sensor" transform="translate(175, 270)" onclick="showTooltip(event, 'VAV-3036', 'Damper: 80%', 'Flow: 450 CFM')"><rect x="-15" y="-10" width="30" height="20" fill="#1e293b" rx="4"/><circle cx="0" cy="0" r="4" fill="#10b981"/></g>
+                    <g class="svg-sensor" transform="translate(425, 270)" onclick="showTooltip(event, 'VAV-MacLab', 'Damper: 20%', 'Flow: 120 CFM')"><rect x="-15" y="-10" width="30" height="20" fill="#1e293b" rx="4"/><circle cx="0" cy="0" r="4" fill="#10b981"/></g>
+                    <g class="svg-sensor" transform="translate(650, 270)" onclick="showTooltip(event, 'VAV-Server', 'Damper: 100%', 'Flow: MAX')"><rect x="-15" y="-10" width="30" height="20" fill="#1e293b" rx="4"/><circle cx="0" cy="0" r="4" fill="#ef4444"><animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/></circle></g>
+                    <g class="svg-sensor" transform="translate(200, 335)" onclick="showTooltip(event, 'VAV-Linux', 'Damper: 40%', 'Flow: 200 CFM')"><rect x="-15" y="-10" width="30" height="20" fill="#1e293b" rx="4"/><circle cx="0" cy="0" r="4" fill="#10b981"/></g>
+                    <g class="svg-sensor" transform="translate(550, 335)" onclick="showTooltip(event, 'VAV-Grad', 'Damper: 40%', 'Flow: 200 CFM')"><rect x="-15" y="-10" width="30" height="20" fill="#1e293b" rx="4"/><circle cx="0" cy="0" r="4" fill="#10b981"/></g>
+                    
+
+
+                    <!-- Legend -->
+                    <rect x="60" y="60" width="160" height="90" fill="rgba(255,255,255,0.9)" stroke="#cbd5e1" rx="8"/>
+                    <text x="75" y="80" font-family="Inter" font-size="12" font-weight="bold" fill="#334155">HVAC Legend</text>
+                    <line x1="75" y1="95" x2="95" y2="95" stroke="#3b82f6" stroke-width="4"/> <text x="105" y="99" font-family="Inter" font-size="11" fill="#475569">Cold Supply Air</text>
+                    <line x1="75" y1="115" x2="95" y2="115" stroke="#f97316" stroke-width="4"/> <text x="105" y="119" font-family="Inter" font-size="11" fill="#475569">Hot Return Air</text>
+                    <rect x="75" y="130" width="12" height="8" fill="#1e293b" rx="2"/> <text x="105" y="138" font-family="Inter" font-size="11" fill="#475569">AI VAV Damper</text>
+                </svg>
+            </div>
+        </div>
+
+        <!-- SCALABILITY VIEW -->
+        <div id="view-scaling" class="view-section">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                <div class="glass-panel" style="padding: 1.5rem;">
+                    <h2 class="section-title">MC Building Network Status</h2>
+                    <div style="margin-bottom: 1rem;"><p style="font-size: 3rem; font-weight:700; color:var(--primary-dark)" id="node-count">142</p><p style="color:var(--text-muted)">Active Nodes in MC</p></div>
+                    <ul style="list-style:none; line-height: 1.8;">
+                        <li><i class="fa-solid fa-check" style="color:var(--primary-eco)"></i> Mesh Network Health: 99.9%</li>
+                        <li><i class="fa-solid fa-check" style="color:var(--primary-eco)"></i> Average Latency: 8ms</li>
+                        <li><i class="fa-solid fa-check" style="color:var(--primary-eco)"></i> Database Sync: Real-time</li>
+                    </ul>
+                </div>
+                <div class="glass-panel" id="scan-panel" style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:3rem; border:2px dashed var(--primary-eco); background:rgba(16,185,129,0.05); min-height: 250px;">
+                    <i class="fa-solid fa-plus-circle" style="font-size:3rem; color:var(--primary-eco); margin-bottom:1rem;" id="scan-icon"></i>
+                    <h2 style="color:var(--primary-dark)" id="scan-title">Deploy New Sensor Node</h2>
+                    <p style="text-align:center; color:var(--text-muted); margin-top:0.5rem;" id="scan-desc">Power on your new Arduino node. The system will automatically detect it.</p>
+                    <button class="btn-execute" style="margin-top: 1.5rem;" onclick="openScanModal()"><i class="fa-solid fa-wifi"></i> Scan for New Devices</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- SCAN DEVICE MODAL -->
+    <div id="scan-modal" class="modal-overlay" onclick="closeScanModal(event)">
+        <div class="modal-content glass-panel" style="width: 500px; text-align: center;" onclick="event.stopPropagation()">
+            <span class="close-modal" onclick="closeScanModal(event)">&times;</span>
+            <div id="scan-state-searching">
+                <i class="fa-solid fa-satellite-dish fa-beat" style="font-size: 3rem; color: #3b82f6; margin-bottom: 1rem;"></i>
+                <h2 class="section-title">Scanning for nearby devices...</h2>
+                <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Ensure your IceIQ nodes are powered on and within range.</p>
+                <div style="display:flex; justify-content:center; gap:10px; margin-top: 2rem;">
+                    <div style="width: 12px; height: 12px; background: #cbd5e1; border-radius: 50%; animation: pulse 1s infinite alternate;"></div>
+                    <div style="width: 12px; height: 12px; background: #cbd5e1; border-radius: 50%; animation: pulse 1s infinite alternate 0.3s;"></div>
+                    <div style="width: 12px; height: 12px; background: #cbd5e1; border-radius: 50%; animation: pulse 1s infinite alternate 0.6s;"></div>
+                </div>
+            </div>
+            
+            <div id="scan-state-results" style="display: none; text-align: left;">
+                <h2 class="section-title"><i class="fa-brands fa-bluetooth" style="color: #3b82f6;"></i> Devices Found (3)</h2>
+                <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 1rem;">
+                    
+                    <div style="border: 1px solid var(--primary-eco); background: rgba(16,185,129,0.05); padding: 1rem; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <strong style="color: var(--primary-dark); display: block;">IceIQ Node v2</strong>
+                            <span style="font-size: 0.8rem; color: var(--text-muted);">MAC: A3:B4:C5:D6:E7:F8 | RSSI: -42dBm</span>
+                        </div>
+                        <button class="btn-execute" id="btn-pair-1" onclick="provisionDevice('btn-pair-1')">Pair</button>
+                    </div>
+                    
+                    <div style="border: 1px solid #e2e8f0; padding: 1rem; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <strong style="color: var(--text-dark); display: block;">IceIQ Node v1 (Legacy)</strong>
+                            <span style="font-size: 0.8rem; color: var(--text-muted);">MAC: B4:C5:D6:E7:F8:A3 | RSSI: -68dBm</span>
+                        </div>
+                        <button class="btn-execute" style="background: #94a3b8;" onclick="provisionDevice(this.id)">Pair</button>
+                    </div>
+
+                    <div style="border: 1px solid #e2e8f0; padding: 1rem; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <strong style="color: var(--text-dark); display: block;">Unknown Device</strong>
+                            <span style="font-size: 0.8rem; color: var(--text-muted);">MAC: C5:D6:E7:F8:A3:B4 | RSSI: -85dBm</span>
+                        </div>
+                        <button class="btn-execute" style="background: #94a3b8;" disabled>Unsupported</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="scan-state-success" style="display: none; text-align: center;">
+                <i class="fa-solid fa-check-circle" style="font-size: 4rem; color: var(--primary-eco); margin-bottom: 1rem;"></i>
+                <h2 class="section-title" style="color: var(--primary-dark);">Pairing Successful</h2>
+                <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Node A3:B4:C5:D6:E7:F8 has been securely provisioned to the mesh network.</p>
+                <button class="btn-execute" style="margin: 0 auto;" onclick="closeScanModal(event)">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ROOM DETAILS MODAL -->
+    <div id="room-modal" class="modal-overlay" onclick="closeModal(event)">
+        <div class="modal-content glass-panel" onclick="event.stopPropagation()">
+            <span class="close-modal" onclick="closeModal(event)">&times;</span>
+            <h2 id="modal-room-title" class="section-title" style="font-size: 1.5rem;">Room Details</h2>
+            <div class="modal-grid">
+                <div class="modal-room-plan" id="modal-svg-container">
+                    <!-- SVG injected here -->
+                </div>
+                <div class="modal-stats" id="modal-stats-container">
+                    <!-- Stats injected here -->
+                </div>
+            </div>
+            <button class="btn-execute" style="margin-top: 1.5rem; width: 100%; justify-content: center; font-size:1rem; padding: 0.8rem;">
+                <i class="fa-solid fa-sliders"></i> Adjust Zone HVAC Settings
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // --- Floor Plan Database (6 distinct layouts mimicking MC) ---
+        // Added onclick="openRoomModal(...)" to room rects
+        const svgHeader = '<svg class="svg-floor-plan" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid meet"><rect x="50" y="50" width="700" height="500" class="wall" rx="10"/>';
+        const floorData = {
+            1: {
+                name: "Floor 1 - Main Lecture Halls & C&D",
+                svg: svgHeader + `
+                    <rect x="50" y="50" width="350" height="250" class="room-bg wall-thin" style="fill:rgba(245,158,11,0.2)" onclick="openRoomModal('Lecture Hall 1056', 'lecture', '23.0°C', '950 ppm', 'Ceiling - Center', '145 / 300')"/><text x="225" y="170" class="room-label">Lecture Hall 1056</text><text x="225" y="190" class="room-sublabel">Capacity: 300</text>
+                    <rect x="400" y="50" width="350" height="150" class="room-bg wall-thin" onclick="openRoomModal('Main Lobby', 'kinetic_corridor', '20.0°C', '410 ppm', 'Sub-Floor (Piezoelectric)', 'High Traffic')"/>
+                    <defs>
+                        <pattern id="kinetic-pattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                            <rect width="20" height="20" fill="none" stroke="#10b981" stroke-width="0.5" stroke-opacity="0.3"/>
+                            <circle cx="10" cy="10" r="2" fill="#10b981" fill-opacity="0.3"/>
+                        </pattern>
+                    </defs>
+                    <rect x="400" y="50" width="350" height="150" fill="url(#kinetic-pattern)" style="pointer-events: none;" opacity="0.7"/>
+                    <text x="575" y="125" class="room-label" style="pointer-events:none;">Main Lobby (Kinetic Floor)</text>
+
+                    <rect x="400" y="200" width="350" height="100" class="room-bg wall-thin" style="fill:rgba(245,158,11,0.2)" onclick="openRoomModal('C&D Cafe', 'cafe', '24.0°C', '600 ppm', 'Ceiling - Above Counter', 'High')"/><text x="575" y="255" class="room-label">C&D Cafe</text>
+                    <rect x="50" y="300" width="700" height="100" class="corridor"/>
+                    <rect x="50" y="400" width="350" height="150" class="room-bg wall-thin" style="fill:rgba(16,185,129,0.1)" onclick="openRoomModal('Lecture Hall 1085', 'lecture', '21.0°C', '400 ppm', 'Ceiling - Center', '20 / 150')"/><text x="225" y="480" class="room-label">Lecture Hall 1085</text>
+                    <rect x="400" y="400" width="350" height="150" class="room-bg wall-thin" style="fill:rgba(16,185,129,0.1)" onclick="openRoomModal('Tutorial Center', 'office', '21.5°C', '450 ppm', 'Wall - Entry', 'Low')"/><text x="575" y="480" class="room-label">Tutorial Center</text>
+                    
+                    <g class="svg-sensor" transform="translate(225, 220)" onclick="showTooltip(event, 'MC 1056', '23°C', '950 ppm')"><circle cx="0" cy="0" r="12" class="sensor-bg-warning"/><circle cx="0" cy="0" r="4" class="sensor-dot"/></g>
+                    <g class="svg-sensor" transform="translate(575, 80)" onclick="showTooltip(event, 'Main Lobby', '20°C', '410 ppm')"><circle cx="0" cy="0" r="12" class="sensor-bg-optimal"/><circle cx="0" cy="0" r="4" class="sensor-dot"/></g>
+                    <g class="svg-sensor" transform="translate(575, 275)" onclick="showTooltip(event, 'C&D Cafe', '24°C', '600 ppm')"><circle cx="0" cy="0" r="12" class="sensor-bg-warning"/><circle cx="0" cy="0" r="4" class="sensor-dot"/></g>
+                    <g class="svg-sensor" transform="translate(225, 500)" onclick="showTooltip(event, 'MC 1085', '21°C', '400 ppm')"><circle cx="0" cy="0" r="12" class="sensor-bg-optimal"/><circle cx="0" cy="0" r="4" class="sensor-dot"/></g>
+                    <g class="svg-sensor" transform="translate(575, 500)" onclick="showTooltip(event, 'Tutorial Center', '21.5°C', '450 ppm')"><circle cx="0" cy="0" r="12" class="sensor-bg-optimal"/><circle cx="0" cy="0" r="4" class="sensor-dot"/></g>
+                </svg>`,
+                sensors: [
+                    { id: "#MC1-01", room: "MC 1056", temp: "23.0°C", co2: "950 ppm", tag: "tag-warning", action: "Ventilation High" },
+                    { id: "#MC1-02", room: "Main Lobby", temp: "20.0°C", co2: "410 ppm", tag: "tag-active", action: "Optimal" },
+                    { id: "#MC1-03", room: "C&D Cafe", temp: "24.0°C", co2: "600 ppm", tag: "tag-warning", action: "Cooling Act" },
+                    { id: "#MC1-04", room: "MC 1085", temp: "21.0°C", co2: "400 ppm", tag: "tag-active", action: "Optimal" },
+                    { id: "#MC1-05", room: "Tutorial Ctr", temp: "21.5°C", co2: "450 ppm", tag: "tag-active", action: "Optimal" }
+                ]
+            },
+            2: {
+                name: "Floor 2 - Classrooms & Undergrad Office",
+                svg: svgHeader + `
+                    <rect x="50" y="250" width="700" height="100" class="corridor"/>
+                    <rect x="50" y="50" width="233" height="200" class="room-bg wall-thin" style="fill:rgba(16,185,129,0.1)" onclick="openRoomModal('Classroom 2034', 'lecture', '22.0°C', '450 ppm', 'Ceiling', '30 / 50')"/><text x="166" y="150" class="room-label">Classroom 2034</text>
+                    <rect x="283" y="50" width="233" height="200" class="room-bg wall-thin" style="fill:rgba(16,185,129,0.1)" onclick="openRoomModal('Classroom 2035', 'lecture', '21.0°C', '410 ppm', 'Ceiling', 'Empty')"/><text x="400" y="150" class="room-label">Classroom 2035</text>
+                    <rect x="516" y="50" width="234" height="200" class="room-bg wall-thin" style="fill:rgba(245,158,11,0.1)" onclick="openRoomModal('Math Undergrad Office', 'office', '22.5°C', '500 ppm', 'Wall', 'Medium')"/><text x="633" y="150" class="room-label">Math Undergrad Office</text>
+                    <rect x="50" y="350" width="350" height="200" class="room-bg wall-thin" style="fill:rgba(239,68,68,0.3)" onclick="openRoomModal('Large Classroom 2066', 'lecture', '25.0°C', '1100 ppm', 'Ceiling - Center', 'Full')"/><text x="225" y="450" class="room-label">Large Classroom 2066</text>
+                    <rect x="400" y="350" width="175" height="200" class="room-bg wall-thin" style="fill:rgba(16,185,129,0.1)" onclick="openRoomModal('Study Room A', 'office', '21.0°C', '420 ppm', 'Wall', '2')"/><text x="487" y="450" class="room-label">Study Room A</text>
+                    <rect x="575" y="350" width="175" height="200" class="room-bg wall-thin" style="fill:rgba(16,185,129,0.1)" onclick="openRoomModal('Study Room B', 'office', '21.0°C', '410 ppm', 'Wall', '1')"/><text x="662" y="450" class="room-label">Study Room B</text>
+                    
+                    <g class="svg-sensor" transform="translate(166, 180)" onclick="showTooltip(event, 'Classroom 2034', '22°C', '450 ppm')"><circle cx="0" cy="0" r="12" class="sensor-bg-optimal"/><circle cx="0" cy="0" r="4" class="sensor-dot"/></g>
+                    <g class="svg-sensor" transform="translate(400, 180)" onclick="showTooltip(event, 'Classroom 2035', '21°C', '410 ppm')"><circle cx="0" cy="0" r="12" class="sensor-bg-optimal"/><circle cx="0" cy="0" r="4" class="sensor-dot"/></g>
+                    <g class="svg-sensor" transform="translate(633, 180)" onclick="showTooltip(event, 'Undergrad Office', '22.5°C', '500 ppm')"><circle cx="0" cy="0" r="12" class="sensor-bg-optimal"/><circle cx="0" cy="0" r="4" class="sensor-dot"/></g>
+                    
+                    <g class="svg-sensor" transform="translate(225, 480)" onclick="showTooltip(event, 'MC 2066', '25°C', '1100 ppm')"><circle cx="0" cy="0" r="12" class="sensor-bg-danger"/><circle cx="0" cy="0" r="4" class="sensor-dot"/></g>
+                    <g class="svg-sensor" transform="translate(487, 480)" onclick="showTooltip(event, 'Study Room A', '21°C', '420 ppm')"><circle cx="0" cy="0" r="12" class="sensor-bg-optimal"/><circle cx="0" cy="0" r="4" class="sensor-dot"/></g>
+                    <g class="svg-sensor" transform="translate(662, 480)" onclick="showTooltip(event, 'Study Room B', '21°C', '410 ppm')"><circle cx="0" cy="0" r="12" class="sensor-bg-optimal"/><circle cx="0" cy="0" r="4" class="sensor-dot"/></g>
+                </svg>`,
+                sensors: [
+                    { id: "#MC2-01", room: "MC 2034", temp: "22.0°C", co2: "450 ppm", tag: "tag-active", action: "Optimal" },
+                    { id: "#MC2-02", room: "MC 2035", temp: "21.0°C", co2: "410 ppm", tag: "tag-active", action: "Optimal" },
+                    { id: "#MC2-03", room: "Undergrad Off", temp: "22.5°C", co2: "500 ppm", tag: "tag-active", action: "Optimal" },
+                    { id: "#MC2-04", room: "MC 2066", temp: "25.0°C", co2: "1100 ppm", tag: "tag-danger", action: "Critical Vent Needed" },
+                    { id: "#MC2-05", room: "Study A", temp: "21.0°C", co2: "420 ppm", tag: "tag-active", action: "Optimal" },
+                    { id: "#MC2-06", room: "Study B", temp: "21.0°C", co2: "410 ppm", tag: "tag-active", action: "Optimal" }
+                ]
+            },
+            3: {
+                name: "Floor 3 - Server Rooms & Computing Labs",
+                svg: svgHeader + `
+                    <rect x="150" y="250" width="500" height="100" class="corridor"/>
+                    <rect x="50" y="50" width="250" height="200" class="room-bg wall-thin" style="fill:rgba(245,158,11,0.2)" onclick="openRoomModal('Lecture Hall 3036', 'lecture', '23.5°C', '1100 ppm', 'Ceiling', 'Full')"/><text x="175" y="150" class="room-label">Lecture Hall 3036</text>
+                    <rect x="300" y="50" width="250" height="200" class="room-bg wall-thin" style="fill:rgba(16,185,129,0.1)" onclick="openRoomModal('Mac Lab', 'lab', '22.0°C', '500 ppm', 'Ceiling', 'Medium')"/><text x="425" y="150" class="room-label">Mac Lab</text>
+                    <rect x="550" y="50" width="200" height="200" class="room-bg wall-thin" style="fill:rgba(239,68,68,0.4)" onclick="openRoomModal('Server Room', 'server', '29.0°C', '400 ppm', 'Rack Mount - Hot Aisle', 'N/A')"/><text x="650" y="140" class="room-label">Server Room</text><text x="650" y="160" class="room-sublabel">Heat Source</text>
+                    <rect x="50" y="350" width="300" height="200" class="room-bg wall-thin" style="fill:rgba(16,185,129,0.1)" onclick="openRoomModal('Linux Lab', 'lab', '21.5°C', '480 ppm', 'Ceiling', 'Low')"/><text x="200" y="450" class="room-label">Linux Lab</text>
+                    <rect x="350" y="350" width="400" height="200" class="room-bg wall-thin" style="fill:rgba(16,185,129,0.1)" onclick="openRoomModal('Grad Student Lounge', 'cafe', '22.0°C', '520 ppm', 'Wall', 'Medium')"/><text x="550" y="450" class="room-label">Grad Student Lounge</text>
+                    
+                    <g class="svg-sensor" transform="translate(175, 180)" onclick="showTooltip(event, 'MC 3036', '23.5°C', '1100 ppm')"><circle cx="0" cy="0" r="12" class="sensor-bg-warning"/><circle cx="0" cy="0" r="4" class="sensor-dot"/></g>
+                    <g class="svg-sensor" transform="translate(425, 180)" onclick="showTooltip(event, 'Mac Lab', '22.0°C', '500 ppm')"><circle cx="0" cy="0" r="12" class="sensor-bg-optimal"/><circle cx="0" cy="0" r="4" class="sensor-dot"/></g>
+                    <g class="svg-sensor" transform="translate(650, 100)" onclick="showTooltip(event, 'Server Room', '29.0°C', '400 ppm')"><circle cx="0" cy="0" r="12" class="sensor-bg-danger"/><circle cx="0" cy="0" r="4" class="sensor-dot"/></g>
+                    <g class="svg-sensor" transform="translate(200, 480)" onclick="showTooltip(event, 'Linux Lab', '21.5°C', '480 ppm')"><circle cx="0" cy="0" r="12" class="sensor-bg-optimal"/><circle cx="0" cy="0" r="4" class="sensor-dot"/></g>
+                    <g class="svg-sensor" transform="translate(550, 480)" onclick="showTooltip(event, 'Grad Lounge', '22.0°C', '520 ppm')"><circle cx="0" cy="0" r="12" class="sensor-bg-optimal"/><circle cx="0" cy="0" r="4" class="sensor-dot"/></g>
+                </svg>`,
+                sensors: [
+                    { id: "#MC3-01", room: "Lecture 3036", temp: "23.5°C", co2: "1100 ppm", tag: "tag-warning", action: "Ventilation Max" },
+                    { id: "#MC3-02", room: "Mac Lab", temp: "22.0°C", co2: "500 ppm", tag: "tag-active", action: "Optimal" },
+                    { id: "#MC3-03", room: "Server Room", temp: "29.0°C", co2: "400 ppm", tag: "tag-active", action: "Harvesting Heat" },
+                    { id: "#MC3-04", room: "Linux Lab", temp: "21.5°C", co2: "480 ppm", tag: "tag-active", action: "Optimal" },
+                    { id: "#MC3-05", room: "Grad Lounge", temp: "22.0°C", co2: "520 ppm", tag: "tag-active", action: "Optimal" }
+                ]
+            },
+            4: {
+                name: "Floor 4 - CS Faculty Offices",
+                svg: svgHeader + `
+                    <rect x="50" y="250" width="700" height="100" class="corridor" onclick="openRoomModal('Main Corridor', 'corridor', '21.0°C', '410 ppm', 'Ceiling', 'Low')"/>
+                    <!-- offices -->
+                    <rect x="50" y="50" width="70" height="200" class="room-bg wall-thin" style="fill:rgba(16,185,129,0.1)" onclick="openRoomModal('Office 4001', 'office', '21°C', '400 ppm', 'Wall', 'Empty')"/><rect x="120" y="50" width="70" height="200" class="room-bg wall-thin" style="fill:rgba(16,185,129,0.1)" onclick="openRoomModal('Office 4002', 'office', '21°C', '400 ppm', 'Wall', 'Empty')"/>
+                    <rect x="190" y="50" width="70" height="200" class="room-bg wall-thin" style="fill:rgba(16,185,129,0.1)" onclick="openRoomModal('Office 4003', 'office', '21°C', '400 ppm', 'Wall', 'Empty')"/><rect x="260" y="50" width="70" height="200" class="room-bg wall-thin" style="fill:rgba(16,185,129,0.1)" onclick="openRoomModal('Office 4004', 'office', '21°C', '400 ppm', 'Wall', 'Empty')"/>
+                    <rect x="330" y="50" width="70" height="200" class="room-bg wall-thin" style="fill:rgba(16,185,129,0.1)" onclick="openRoomModal('Office 4005', 'office', '21°C', '400 ppm', 'Wall', 'Empty')"/><rect x="400" y="50" width="70" height="200" class="room-bg wall-thin" style="fill:rgba(16,185,129,0.1)" onclick="openRoomModal('Office 4006', 'office', '21°C', '400 ppm', 'Wall', 'Empty')"/>
+                    <rect x="470" y="50" width="70" height="200" class="room-bg wall-thin" style="fill:rgba(16,185,129,0.1)" onclick="openRoomModal('Office 4007', 'office', '21°C', '400 ppm', 'Wall', 'Empty')"/><rect x="540" y="50" width="70" height="200" class="room-bg wall-thin" style="fill:rgba(16,185,129,0.1)" onclick="openRoomModal('Office 4008', 'office', '21°C', '400 ppm', 'Wall', 'Empty')"/>
+                    <rect x="610" y="50" width="70" height="200" class="room-bg wall-thin" style="fill:rgba(16,185,129,0.1)" onclick="openRoomModal('Office 4009', 'office', '21°C', '400 ppm', 'Wall', 'Empty')"/><rect x="680" y="50" width="70" height="200" class="room-bg wall-thin" style="fill:rgba(16,185,129,0.1)" onclick="openRoomModal('Office 4010', 'office', '21°C', '400 ppm', 'Wall', 'Empty')"/>
+                    <text x="400" y="150" class="room-label" style="pointer-events:none;">North Faculty Offices</text>
+                    
+                    <rect x="50" y="350" width="200" height="200" class="room-bg wall-thin" style="fill:rgba(16,185,129,0.1)" onclick="openRoomModal('Meeting Room', 'office', '22°C', '450 ppm', 'Ceiling', 'Empty')"/><text x="150" y="450" class="room-label">Meeting Rm</text>
+                    <rect x="250" y="350" width="500" height="200" class="room-bg wall-thin" style="fill:rgba(16,185,129,0.1)" onclick="openRoomModal('CS Research Lab', 'lab', '22.0°C', '480 ppm', 'Ceiling', 'Medium')"/><text x="500" y="450" class="room-label">CS Research Lab</text>
+                    
+                    <g class="svg-sensor" transform="translate(85, 200)" onclick="showTooltip(event, 'Office 4001', '21°C', '400 ppm')"><circle cx="0" cy="0" r="12" class="sensor-bg-optimal"/><circle cx="0" cy="0" r="4" class="sensor-dot"/></g>
+                    <g class="svg-sensor" transform="translate(715, 200)" onclick="showTooltip(event, 'Office 4010', '21°C', '400 ppm')"><circle cx="0" cy="0" r="12" class="sensor-bg-optimal"/><circle cx="0" cy="0" r="4" class="sensor-dot"/></g>
+                    <g class="svg-sensor" transform="translate(400, 300)" onclick="showTooltip(event, 'Corridor', '21°C', '410 ppm')"><circle cx="0" cy="0" r="12" class="sensor-bg-optimal"/><circle cx="0" cy="0" r="4" class="sensor-dot"/></g>
+                    <g class="svg-sensor" transform="translate(150, 480)" onclick="showTooltip(event, 'Meeting Rm', '22°C', '450 ppm')"><circle cx="0" cy="0" r="12" class="sensor-bg-optimal"/><circle cx="0" cy="0" r="4" class="sensor-dot"/></g>
+                    <g class="svg-sensor" transform="translate(500, 480)" onclick="showTooltip(event, 'Research Lab', '22°C', '480 ppm')"><circle cx="0" cy="0" r="12" class="sensor-bg-optimal"/><circle cx="0" cy="0" r="4" class="sensor-dot"/></g>
+                </svg>`,
+                sensors: [
+                    { id: "#MC4-01", room: "Office 4001", temp: "21.0°C", co2: "400 ppm", tag: "tag-active", action: "Optimal" },
+                    { id: "#MC4-02", room: "Office 4010", temp: "21.0°C", co2: "400 ppm", tag: "tag-active", action: "Optimal" },
+                    { id: "#MC4-03", room: "Corridor", temp: "21.0°C", co2: "410 ppm", tag: "tag-active", action: "Optimal" },
+                    { id: "#MC4-04", room: "Meeting Rm", temp: "22.0°C", co2: "450 ppm", tag: "tag-active", action: "Optimal" },
+                    { id: "#MC4-05", room: "Research Lab", temp: "22.0°C", co2: "480 ppm", tag: "tag-active", action: "Optimal" }
+                ]
+            },
+            5: {
+                name: "Floor 5 - Math & Stats Offices",
+                svg: svgHeader + `
+                    <rect x="50" y="250" width="700" height="100" class="corridor" onclick="openRoomModal('Main Corridor', 'corridor', '20.0°C', '400 ppm', 'Ceiling', 'Empty')"/>
+                    <rect x="50" y="50" width="350" height="200" class="room-bg wall-thin" style="fill:rgba(59,130,246,0.2)" onclick="openRoomModal('Stats Dept Offices', 'office', '19.0°C', '400 ppm', 'Ceiling', 'Empty')"/><text x="225" y="150" class="room-label">Stats Dept Offices</text>
+                    <rect x="400" y="50" width="350" height="200" class="room-bg wall-thin" style="fill:rgba(16,185,129,0.1)" onclick="openRoomModal('Applied Math Offices', 'office', '21.0°C', '420 ppm', 'Ceiling', 'Low')"/><text x="575" y="150" class="room-label">Applied Math Offices</text>
+                    <rect x="50" y="350" width="400" height="200" class="room-bg wall-thin" style="fill:rgba(16,185,129,0.1)" onclick="openRoomModal('Open Research', 'office', '21.5°C', '450 ppm', 'Ceiling', 'Medium')"/><text x="250" y="450" class="room-label">Open Concept Research</text>
+                    <rect x="450" y="350" width="300" height="200" class="room-bg wall-thin" style="fill:rgba(16,185,129,0.1)" onclick="openRoomModal('Seminar Room', 'lecture', '21.0°C', '410 ppm', 'Ceiling', 'Empty')"/><text x="600" y="450" class="room-label">Seminar Room</text>
+                    
+                    <g class="svg-sensor" transform="translate(225, 180)" onclick="showTooltip(event, 'Stats Office', '19°C', '400 ppm')"><circle cx="0" cy="0" r="12" class="sensor-bg-warning"/><circle cx="0" cy="0" r="4" class="sensor-dot"/></g>
+                    <g class="svg-sensor" transform="translate(575, 180)" onclick="showTooltip(event, 'Applied Math', '21°C', '420 ppm')"><circle cx="0" cy="0" r="12" class="sensor-bg-optimal"/><circle cx="0" cy="0" r="4" class="sensor-dot"/></g>
+                    <g class="svg-sensor" transform="translate(250, 480)" onclick="showTooltip(event, 'Open Research', '21.5°C', '450 ppm')"><circle cx="0" cy="0" r="12" class="sensor-bg-optimal"/><circle cx="0" cy="0" r="4" class="sensor-dot"/></g>
+                    <g class="svg-sensor" transform="translate(600, 480)" onclick="showTooltip(event, 'Seminar Room', '21°C', '410 ppm')"><circle cx="0" cy="0" r="12" class="sensor-bg-optimal"/><circle cx="0" cy="0" r="4" class="sensor-dot"/></g>
+                </svg>`,
+                sensors: [
+                    { id: "#MC5-01", room: "Stats Office", temp: "19.0°C", co2: "400 ppm", tag: "tag-warning", action: "Empty/Overcooling" },
+                    { id: "#MC5-02", room: "Applied Math", temp: "21.0°C", co2: "420 ppm", tag: "tag-active", action: "Optimal" },
+                    { id: "#MC5-03", room: "Open Research", temp: "21.5°C", co2: "450 ppm", tag: "tag-active", action: "Optimal" },
+                    { id: "#MC5-04", room: "Seminar Room", temp: "21.0°C", co2: "410 ppm", tag: "tag-active", action: "Optimal" }
+                ]
+            },
+            6: {
+                name: "Floor 6 - Dean's Office & Admin",
+                svg: svgHeader + `
+                    <rect x="50" y="200" width="700" height="100" class="corridor"/>
+                    <rect x="50" y="50" width="200" height="150" class="room-bg wall-thin" style="fill:rgba(16,185,129,0.1)" onclick="openRoomModal('Meeting Room', 'office', '21.0°C', '410 ppm', 'Ceiling', 'Empty')"/><text x="150" y="125" class="room-label">Meeting Room</text>
+                    <rect x="250" y="50" width="500" height="150" class="room-bg wall-thin" style="fill:rgba(16,185,129,0.1)" onclick="openRoomModal('Admin Offices', 'office', '21.5°C', '430 ppm', 'Ceiling', 'Medium')"/><text x="500" y="125" class="room-label">Administrative Offices</text>
+                    <rect x="50" y="300" width="450" height="250" class="room-bg wall-thin" style="fill:rgba(16,185,129,0.1)" onclick="openRoomModal('Deans Suite', 'office', '21.5°C', '450 ppm', 'Wall', 'Low')"/><text x="275" y="425" class="room-label">Math Dean's Suite</text>
+                    <rect x="500" y="300" width="250" height="250" class="room-bg wall-thin" style="fill:rgba(16,185,129,0.1)" onclick="openRoomModal('Boardroom', 'office', '21.0°C', '410 ppm', 'Ceiling - Center', 'Empty')"/><text x="625" y="425" class="room-label">Boardroom</text>
+                    
+                    <g class="svg-sensor" transform="translate(150, 80)" onclick="showTooltip(event, 'Meeting Room', '21.0°C', '410 ppm')"><circle cx="0" cy="0" r="12" class="sensor-bg-optimal"/><circle cx="0" cy="0" r="4" class="sensor-dot"/></g>
+                    <g class="svg-sensor" transform="translate(500, 80)" onclick="showTooltip(event, 'Admin Offices', '21.5°C', '430 ppm')"><circle cx="0" cy="0" r="12" class="sensor-bg-optimal"/><circle cx="0" cy="0" r="4" class="sensor-dot"/></g>
+                    <g class="svg-sensor" transform="translate(275, 460)" onclick="showTooltip(event, 'Dean Suite', '21.5°C', '450 ppm')"><circle cx="0" cy="0" r="12" class="sensor-bg-optimal"/><circle cx="0" cy="0" r="4" class="sensor-dot"/></g>
+                    <g class="svg-sensor" transform="translate(625, 460)" onclick="showTooltip(event, 'Boardroom', '21.0°C', '410 ppm')"><circle cx="0" cy="0" r="12" class="sensor-bg-optimal"/><circle cx="0" cy="0" r="4" class="sensor-dot"/></g>
+                </svg>`,
+                sensors: [
+                    { id: "#MC6-01", room: "Meeting Room", temp: "21.0°C", co2: "410 ppm", tag: "tag-active", action: "Optimal" },
+                    { id: "#MC6-02", room: "Admin Offices", temp: "21.5°C", co2: "430 ppm", tag: "tag-active", action: "Optimal" },
+                    { id: "#MC6-03", room: "Dean's Suite", temp: "21.5°C", co2: "450 ppm", tag: "tag-active", action: "Optimal" },
+                    { id: "#MC6-04", room: "Boardroom", temp: "21.0°C", co2: "410 ppm", tag: "tag-active", action: "Optimal" }
+                ]
+            }
+        };
+
+        // Date Time
+        function updateDateTime() {
+            const now = new Date();
+            const opt = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute:'2-digit' };
+            document.getElementById('current-datetime').textContent = now.toLocaleDateString('en-US', opt);
+        }
+        updateDateTime(); setInterval(updateDateTime, 60000);
+
+        function switchView(viewId, element) {
+            document.querySelectorAll('.nav-links a').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            document.getElementById('view-' + viewId).classList.add('active');
+        }
+
+        // 3D Logic
+        const mcModel = document.getElementById('mc-model');
+        let isDragging = false, startX, startY, currentRotX = 65, currentRotZ = -35;
+        document.getElementById('model-container').addEventListener('mousedown', (e) => { isDragging = true; startX = e.pageX; startY = e.pageY; mcModel.style.transition = 'none'; });
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            currentRotZ -= (e.pageX - startX) * 0.5; currentRotX -= (e.pageY - startY) * 0.5;
+            currentRotX = Math.max(10, Math.min(85, currentRotX));
+            mcModel.style.transform = `rotateX(${currentRotX}deg) rotateZ(${currentRotZ}deg) translateZ(-150px)`;
+            startX = e.pageX; startY = e.pageY;
+        });
+        document.addEventListener('mouseup', () => { isDragging = false; mcModel.style.transition = 'transform 0.1s ease-out'; });
+        function reset3DView() { currentRotX = 65; currentRotZ = -35; mcModel.style.transform = `rotateX(65deg) rotateZ(-35deg) translateZ(-150px)`; }
+
+        // Dynamic Floor
+        function selectFloor(floorNum) {
+            document.querySelectorAll('.mc-floor').forEach(el => el.classList.remove('selected'));
+            document.querySelector(`.floor-${floorNum}`).classList.add('selected');
+            
+            const data = floorData[floorNum];
+            document.getElementById('floor-indicator').textContent = data.name;
+            document.getElementById('svg-container').innerHTML = data.svg;
+            document.getElementById('table-title').textContent = `Floor ${floorNum} Active Sensor Nodes`;
+            
+            const tbody = document.getElementById('sensor-table-body');
+            tbody.innerHTML = '';
+            data.sensors.forEach(s => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${s.id}</td><td>${s.room}</td><td style="${s.temp.startsWith('25')||s.temp.startsWith('29') ? 'color:#ef4444;font-weight:bold':''}">${s.temp}</td><td style="${s.co2.length > 7 ? 'color:#f59e0b;font-weight:bold':''}">${s.co2}</td><td><span class="tag ${s.tag}">${s.action}</span></td>`;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Tooltip
+        let activeSensorRoom = null;
+        const tooltip = document.getElementById('sensor-tooltip');
+        function showTooltip(e, room, temp, co2) {
+            e.stopPropagation();
+            if (tooltip.style.opacity === '1' && activeSensorRoom === room) {
+                hideTooltip();
+                return;
+            }
+            activeSensorRoom = room;
+            document.getElementById('tt-room').textContent = room; document.getElementById('tt-temp').textContent = temp; document.getElementById('tt-co2').textContent = co2;
+            const container = document.querySelector('.vector-plan-container').getBoundingClientRect();
+            tooltip.style.left = (e.clientX - container.left + 15) + 'px'; tooltip.style.top = (e.clientY - container.top + 15) + 'px'; tooltip.style.opacity = '1';
+        }
+        function hideTooltip() { 
+            tooltip.style.opacity = '0'; 
+            activeSensorRoom = null;
+        }
+        
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.svg-sensor') && !e.target.closest('#sensor-tooltip')) {
+                hideTooltip();
+            }
+        });
+
+        // --- MODAL LOGIC ---
+        const modalTemplates = {
+            'lecture': `<svg viewBox="0 0 400 300" style="width:100%; height:100%; border-radius:12px;">
+                <rect x="0" y="0" width="400" height="300" fill="#f8fafc"/>
+                <rect x="50" y="40" width="300" height="20" fill="#cbd5e1" rx="4"/><rect x="50" y="80" width="300" height="20" fill="#cbd5e1" rx="4"/>
+                <rect x="50" y="120" width="300" height="20" fill="#cbd5e1" rx="4"/><rect x="50" y="160" width="300" height="20" fill="#cbd5e1" rx="4"/>
+                <rect x="150" y="240" width="100" height="30" fill="#94a3b8" rx="4"/><text x="200" y="260" text-anchor="middle" font-size="12" fill="white">Instructor Podium</text>
+                <!-- Sensor -->
+                <circle cx="200" cy="110" r="20" fill="rgba(16, 185, 129, 0.2)" stroke="#10b981" stroke-width="2"/>
+                <circle cx="200" cy="110" r="6" fill="#059669"/>
+                <line x1="200" y1="110" x2="260" y2="60" stroke="#333" stroke-width="1.5" stroke-dasharray="4,4"/>
+                <text x="265" y="55" font-size="12" font-weight="600" fill="#1f2937">Ceiling Sensor Node</text>
+            </svg>`,
+            'server': `<svg viewBox="0 0 400 300" style="width:100%; height:100%; border-radius:12px;">
+                <rect x="0" y="0" width="400" height="300" fill="#f8fafc"/>
+                <!-- Racks -->
+                <rect x="60" y="50" width="40" height="200" fill="#475569" rx="2"/><rect x="120" y="50" width="40" height="200" fill="#475569" rx="2"/>
+                <rect x="240" y="50" width="40" height="200" fill="#475569" rx="2"/><rect x="300" y="50" width="40" height="200" fill="#475569" rx="2"/>
+                <text x="200" y="280" text-anchor="middle" font-size="14" fill="#ef4444" font-weight="bold">Hot Aisle</text>
+                <rect x="170" y="50" width="60" height="200" fill="rgba(239, 68, 68, 0.1)"/>
+                <!-- Sensor -->
+                <circle cx="200" cy="150" r="20" fill="rgba(239, 68, 68, 0.2)" stroke="#ef4444" stroke-width="2"/>
+                <circle cx="200" cy="150" r="6" fill="#dc2626"/>
+                <line x1="200" y1="150" x2="260" y2="100" stroke="#333" stroke-width="1.5" stroke-dasharray="4,4"/>
+                <text x="265" y="95" font-size="12" font-weight="600" fill="#1f2937">Rack Temp Probe</text>
+            </svg>`,
+            'office': `<svg viewBox="0 0 400 300" style="width:100%; height:100%; border-radius:12px;">
+                <rect x="0" y="0" width="400" height="300" fill="#f8fafc"/>
+                <rect x="100" y="100" width="80" height="40" fill="#cbd5e1" rx="2"/><rect x="220" y="100" width="80" height="40" fill="#cbd5e1" rx="2"/>
+                <rect x="100" y="180" width="80" height="40" fill="#cbd5e1" rx="2"/><rect x="220" y="180" width="80" height="40" fill="#cbd5e1" rx="2"/>
+                <!-- Sensor -->
+                <circle cx="50" cy="50" r="20" fill="rgba(16, 185, 129, 0.2)" stroke="#10b981" stroke-width="2"/>
+                <circle cx="50" cy="50" r="6" fill="#059669"/>
+                <line x1="50" y1="50" x2="100" y2="30" stroke="#333" stroke-width="1.5" stroke-dasharray="4,4"/>
+                <text x="105" y="25" font-size="12" font-weight="600" fill="#1f2937">Wall Thermostat/Sensor</text>
+            </svg>`,
+            'cafe': `<svg viewBox="0 0 400 300" style="width:100%; height:100%; border-radius:12px;">
+                <rect x="0" y="0" width="400" height="300" fill="#f8fafc"/>
+                <circle cx="100" cy="100" r="30" fill="#cbd5e1"/><circle cx="200" cy="100" r="30" fill="#cbd5e1"/><circle cx="300" cy="100" r="30" fill="#cbd5e1"/>
+                <circle cx="100" cy="200" r="30" fill="#cbd5e1"/><circle cx="200" cy="200" r="30" fill="#cbd5e1"/><circle cx="300" cy="200" r="30" fill="#cbd5e1"/>
+                <circle cx="200" cy="150" r="20" fill="rgba(245, 158, 11, 0.2)" stroke="#f59e0b" stroke-width="2"/>
+                <circle cx="200" cy="150" r="6" fill="#d97706"/>
+                <line x1="200" y1="150" x2="260" y2="70" stroke="#333" stroke-width="1.5" stroke-dasharray="4,4"/>
+                <text x="265" y="65" font-size="12" font-weight="600" fill="#1f2937">Ceiling Dome Node</text>
+            </svg>`,
+            'kinetic_corridor': `<svg viewBox="0 0 400 300" style="width:100%; height:100%; border-radius:12px;">
+                <rect x="0" y="0" width="400" height="300" fill="#f8fafc"/>
+                <rect x="0" y="100" width="400" height="100" fill="#e2e8f0"/>
+                <defs>
+                    <pattern id="modal-kin-pat" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                        <rect width="20" height="20" fill="none" stroke="#10b981" stroke-width="0.5" stroke-opacity="0.5"/>
+                        <circle cx="10" cy="10" r="2" fill="#10b981" fill-opacity="0.5"/>
+                    </pattern>
+                </defs>
+                <rect x="0" y="100" width="400" height="100" fill="url(#modal-kin-pat)"/>
+                <text x="200" y="155" text-anchor="middle" font-size="20" fill="#94a3b8" font-weight="bold">Lobby Floor</text>
+                <circle cx="200" cy="150" r="20" fill="rgba(16, 185, 129, 0.2)" stroke="#10b981" stroke-width="2"/>
+                <circle cx="200" cy="150" r="6" fill="#059669"/>
+                <line x1="200" y1="150" x2="260" y2="90" stroke="#333" stroke-width="1.5" stroke-dasharray="4,4"/>
+                <text x="265" y="85" font-size="12" font-weight="600" fill="#1f2937">Piezoelectric Array & Node</text>
+            </svg>`,
+            'corridor': `<svg viewBox="0 0 400 300" style="width:100%; height:100%; border-radius:12px;">
+                <rect x="0" y="0" width="400" height="300" fill="#f8fafc"/>
+                <rect x="0" y="100" width="400" height="100" fill="#e2e8f0"/>
+                <text x="200" y="155" text-anchor="middle" font-size="20" fill="#94a3b8" font-weight="bold">Hallway</text>
+                <circle cx="200" cy="150" r="20" fill="rgba(16, 185, 129, 0.2)" stroke="#10b981" stroke-width="2"/>
+                <circle cx="200" cy="150" r="6" fill="#059669"/>
+                <line x1="200" y1="150" x2="260" y2="90" stroke="#333" stroke-width="1.5" stroke-dasharray="4,4"/>
+                <text x="265" y="85" font-size="12" font-weight="600" fill="#1f2937">Hallway Node</text>
+            </svg>`
+        };
+
+        const imageMap = {
+            'lecture': 'floor_images/lecture_hall.jpg',
+            'server': 'floor_images/server_room.jpg',
+            'office': 'floor_images/math_office.jpg',
+            'cafe': 'floor_images/comfy_lounge.jpg',
+            'lab': 'floor_images/computer_lab.jpg',
+            'kinetic_corridor': 'floor_images/main_lobby.jpg',
+            'corridor': 'floor_images/main_lobby.jpg'
+        };
+
+        function openRoomModal(roomName, type, temp, co2, mounting, occupancy) {
+            document.getElementById('modal-room-title').textContent = roomName + " - Live Details";
+            document.getElementById('modal-svg-container').innerHTML = modalTemplates[type] || modalTemplates['office'];
+            
+            const isDanger = temp.startsWith('25') || temp.startsWith('29');
+            const tempClass = isDanger ? 'danger' : '';
+            
+            let statsHtml = `
+                <div class="stat-item"><span class="stat-label">Current Temperature:</span><span class="stat-value ${tempClass}">${temp}</span></div>
+                <div class="stat-item"><span class="stat-label">CO2 Concentration:</span><span class="stat-value">${co2}</span></div>
+                <div class="stat-item"><span class="stat-label">Estimated Occupancy:</span><span class="stat-value">${occupancy}</span></div>
+                <div class="stat-item"><span class="stat-label">Sensor Model:</span><span class="stat-value">IceIQ Node v2</span></div>
+                <div class="stat-item"><span class="stat-label">Mounting Location:</span><span class="stat-value">${mounting}</span></div>
+            `;
+            if (type === 'kinetic_corridor') {
+                statsHtml += `<div class="stat-item" style="border: 1px solid var(--primary-eco); background: rgba(16, 185, 129, 0.05);"><span class="stat-label">Live Kinetic Harvesting:</span><span class="stat-value" style="color:var(--primary-eco);"><i class="fa-solid fa-bolt"></i> 4.2 µW</span></div>`;
+            }
+            document.getElementById('modal-stats-container').innerHTML = statsHtml;
+            
+            document.getElementById('room-modal').classList.add('open');
+        }
+
+        function closeModal(e) {
+            if(e) e.stopPropagation();
+            document.getElementById('room-modal').classList.remove('open');
+        }
+
+        // Charts
+        Chart.defaults.font.family = 'Outfit';
+        const ctxLine = document.getElementById('ecoChart').getContext('2d');
+        const gradCO2 = ctxLine.createLinearGradient(0,0,0,400); gradCO2.addColorStop(0,'rgba(16,185,129,0.4)'); gradCO2.addColorStop(1,'rgba(16,185,129,0)');
+        const gradTemp = ctxLine.createLinearGradient(0,0,0,400); gradTemp.addColorStop(0,'rgba(5,150,105,0.4)'); gradTemp.addColorStop(1,'rgba(5,150,105,0)');
+        new Chart(ctxLine, { type: 'line', data: { labels: ['00:00','03:00','06:00','09:00','12:00','15:00','18:00','21:00','Now'], datasets: [{label: 'CO2 (ppm)', data: [420,410,430,950,800,750,500,460,450], borderColor:'#10b981', backgroundColor:gradCO2, fill:true, tension:0.4, yAxisID:'y'},{label: 'Temp (°C)', data: [21.5,21.2,21.8,23.0,22.5,22.1,21.8,21.6,21.5], borderColor:'#064e3b', backgroundColor:gradTemp, fill:true, tension:0.4, yAxisID:'y1'}] }, options: { responsive:true, maintainAspectRatio:false, scales:{ y:{type:'linear',position:'left',title:{display:true,text:'CO2 (ppm)'}}, y1:{type:'linear',position:'right',title:{display:true,text:'Temp (°C)'},grid:{drawOnChartArea:false}} } } });
+        new Chart(document.getElementById('pieChart').getContext('2d'), { type: 'doughnut', data: { labels: ['Server Cooling','Space Heating','Lighting','Ventilation','Other'], datasets: [{ data: [45,25,15,10,5], backgroundColor: ['#ef4444','#f59e0b','#10b981','#3b82f6','#9ca3af'], borderWidth:0 }] }, options: { responsive:true, maintainAspectRatio:false } });
+        new Chart(document.getElementById('barChart').getContext('2d'), { type: 'bar', data: { labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'], datasets: [{ label: 'Server Heat Recycled (kWh)', data: [320,345,330,360,380,210,195], backgroundColor: '#10b981', borderRadius:6 }] }, options: { responsive:true, maintainAspectRatio:false, scales:{y:{beginAtZero:true}} } });
+
+        document.querySelectorAll('.btn-execute').forEach(btn => { btn.addEventListener('click', function() { this.innerHTML = '<i class="fa-solid fa-check"></i> Action Sent'; this.style.background = '#064e3b'; setTimeout(() => { if(this.parentElement.classList.contains('insight-item')) { this.parentElement.style.opacity = '0.5'; this.parentElement.style.pointerEvents = 'none'; } }, 1000); }); });
+        
+        new Chart(document.getElementById('mainPieChart').getContext('2d'), { 
+            type: 'doughnut', 
+            data: { 
+                labels: ['Floor 1 (Heating)', 'Floor 2 (Ventilation)', 'Floor 3 (Cooling)', 'Floor 4-6 (Idle)'], 
+                datasets: [{ 
+                    data: [35, 40, 20, 5], 
+                    backgroundColor: ['#f59e0b', '#3b82f6', '#ef4444', '#9ca3af'], 
+                    borderWidth:0 
+                }] 
+            }, 
+            options: { responsive:true, maintainAspectRatio:false, plugins: { legend: { position: 'bottom' } } } 
+        });
+
+        new Chart(document.getElementById('kineticChart').getContext('2d'), { 
+            type: 'line', 
+            data: { 
+                labels: ['08:00','08:20 (Class Start)','09:00','09:20 (Class End)','10:00','10:20 (Class End)','11:00','11:30 (Lunch Rush)'], 
+                datasets: [{ 
+                    label: 'Kinetic Power Harvested (µW)', 
+                    data: [50, 450, 60, 500, 70, 480, 80, 600], 
+                    borderColor:'#10b981', backgroundColor:'rgba(16,185,129,0.2)', fill:true, tension:0.3 
+                }] 
+            }, 
+            options: { responsive:true, maintainAspectRatio:false } 
+        });
+
+        // Scanning Simulation Logic
+        function openScanModal() {
+            document.getElementById('scan-modal').classList.add('open');
+            document.getElementById('scan-state-searching').style.display = 'block';
+            document.getElementById('scan-state-results').style.display = 'none';
+            document.getElementById('scan-state-success').style.display = 'none';
+            
+            setTimeout(() => {
+                document.getElementById('scan-state-searching').style.display = 'none';
+                document.getElementById('scan-state-results').style.display = 'block';
+            }, 2500);
+        }
+        
+        function closeScanModal(e) {
+            if(e) e.stopPropagation();
+            document.getElementById('scan-modal').classList.remove('open');
+        }
+
+        function provisionDevice(btnId) {
+            const btn = document.getElementById(btnId);
+            if(btn) {
+                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Pairing...';
+                btn.style.pointerEvents = 'none';
+            }
+            
+            setTimeout(() => {
+                document.getElementById('scan-state-results').style.display = 'none';
+                document.getElementById('scan-state-success').style.display = 'block';
+                
+                document.getElementById('node-count').textContent = '143';
+                const countEl = document.getElementById('node-count');
+                countEl.style.color = '#10b981';
+                countEl.style.transform = 'scale(1.2)';
+                countEl.style.transition = 'all 0.3s ease';
+                setTimeout(() => { countEl.style.transform = 'scale(1)'; countEl.style.color = 'var(--primary-dark)'; }, 500);
+                
+                // Update the panel text
+                document.getElementById('scan-icon').className = 'fa-solid fa-check-circle';
+                document.getElementById('scan-title').textContent = 'Node Online';
+                document.getElementById('scan-desc').textContent = 'New device successfully joined the mesh.';
+            }, 1500);
+        }
+
+        selectFloor(3);
+    </script>
+</body>
+</html>
