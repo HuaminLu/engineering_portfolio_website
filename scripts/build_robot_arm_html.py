@@ -1,0 +1,502 @@
+# Python script to generate robot-arm.html
+
+HTML_BODY = """<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>7-DOF QDD Robot Arm — Huamin (Lucas) Lu</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=59">
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a class="logo" href="index.html"><span class="prompt">~/</span>lucas_lu<span class="cursor"></span></a>
+    <nav>
+      <ul>
+        <li><a href="projects.html">GALLERY</a></li>
+        <li class="dropdown">
+          <a href="#" class="active">PROJECTS</a>
+          <div class="dropdown-menu">
+            <a href="robot-arm.html"><span class="idx">1</span>7-DOF QDD Robot Arm</a>
+            <a href="robot-hand.html"><span class="idx">2</span>10-DOF Dexterous Hand</a>
+            <a href="unitree-g1.html"><span class="idx">3</span>Unitree G1 Humanoid</a>
+            <a href="g1-hand-mimic.html"><span class="idx">3.1</span>&nbsp;&nbsp;Hand Mimic</a>
+            <a href="g1-hand-recorder.html"><span class="idx">3.2</span>&nbsp;&nbsp;Hand Recorder GUI</a>
+            <a href="g1-arm-recorder.html"><span class="idx">3.3</span>&nbsp;&nbsp;Arm Recorder GUI</a>
+            <a href="g1-arm-policy.html"><span class="idx">3.4</span>&nbsp;&nbsp;MuJoCo Arm Policy</a>
+            <a href="g1-walk.html"><span class="idx">3.5</span>&nbsp;&nbsp;WASDQE Walk</a>
+            <a href="g1-estop.html"><span class="idx">3.6</span>&nbsp;&nbsp;Hardware Relay E-Stop</a>
+            <a href="g1-mounts.html"><span class="idx">3.7</span>&nbsp;&nbsp;Camera &amp; Display Mounts</a>
+            <a href="claw-machine.html"><span class="idx">4</span>Robotic Claw Machine</a>
+            <a href="toyota-innovation.html"><span class="idx">5</span>Toyota Innovation Challenge</a>
+            <a href="brookfield-innovation.html"><span class="idx">6</span>Brookfield Innovation Challenge</a>
+            <a href="door-locker.html"><span class="idx">7</span>Automatic Door Locker</a>
+            <a href="cryptex-jar.html"><span class="idx">8</span>Cryptex Storage Cylinder</a>
+            <a href="wind-tunnel.html"><span class="idx">9</span>Airfoil Wind Tunnel</a>
+            <a href="watarrow-plane.html"><span class="idx">10</span>WatArrow RC Aircraft</a>
+            <a href="pcb-fixture.html"><span class="idx">11</span>Modular PCB Fixture</a>
+            <a href="portable-tester.html"><span class="idx">12</span>Portable Tester Tool</a>
+            <a href="model-car.html"><span class="idx">13</span>Scale Model Car</a>
+            <a href="balsa-bridge.html"><span class="idx">14</span>Balsa Bridge — MODS</a>
+          </div>
+        </li>
+        <li><a href="index.html">HOME</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="circuit-edge"></div>
+
+<main>
+
+  <div class="pfold">
+  <section class="project-header">
+    <p class="crumb"><a href="projects.html">projects</a> / 1</p>
+    <h1>7-DOF Quasi-Direct-Drive Collaborative Robot Arm</h1>
+    <div class="meta">
+      <span>payload/mass <b>~1:1 (10 kg)</b></span>
+      <span>reach <b>1.11 m</b></span>
+      <span>structural mass <b>10 kg</b></span>
+      <span>actuators <b>RobStride QDD × 7</b></span>
+      <span>bus <b>Decentralized CAN</b></span>
+      <span>status <b>In Progress (Hardware Complete)</b></span>
+    </div>
+    <p class="project-intro">
+      A commercial-grade 7-DOF collaborative robot arm inspired by the Flexiv Rizon and Universal Robots UR series.
+      Features a high-strength 3D-printed PETG link structure, quasi-direct-drive actuators, decentralized CAN bus architecture, and a 1:1 peak payload-to-mass ratio (~10 kg).
+      <b>Development Status:</b> Full mechanical assembly and manual joint articulation are validated; autonomous trajectory control and ROS 2 / MoveIt2 integration are under active development.
+    </p>
+  </section>
+
+  <!-- ============ HERO CAROUSEL ============ -->
+  <div class="fig-wide">
+    <div class="carousel-box" data-autoplay="true" data-delay="3500">
+      <div class="carousel-viewport">
+        <div class="carousel-track">
+          <div class="carousel-slide" data-caption="7-DOF Manual Articulation Validation: Manually demonstrating multi-joint backdrivability, smooth range of motion, and structural balance across all 7 axes before autonomous commissioning.">
+            <img src="images/robot-arm/hero-manual-articulation.gif" alt="Manual articulation test showing smooth multi-joint movement across all 7 degrees of freedom" loading="eager">
+          </div>
+          <div class="carousel-slide" data-caption="Complete 7-DOF Physical Prototype: Fully assembled robot arm with parallel-jaw gripper mounted on the weighted steel base plate in home configuration.">
+            <img src="images/robot-arm/hero-final-assembled-arm.png" alt="Fully assembled 7-DOF robot arm with parallel-jaw gripper mounted on heavy base pedestal" loading="lazy">
+          </div>
+        </div>
+        <button class="carousel-btn prev" aria-label="Previous slide">&#10094;</button>
+        <button class="carousel-btn next" aria-label="Next slide">&#10095;</button>
+        <div class="carousel-caption-bar">
+          <span class="carousel-counter">[01/02]</span>
+          <span class="carousel-caption-text">7-DOF Manual Articulation Validation: Manually demonstrating multi-joint backdrivability, smooth range of motion, and structural balance across all 7 axes before autonomous commissioning.</span>
+        </div>
+        <div class="carousel-dots"></div>
+      </div>
+    </div>
+  </div>
+  </div><!-- /pfold -->
+
+  <section>
+    <ul class="achievements">
+      <li><b>Elite payload-to-weight ratio:</b> a <b>10 kg</b> custom 3D-printed arm rated for a <b>~10 kg peak payload</b> at full <b>1.11 m</b> horizontal extension, and a <b>3–5 kg continuous</b> working payload.</li>
+      <li><b>Cut ~2 kg of structural mass</b> through slicer parameter optimization — an isotropic <b>7% gyroid</b> infill matrix maximizes torsional rigidity per gram.</li>
+      <li><b>Industrial cobot architecture &amp; surface modelling:</b> Uniform cylindrical links, ergonomic surface-modelled joint transitions, interlocking spigot structural joints, and slip-ring internal routing.</li>
+      <li><b>Complex CAD assembly:</b> Managed a 5,000+ component model with multiple subassemblies, configurations, and sub-configurations to design and validate complex moving systems (SpeedPaks dropped rebuild times from 10 minutes to seconds).</li>
+      <li><b>Decentralized CAN bus &amp; transient-safe power:</b> Daisy-chained RobStride QDD actuators communicating over differential CAN with localized buck regulation isolating logic from motor inductive spikes.</li>
+    </ul>
+  </section>
+
+  <!-- ============ SECTION 01: CAD & SURFACE MODELLING ============ -->
+  <section class="psection">
+    <h2><span class="num">01</span>CAD &amp; Surface Modelling</h2>
+    <p class="caption" style="margin-bottom:18px">
+      Sculpted in SolidWorks using multi-guide boundary surfaces and lofts to achieve continuous cylindrical cobot contours, packaging seven high-torque RobStride actuators with sub-millimeter internal tolerances.
+    </p>
+
+    <div class="carousel-box" data-autoplay="true" data-delay="2500">
+      <div class="carousel-viewport">
+        <div class="carousel-track">
+          <div class="carousel-slide" data-caption="Full Arm Isometric Assembly: Complete 7-axis kinematic tree showing uniform cylindrical links, ergonomic joint housings, and end-effector tool flange.">
+            <img src="images/robot-arm/cad-full-arm-iso.png" alt="Full arm isometric SolidWorks CAD assembly" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Shoulder &amp; Base Hub Mounting: Primary pitch and yaw actuator housings integrating heavy-duty angular contact bearings and rigid base clamping.">
+            <img src="images/robot-arm/cad-shoulder-base-hub.png" alt="Shoulder and base hub mounting CAD detail" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Elbow Joint Articulation: Zero-interference joint knuckle design providing 240° pitch rotation while routing central power and signal conduits.">
+            <img src="images/robot-arm/cad-elbow-joint-clearance.png" alt="Elbow joint articulation and clearance CAD" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Forearm Link &amp; Wrist Roll Axis: Compact RobStride RS00 packaging inside the forearm link driving continuous 360° roll without outer cable interference.">
+            <img src="images/robot-arm/cad-forearm-wrist-roll.png" alt="Forearm link and wrist roll axis CAD" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Spherical Wrist Pitch/Yaw Clevis: Dual-axis orthogonal wrist configuration providing dexterous end-effector positioning with minimal joint offset.">
+            <img src="images/robot-arm/cad-wrist-pitch-yaw.png" alt="Spherical wrist pitch and yaw clevis CAD" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Wireframe Internal Cavity: Transparent SolidWorks view highlighting motor mounting pilots, internal conduit raceways, and fastener clearances.">
+            <img src="images/robot-arm/cad-wireframe-internals.png" alt="Wireframe internal cavity CAD showing raceways and clearances" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Interlocking Spigot Lip Interface: Interlocking male-female link joints transferring shear and torsional moments across structural shells rather than fasteners.">
+            <img src="images/robot-arm/cad-spigot-shear-joint.png" alt="Interlocking spigot lip interface cross section CAD" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="RobStride QDD Motor Packaging: Accurate vendor motor CAD envelopes imported to verify heat-sink fin clearance and mounting hole patterns.">
+            <img src="images/robot-arm/cad-robstride-actuator-model.png" alt="RobStride QDD actuator CAD model packaging" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Internal Cable Strain-Relief Clamp: Custom internal clamp securing CAN bus and 48V power lines against cyclic tension during joint articulation.">
+            <img src="images/robot-arm/cad-terminal-clamp.png" alt="Internal cable strain-relief clamp CAD" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Slip-Ring / Brush Contact Channel: Modular electrical brush track design evaluated for continuous infinite-rotation joint prototypes.">
+            <img src="images/robot-arm/cad-brush-slip-ring.png" alt="Slip-ring brush contact channel CAD" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Workspace Reach &amp; Kinematic Reachability: Multi-pose CAD overlay validating horizontal reach of 1.11 m and downward pick clearance.">
+            <img src="images/robot-arm/cad-pick-and-place-pose.png" alt="Multi-pose CAD reachability envelope overlay" loading="lazy">
+          </div>
+        </div>
+        <button class="carousel-btn prev" aria-label="Previous slide">&#10094;</button>
+        <button class="carousel-btn next" aria-label="Next slide">&#10095;</button>
+        <div class="carousel-caption-bar">
+          <span class="carousel-counter">[01/11]</span>
+          <span class="carousel-caption-text">Full Arm Isometric Assembly: Complete 7-axis kinematic tree showing uniform cylindrical links, ergonomic joint housings, and end-effector tool flange.</span>
+        </div>
+        <div class="carousel-dots"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 02: CASSETTE RING MODULAR JOINTS ============ -->
+  <section class="psection">
+    <h2><span class="num">02</span>Cassette Ring Modular Joints</h2>
+    <p class="caption" style="margin-bottom:18px">
+      Custom 3D-printed spiral cassette rings house internal flexible wire coils to permit continuous 360° joint rotation without cable tangling or mechanical fatigue.
+    </p>
+
+    <div class="carousel-box" data-autoplay="true" data-delay="2500">
+      <div class="carousel-viewport">
+        <div class="carousel-track">
+          <div class="carousel-slide" data-caption="Spiral Flexible Ribbon Cavity: Internal circular track guiding continuous wire expansion and contraction during continuous joint revolution.">
+            <img src="images/robot-arm/cassette-spiral-coil.jpg" alt="Internal spiral wire cavity in 3D printed cassette ring" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Cassette Shell &amp; Bearing Lip: Precision-printed outer retention casing with integrated bearing raceway for low-friction concentric rotation.">
+            <img src="images/robot-arm/cassette-bearing-race.jpg" alt="Cassette shell and bearing lip component" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Bench Articulation &amp; Fit-Up Check: Validating smooth wire coiling through 360° clockwise and counter-clockwise manual cycles.">
+            <img src="images/robot-arm/cassette-bench-fitup.jpg" alt="Bench articulation test of cassette ring joint" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Graduated Modular Joint Stack: Multiple cassette diameters printed and organized according to joint torque and wire bundle cross-sections.">
+            <img src="images/robot-arm/cassette-joint-graduation.jpg" alt="Graduated stack of modular cassette rings" loading="lazy">
+          </div>
+        </div>
+        <button class="carousel-btn prev" aria-label="Previous slide">&#10094;</button>
+        <button class="carousel-btn next" aria-label="Next slide">&#10095;</button>
+        <div class="carousel-caption-bar">
+          <span class="carousel-counter">[01/04]</span>
+          <span class="carousel-caption-text">Spiral Flexible Ribbon Cavity: Internal circular track guiding continuous wire expansion and contraction during continuous joint revolution.</span>
+        </div>
+        <div class="carousel-dots"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 03: ELECTRICAL ARCHITECTURE & CAN BUS ============ -->
+  <section class="psection">
+    <h2><span class="num">03</span>Electrical Architecture &amp; CAN Bus</h2>
+    <p class="caption" style="margin-bottom:18px">
+      A decentralized multi-drop CAN bus connects all seven RobStride actuators over a single shielded twisted pair, backed by transient-protected 48V DC power distribution.
+    </p>
+
+    <div class="carousel-box" data-autoplay="true" data-delay="2500">
+      <div class="carousel-viewport">
+        <div class="carousel-track">
+          <div class="carousel-slide" data-caption="Bus Continuity &amp; Resistance Check: Measuring 120 Ω terminal resistance across differential CAN-H/CAN-L lines to prevent signal reflection.">
+            <img src="images/robot-arm/elec-multimeter-continuity.jpg" alt="Multimeter measuring bus termination resistance" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Modular XT30 &amp; Molex Harnessing: Custom high-current XT30 power leads and latching Molex Micro-Fit connectors prepared for joint daisy-chaining.">
+            <img src="images/robot-arm/elec-xt30-can-harness.jpg" alt="XT30 and Molex wiring harness assemblies" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Braided Loom Cable Management: Heat-shrink and abrasion-resistant braided sleeving protecting internal lines against friction inside joint conduits.">
+            <img src="images/robot-arm/elec-harness-loom.jpg" alt="Braided loom wire bundle harness" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Benchtop Communications Test: Connecting ESP32 TWAI transceiver to actuator logic ports for register pinging and firmware configuration.">
+            <img src="images/robot-arm/elec-bench-transceiver-test.jpg" alt="ESP32 transceiver connected to motor logic for bench testing" loading="lazy">
+          </div>
+        </div>
+        <button class="carousel-btn prev" aria-label="Previous slide">&#10094;</button>
+        <button class="carousel-btn next" aria-label="Next slide">&#10095;</button>
+        <div class="carousel-caption-bar">
+          <span class="carousel-counter">[01/04]</span>
+          <span class="carousel-caption-text">Bus Continuity &amp; Resistance Check: Measuring 120 Ω terminal resistance across differential CAN-H/CAN-L lines to prevent signal reflection.</span>
+        </div>
+        <div class="carousel-dots"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 04: MOTOR MODULE & BUCK REGULATION ============ -->
+  <section class="psection">
+    <h2><span class="num">04</span>Motor Module &amp; Buck Regulation</h2>
+    <p class="caption" style="margin-bottom:18px">
+      High-power RobStride quasi-direct-drive actuators are paired with dedicated step-down buck regulation modules to isolate logic voltages from heavy inductive motor transients.
+    </p>
+
+    <div class="carousel-box" data-autoplay="true" data-delay="2500">
+      <div class="carousel-viewport">
+        <div class="carousel-track">
+          <div class="carousel-slide" data-caption="RobStride QDD Actuator Unit: High-torque planetary quasi-direct-drive actuator with integrated magnetic absolute encoder and CAN driver.">
+            <img src="images/robot-arm/motor-robstride-bench.jpg" alt="RobStride QDD actuator on workbench" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Actuator Flange Bracket: Precision CNC-milled and 3D-printed mounting plates securing motor stator directly to structural arm shells.">
+            <img src="images/robot-arm/motor-joint-bracket-fit.jpg" alt="Motor joint mounting bracket fitment" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Direct Joint Harness Interface: Close-up of low-profile wire dress exiting the motor housing into the joint conduit.">
+            <img src="images/robot-arm/motor-bench-wiring.jpg" alt="Direct motor wire dress and connector interface" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Logic Power Supply Verification: Validating stable 5V / 3.3V rails across the actuator logic terminals.">
+            <img src="images/robot-arm/motor-voltage-check.jpg" alt="Voltage check on actuator logic supply terminals" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Buck Regulator Integration: High-efficiency step-down converter mounted flush into the arm housing to drive auxiliary sensors and downstream electronics.">
+            <img src="images/robot-arm/buck-module-mount.jpg" alt="Buck converter integrated into motor module shell" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Capacitive Buffering &amp; Noise Filter: Bulk electrolytic decoupling capacitors absorbing transient back-EMF voltage spikes during rapid deceleration.">
+            <img src="images/robot-arm/buck-decoupling-cap.jpg" alt="Decoupling capacitor bank on buck regulator module" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Thermal &amp; Current Load Testing: Validating buck converter thermal stability under continuous logic load inside the enclosed joint housing.">
+            <img src="images/robot-arm/buck-bench-load-test.jpg" alt="Thermal and load testing on buck converter module" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Internal Harness Dressing: Cleanly separating step-down power lines from sensitive differential CAN lines along the internal spine.">
+            <img src="images/robot-arm/buck-harness-routing.jpg" alt="Harness dressing separating DC power from CAN lines" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Completed Joint Power Node: Assembled motor and buck regulation cluster ready for structural link enclosure.">
+            <img src="images/robot-arm/buck-assembled-module.jpg" alt="Fully assembled joint power node ready for installation" loading="lazy">
+          </div>
+        </div>
+        <button class="carousel-btn prev" aria-label="Previous slide">&#10094;</button>
+        <button class="carousel-btn next" aria-label="Next slide">&#10095;</button>
+        <div class="carousel-caption-bar">
+          <span class="carousel-counter">[01/09]</span>
+          <span class="carousel-caption-text">RobStride QDD Actuator Unit: High-torque planetary quasi-direct-drive actuator with integrated magnetic absolute encoder and CAN driver.</span>
+        </div>
+        <div class="carousel-dots"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 05: ARM ASSEMBLY & JOINT CONDUIT ============ -->
+  <section class="psection">
+    <h2><span class="num">05</span>Arm Assembly &amp; Joint Conduit</h2>
+    <p class="caption" style="margin-bottom:18px">
+      Structural links were fabricated in high-strength PETG with 7% gyroid infill, assembled with spigot shear joints, and routed with central internal wiring conduits.
+    </p>
+
+    <div class="carousel-box" data-autoplay="true" data-delay="2500">
+      <div class="carousel-viewport">
+        <div class="carousel-track">
+          <div class="carousel-slide" data-caption="Conduit Wire Flex Demonstration: Internal wiring bundle smoothly flexing and twisting through the hollow joint center as the housing is manually rotated 180°.">
+            <img src="images/robot-arm/assembly-joint-rotation-wiring.gif" alt="Animated demonstration of wiring flexing cleanly through rotating hollow joint conduit" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Spigot Joint Mating: Aligning interlocking male/female PETG link shells with 1 mm alignment lips for zero-backlash structural bonding.">
+            <img src="images/robot-arm/assembly-link-spigot-press.jpg" alt="Spigot joint mating on PETG arm link shells" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Brass Threaded Insert Installation: Heat-pressing brass M3/M4 threaded inserts into printed link bosses to resist pull-out forces.">
+            <img src="images/robot-arm/assembly-heat-set-inserts.jpg" alt="Heat set insert installation into 3D printed arm links" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Thin-Section Bearing Press: Seating large-diameter thin-section deep-groove bearings into joint housings for axial and radial rigidity.">
+            <img src="images/robot-arm/assembly-bearing-seating.jpg" alt="Seating thin-section bearing into joint housing" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="RobStride Motor Installation: Torquing high-tensile machine screws into the motor faceplate to lock actuator alignment.">
+            <img src="images/robot-arm/assembly-motor-mounting.jpg" alt="Torquing screws on RobStride motor mount" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Lower Arm Subassembly: Base yaw, shoulder pitch, and elbow assemblies joined into a rigid three-axis structural trunk.">
+            <img src="images/robot-arm/assembly-lower-arm-cluster.jpg" alt="Assembled lower arm trunk cluster on bench" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Forearm Conduit Pass-Through: Feeding power and CAN umbilical through the central hollow forearm tube without pinching.">
+            <img src="images/robot-arm/assembly-forearm-wiring-pass.jpg" alt="Passing wire umbilical through forearm conduit" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Wrist Mechanism Fit-Up: Assembling the compact 3-DOF wrist pitch, yaw, and roll clevises on the workbench.">
+            <img src="images/robot-arm/assembly-wrist-clevis-fit.jpg" alt="Wrist clevis mechanism fit up on bench" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Full Arm Structural Alignment: All 7 links mechanically fastened and stood upright on the workbench for plumb and square inspection.">
+            <img src="images/robot-arm/assembly-full-arm-upright.jpg" alt="Full 7-DOF arm stood upright on workbench for inspection" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Base Conduit Strain Relief: Securing lower umbilical harness at the base exit with bolted retaining collars.">
+            <img src="images/robot-arm/assembly-cable-strain-relief.jpg" alt="Base cable strain relief collar clamping" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Bench Rest Pose: 7-DOF arm in horizontal rest position validating link stiffness and zero sagging across joint interfaces.">
+            <img src="images/robot-arm/assembly-bench-rest-pose.jpg" alt="7-DOF arm extended horizontally across bench in rest pose" loading="lazy">
+          </div>
+        </div>
+        <button class="carousel-btn prev" aria-label="Previous slide">&#10094;</button>
+        <button class="carousel-btn next" aria-label="Next slide">&#10095;</button>
+        <div class="carousel-caption-bar">
+          <span class="carousel-counter">[01/11]</span>
+          <span class="carousel-caption-text">Conduit Wire Flex Demonstration: Internal wiring bundle smoothly flexing and twisting through the hollow joint center as the housing is manually rotated 180°.</span>
+        </div>
+        <div class="carousel-dots"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 06: PARALLEL JAW GRIPPER ============ -->
+  <section class="psection">
+    <h2><span class="num">06</span>Parallel Jaw Gripper</h2>
+    <p class="caption" style="margin-bottom:18px">
+      A compact dual rack-and-pinion parallel-jaw gripper actuated by a high-torque coreless servo delivers symmetrical grasping force and swappable high-friction finger pads.
+    </p>
+
+    <div class="carousel-box" data-autoplay="true" data-delay="2500">
+      <div class="carousel-viewport">
+        <div class="carousel-track">
+          <div class="carousel-slide" data-caption="Synchronized Jaw Opening &amp; Closing: Bench demo showing dual rack gears driven by central pinion for rapid, synchronized parallel finger travel.">
+            <img src="images/robot-arm/gripper-rack-pinion-jaw.gif" alt="Animated demonstration of parallel gripper jaws opening and closing" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Gripper Mechanical CAD: Compact SolidWorks assembly showing servo pocket, dual rack linear guides, and end-effector mount.">
+            <img src="images/robot-arm/gripper-cad-assembly.png" alt="Gripper mechanical SolidWorks assembly CAD" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Linear Guide &amp; Rack Geometry: Close-up CAD of precision-meshed involute gear teeth and captive linear slide tracks.">
+            <img src="images/robot-arm/gripper-cad-jaw-detail.png" alt="Close-up CAD of rack and pinion gear mesh" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Tool Flange Quick-Change Interface: Standardized bolt pattern interfacing seamlessly with the 7-DOF arm wrist roll flange.">
+            <img src="images/robot-arm/gripper-cad-flange-interface.png" alt="Gripper tool flange interface CAD" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Printed Gripper Hardware Assembly: 3D-printed gripper chassis with precision brass guide pins and stainless steel fasteners.">
+            <img src="images/robot-arm/gripper-build-bench.jpg" alt="Physical gripper hardware assembled on workbench" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="End-Effector Integration: Gripper mounted securely onto the distal wrist axis, ready for manipulation tasks.">
+            <img src="images/robot-arm/gripper-mounted-wrist.jpg" alt="Gripper installed on the distal wrist axis of the robot arm" loading="lazy">
+          </div>
+        </div>
+        <button class="carousel-btn prev" aria-label="Previous slide">&#10094;</button>
+        <button class="carousel-btn next" aria-label="Next slide">&#10095;</button>
+        <div class="carousel-caption-bar">
+          <span class="carousel-counter">[01/06]</span>
+          <span class="carousel-caption-text">Synchronized Jaw Opening &amp; Closing: Bench demo showing dual rack gears driven by central pinion for rapid, synchronized parallel finger travel.</span>
+        </div>
+        <div class="carousel-dots"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 07: CONTROL HUB & POWER ENCLOSURE ============ -->
+  <section class="psection">
+    <h2><span class="num">07</span>Control Hub &amp; Power Enclosure</h2>
+    <p class="caption" style="margin-bottom:18px">
+      The standalone control hub integrates an ESP32 master controller, CAN transceiver circuitry, 48V power distribution blocks, and a master emergency-stop switch inside a fan-cooled enclosure.
+    </p>
+
+    <div class="carousel-box" data-autoplay="true" data-delay="2500">
+      <div class="carousel-viewport">
+        <div class="carousel-track">
+          <div class="carousel-slide" data-caption="Control Hub Enclosure CAD: Ventilated base console design featuring dedicated bays for power supply, MCU, and external I/O.">
+            <img src="images/robot-arm/hub-cad-enclosure-iso.png" alt="Control hub enclosure isometric CAD" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Internal DIN &amp; Mounting Standoffs: CAD detail of internal component layout and cable raceways.">
+            <img src="images/robot-arm/hub-cad-internal-rails.png" alt="Internal mounting standoffs and cable raceway CAD" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Power Distribution Terminal Blocks: Heavy-duty screw terminals cleanly separating 48V motor power from 5V/3.3V logic rails.">
+            <img src="images/robot-arm/hub-elec-terminal-blocks.jpg" alt="Power distribution screw terminal blocks in hub enclosure" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="CAN Transceiver &amp; ESP32 Interface: High-speed SN65HVD230 CAN transceiver wired to the ESP32 TWAI peripheral.">
+            <img src="images/robot-arm/hub-elec-transceiver-wiring.jpg" alt="CAN transceiver wired to ESP32 board" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Front Panel Rocker &amp; E-Stop Wiring: Latching power toggle and safety circuit wiring ready for panel mounting.">
+            <img src="images/robot-arm/hub-elec-switch-integration.jpg" alt="Front panel switch and safety circuit wiring" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Assembled Electronics Bay: Completed wiring layout with neat cable combs and strain-relieved umbilical port.">
+            <img src="images/robot-arm/hub-finished-open-top.jpg" alt="Completed control hub electronics bay with wiring combs" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Arm Base Harness Interface: Completed control hub connected to the base of the arm via multi-pin umbilical harness.">
+            <img src="images/robot-arm/hub-finished-base-harness.jpg" alt="Completed control hub tethered to arm base harness" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Pedestal &amp; Hub Bench Integration: Control hub positioned adjacent to the weighted arm pedestal for integrated system testing.">
+            <img src="images/robot-arm/hub-finished-pedestal-setup.jpg" alt="Control hub positioned next to weighted arm pedestal" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="External I/O &amp; Power Inlets: High-current DC barrel jack, USB-C programming interface, and CAN monitoring port.">
+            <img src="images/robot-arm/hub-finished-rear-ports.jpg" alt="Rear panel showing DC power jack and USB-C port" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Enclosure Sealed &amp; Energized: Enclosure top cover fastened, power indicators active, ready for live control.">
+            <img src="images/robot-arm/hub-finished-indicator-leds.jpg" alt="Sealed control hub with active power LEDs" loading="lazy">
+          </div>
+        </div>
+        <button class="carousel-btn prev" aria-label="Previous slide">&#10094;</button>
+        <button class="carousel-btn next" aria-label="Next slide">&#10095;</button>
+        <div class="carousel-caption-bar">
+          <span class="carousel-counter">[01/10]</span>
+          <span class="carousel-caption-text">Control Hub Enclosure CAD: Ventilated base console design featuring dedicated bays for power supply, MCU, and external I/O.</span>
+        </div>
+        <div class="carousel-dots"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 08: WEIGHTED BASE MOUNT & STABILITY PEDESTAL ============ -->
+  <section class="psection">
+    <h2><span class="num">08</span>Weighted Base Mount &amp; Stability Pedestal</h2>
+    <p class="caption" style="margin-bottom:18px">
+      To counteract heavy tipping moments at full 1.11 m horizontal extension, a custom steel mounting flange anchors the arm securely to heavy barbell ballast plates.
+    </p>
+
+    <div class="carousel-box" data-autoplay="true" data-delay="2500">
+      <div class="carousel-viewport">
+        <div class="carousel-track">
+          <div class="carousel-slide" data-caption="Weighted Base Flange CAD: FEA-optimized heavy pedestal plate with perimeter clamping holes and central conduit drop.">
+            <img src="images/robot-arm/base-cad-pedestal.png" alt="Weighted base mounting flange CAD" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Barbell Ballast Clamping: Arm bolted securely through stacked steel weight plates for rigid bench stability without desktop drilling.">
+            <img src="images/robot-arm/base-ballast-plate-setup.jpg" alt="Arm bolted to stacked barbell ballast plates on workbench" loading="lazy">
+          </div>
+          <div class="carousel-slide" data-caption="Overturning Moment Validation: Full horizontal arm reach validated with zero pedestal deflection or tipping under full arm mass.">
+            <img src="images/robot-arm/base-high-load-stability.jpg" alt="Arm fully extended verifying base stability against overturning moment" loading="lazy">
+          </div>
+        </div>
+        <button class="carousel-btn prev" aria-label="Previous slide">&#10094;</button>
+        <button class="carousel-btn next" aria-label="Next slide">&#10095;</button>
+        <div class="carousel-caption-bar">
+          <span class="carousel-counter">[01/03]</span>
+          <span class="carousel-caption-text">Weighted Base Flange CAD: FEA-optimized heavy pedestal plate with perimeter clamping holes and central conduit drop.</span>
+        </div>
+        <div class="carousel-dots"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 09: FUTURE GOALS & TECHNICAL ROADMAP ============ -->
+  <section class="psection">
+    <h2><span class="num">09</span>Future Goals &amp; Technical Roadmap</h2>
+    <p class="caption" style="margin-bottom:18px">
+      With physical assembly and manual kinematic validation complete, active development is transitioning to software simulation, autonomous trajectory generation, and impedance control.
+    </p>
+
+    <ul class="achievements" style="margin-top:14px">
+      <li><b>URDF Generation &amp; Kinematic Verification:</b> Generating an accurate Unified Robot Description Format (URDF) file with exact link centers of mass, inertia tensors, joint limits, and visual/collision meshes.</li>
+      <li><b>High-Fidelity MuJoCo Physics Simulation:</b> Importing the robot URDF into MuJoCo for reinforcement learning policy training, sim-to-real domain randomization, and obstacle avoidance validation.</li>
+      <li><b>ROS 2 &amp; MoveIt2 Autonomous Trajectory Planning:</b> Implementing ROS 2 Humble nodes with MoveIt2 for Cartesian path planning, collision-free obstacle avoidance, and numerical inverse kinematics (IK) solving.</li>
+      <li><b>Backdrivable Impedance &amp; Gravity Compensation:</b> Developing active feed-forward gravity compensation and Cartesian impedance control leveraging the quasi-direct-drive actuators' natural torque transparency.</li>
+      <li><b>Closed-Loop Gripper Tactile Control:</b> Integrating piezoresistive pressure arrays onto parallel gripper fingertips for adaptive slip detection, compliant grasping, and delicate object manipulation.</li>
+    </ul>
+  </section>
+
+  <nav class="project-nav">
+    <a href="balsa-bridge.html">← Balsa Bridge — MODS</a>
+    <a href="robot-hand.html">10-DOF Dexterous Hand →</a>
+  </nav>
+
+</main>
+
+<div class="circuit-edge bottom"></div>
+
+<footer>
+  <div class="footer-inner">
+    <span>© 2026 Huamin Lu — built with HTML/CSS, no frameworks</span>
+    <span><a href="projects.html">all projects →</a></span>
+  </div>
+</footer>
+
+<script src="js/carousel.js?v=65"></script>
+<script src="js/reveal.js?v=57"></script>
+</body>
+</html>"""
+
+with open("robot-arm.html", "w", encoding="utf-8") as f:
+    f.write(HTML_BODY)
+
+print("Generated robot-arm.html successfully!")
