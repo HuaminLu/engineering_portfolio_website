@@ -1,6 +1,6 @@
 // js/tile-fade.js — Automated cycling crossfade gallery for project preview tiles
 document.addEventListener('DOMContentLoaded', () => {
-  const galleries = document.querySelectorAll('.tile-img.fade-gallery');
+  const galleries = document.querySelectorAll('.fade-gallery');
   if (!galleries.length) return;
 
   const INTERVAL = 1500; // 1.5 seconds per photo as requested

@@ -399,13 +399,15 @@ body { overflow-x: hidden; } /* full-bleed row must never cause sideways page sc
   display: none;
 }
 
-/* Cycling crossfade gallery for preview tiles */
-.tile-img.fade-gallery {
+/* Cycling crossfade gallery for preview tiles and split-halves */
+.tile-img.fade-gallery,
+.split-half.fade-gallery {
   position: relative;
   overflow: hidden;
 }
 
-.tile-img.fade-gallery img {
+.tile-img.fade-gallery img,
+.split-half.fade-gallery img {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -416,13 +418,16 @@ body { overflow-x: hidden; } /* full-bleed row must never cause sideways page sc
   pointer-events: none;
 }
 
-.tile-img.fade-gallery img.active {
+.tile-img.fade-gallery img.active,
+.split-half.fade-gallery img.active {
   opacity: 1;
   pointer-events: auto;
 }
 
 .tile:hover .tile-img.fade-gallery img.active,
-.grid-tile:hover .tile-img.fade-gallery img.active {
+.grid-tile:hover .tile-img.fade-gallery img.active,
+.tile:hover .split-half.fade-gallery img.active,
+.grid-tile:hover .split-half.fade-gallery img.active {
   transform: scale(1.03);
 }
 
