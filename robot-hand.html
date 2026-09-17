@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=59">
+  <link rel="stylesheet" href="css/style.css?v=60">
 </head>
 <body>
 
@@ -249,49 +249,31 @@
     </p>
 
     <div class="sub-gallery">
-      <h3 class="sub-heading"><span class="sub-num">03.1</span> Digit Sub-Assembly &amp; Knuckle Pivots</h3>
-      <p class="caption">Press-fitting miniature hex nuts into distal phalanx retention pockets and preparing silicone contact pads for high-friction grip.</p>
-      <div class="video-box">
-        <video autoplay loop muted playsinline poster="videos/robot-hand/assembly-fingertip.jpg">
-          <source src="videos/robot-hand/assembly-fingertip.mp4" type="video/mp4">
-        </video>
-      </div>
-    </div>
-
-    <div class="sub-gallery">
-      <h3 class="sub-heading"><span class="sub-num">03.2</span> Palm Chassis Actuator Nesting &amp; Thumb Alignment</h3>
-      <p class="caption">Installing 8 MG90S metal-gear micro servos into the multi-tiered palm skeleton and aligning the 2-DOF opposable thumb pivot hinge.</p>
-      <div class="video-box">
-        <video autoplay loop muted playsinline poster="videos/robot-hand/assembly-chassis.jpg">
-          <source src="videos/robot-hand/assembly-chassis.mp4" type="video/mp4">
-        </video>
-      </div>
-    </div>
-
-    <div class="sub-gallery">
-      <h3 class="sub-heading"><span class="sub-num">03.3</span> High-Tensile Tendon Rigging &amp; Tension Tuning</h3>
-      <p class="caption">Dressing servo lead bundles, threading braided lines through pulley guides, and calibrating tension across all 10 channels.</p>
-      <div class="video-box">
-        <video autoplay loop muted playsinline poster="videos/robot-hand/assembly-tendons.jpg">
-          <source src="videos/robot-hand/assembly-tendons.mp4" type="video/mp4">
-        </video>
-      </div>
-    </div>
-
-    <div class="sub-gallery">
-      <h3 class="sub-heading"><span class="sub-num">03.4</span> Tendon Spool Interface &amp; Micro-Pulley Rig</h3>
-      <p class="caption">Macro inspection of high-strength braided line routed around custom idler spools and anchored to the servo horn, providing high tensile strength with near-zero elongation under load.</p>
-      <div class="carousel-box" data-autoplay="false">
+      <h3 class="sub-heading"><span class="sub-num">03.1</span> Chronological Hardware Assembly &amp; Tendon Rigging</h3>
+      <p class="caption">Step-by-step physical build progression: phalanx hardware press-fitting, palm servo nesting, tendon routing, and micro-pulley rigging.</p>
+      <div class="carousel-box" data-autoplay="true" data-delay="3500">
         <div class="carousel-viewport">
           <div class="carousel-track">
-            <div class="carousel-slide" data-caption="Tendon Rigging Macro: High-strength braided fishing wire routed over custom 3D-printed idler spools and anchored to the servo horn with zero backlash.">
+            <div class="carousel-slide" data-caption="Digit Sub-Assembly: Press-fitting miniature hex nuts into distal phalanx retention pockets and preparing silicone contact pads for high-friction grip.">
+              <img src="images/robot-hand/assembly-fingertip.gif" alt="Fingertip and distal phalanx hardware assembly demo" loading="lazy">
+            </div>
+            <div class="carousel-slide" data-caption="Palm Chassis Integration: Installing 8 MG90S metal-gear micro servos into the multi-tiered palm skeleton and aligning the 2-DOF opposable thumb pivot hinge.">
+              <img src="images/robot-hand/assembly-chassis.gif" alt="Palm chassis servo nesting and thumb pivot integration demo" loading="lazy">
+            </div>
+            <div class="carousel-slide" data-caption="Tendon Rigging &amp; Calibration: Dressing servo lead bundles, threading braided lines through pulley guides, and calibrating tension across all 10 channels.">
+              <img src="images/robot-hand/assembly-tendons.gif" alt="Tendon rigging and servo horn alignment demo" loading="lazy">
+            </div>
+            <div class="carousel-slide" data-caption="Tendon Spool Macro: High-strength braided fishing wire routed over custom 3D-printed idler spools and anchored to the servo horn with zero backlash.">
               <img src="images/robot-hand/assembly-tendon-wire.jpg" alt="Macro close-up of braided tendon fishing wire routed through finger pulley spools" loading="lazy">
             </div>
           </div>
+          <button class="carousel-btn prev" aria-label="Previous slide">&#10094;</button>
+          <button class="carousel-btn next" aria-label="Next slide">&#10095;</button>
           <div class="carousel-caption-bar">
-            <span class="carousel-counter">[01/01]</span>
-            <span class="carousel-caption-text">Tendon Rigging Macro: High-strength braided fishing wire routed over custom 3D-printed idler spools and anchored to the servo horn with zero backlash.</span>
+            <span class="carousel-counter">[01/04]</span>
+            <span class="carousel-caption-text">Digit Sub-Assembly: Press-fitting miniature hex nuts into distal phalanx retention pockets and preparing silicone contact pads for high-friction grip.</span>
           </div>
+          <div class="carousel-dots"></div>
         </div>
       </div>
     </div>
@@ -306,9 +288,9 @@
     </p>
 
     <div class="sub-gallery">
-      <h3 class="sub-heading"><span class="sub-num">04.1</span> High-Current Buck Regulation &amp; Logic Rail Isolation</h3>
-      <p class="caption">Dual XL4015 buck converters stepping down 12V DC input to a stable 6.0V servo supply, backed by 4,700 µF bulk capacitance.</p>
-      <div class="carousel-box" data-autoplay="true" data-delay="2000">
+      <h3 class="sub-heading"><span class="sub-num">04.1</span> High-Current Buck Regulation &amp; Power Architecture</h3>
+      <p class="caption">Dual XL4015 buck converters stepping down 12V DC input to a stable 6.0V servo supply, backed by 4,700 µF bulk capacitance and clean wrist conduit routing.</p>
+      <div class="carousel-box" data-autoplay="true" data-delay="3500">
         <div class="carousel-viewport">
           <div class="carousel-track">
             <div class="carousel-slide" data-caption="Forearm Electronics Stack: Heavy-gauge twisted power cabling and wrist pivot pass-through cleanly nested inside the forearm housing beneath the wrist joint.">
@@ -317,25 +299,18 @@
             <div class="carousel-slide" data-caption="Buck Converter Terminal Block: High-efficiency XL4015 module and 4,700 µF bulk decoupling capacitor bank absorbing motor stall current spikes.">
               <img src="images/robot-hand/assembly-forearm-buck.jpg" alt="Forearm buck converter module screw terminals and capacitors close-up" loading="lazy">
             </div>
+            <div class="carousel-slide" data-caption="Power Harness Wiring: Dressing twisted-pair DC lines and routing the 6V high-current bus through the wrist pedestal up into the palm PCA9685 driver.">
+              <img src="images/robot-hand/assembly-power.gif" alt="Power harness wiring and wrist conduit routing demo" loading="lazy">
+            </div>
           </div>
           <button class="carousel-btn prev" aria-label="Previous slide">&#10094;</button>
           <button class="carousel-btn next" aria-label="Next slide">&#10095;</button>
           <div class="carousel-caption-bar">
-            <span class="carousel-counter">[01/02]</span>
+            <span class="carousel-counter">[01/03]</span>
             <span class="carousel-caption-text">Forearm Electronics Stack: Heavy-gauge twisted power cabling and wrist pivot pass-through cleanly nested inside the forearm housing beneath the wrist joint.</span>
           </div>
           <div class="carousel-dots"></div>
         </div>
-      </div>
-    </div>
-
-    <div class="sub-gallery">
-      <h3 class="sub-heading"><span class="sub-num">04.2</span> Power Harness Wiring &amp; Wrist Conduit</h3>
-      <p class="caption">Dressing twisted-pair DC lines and routing the 6V high-current bus through the wrist pedestal up into the palm PCA9685 driver.</p>
-      <div class="video-box">
-        <video autoplay loop muted playsinline poster="videos/robot-hand/assembly-power.jpg">
-          <source src="videos/robot-hand/assembly-power.mp4" type="video/mp4">
-        </video>
       </div>
     </div>
 
@@ -464,7 +439,7 @@
   </div>
 </footer>
 
-<script src="js/carousel.js?v=57"></script>
-<script src="js/reveal.js?v=57"></script>
+<script src="js/carousel.js?v=60"></script>
+<script src="js/reveal.js?v=60"></script>
 </body>
 </html>

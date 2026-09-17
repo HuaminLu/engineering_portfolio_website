@@ -18,8 +18,8 @@ function initCarousels() {
     if (!track || origSlides.length === 0) return;
 
     const total = origSlides.length;
-    // 2.0s per image as requested ("have 2 sec on each image and just make it always be sliding")
-    const delay = 2000;
+    // Slide duration configurable via data-delay attribute (defaults to 2000ms)
+    const delay = parseInt(box.dataset.delay, 10) || 2000;
     const TRANSITION_STYLE = 'transform 0.35s cubic-bezier(0.25, 0.1, 0.25, 1.0)';
 
     let autoTimer = null;
