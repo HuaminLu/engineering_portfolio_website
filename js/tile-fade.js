@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const galleries = document.querySelectorAll('.fade-gallery');
   if (!galleries.length) return;
 
-  const INTERVAL = 1500; // 1.5 seconds per photo as requested
+  const DEFAULT_INTERVAL = 1800; // default 1.8 seconds per still photo
 
   galleries.forEach((gallery, gIdx) => {
     const images = gallery.querySelectorAll('img');
@@ -25,14 +25,24 @@ document.addEventListener('DOMContentLoaded', () => {
       images[currentIndex].classList.add('active');
     }
 
+    function scheduleNext() {
+      if (timer) clearTimeout(timer);
+      const currentImg = images[currentIndex];
+      const customDuration = currentImg ? parseInt(currentImg.dataset.duration, 10) : NaN;
+      const currentInterval = (!isNaN(customDuration) && customDuration > 0) ? customDuration : DEFAULT_INTERVAL;
+
+      timer = setTimeout(() => {
+        nextImage();
+        scheduleNext();
+      }, currentInterval);
+    }
+
     function startTimer() {
       if (timer || startTimeout) return;
       const staggerDelay = (gIdx % 4) * 350;
       startTimeout = setTimeout(() => {
         startTimeout = null;
-        if (!timer) {
-          timer = setInterval(nextImage, INTERVAL);
-        }
+        scheduleNext();
       }, staggerDelay);
     }
 
@@ -42,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
         startTimeout = null;
       }
       if (timer) {
-        clearInterval(timer);
+        clearTimeout(timer);
         timer = null;
       }
     }
