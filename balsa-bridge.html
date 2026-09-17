@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=52">
+  <link rel="stylesheet" href="css/style.css?v=53">
 </head>
 <body>
 
@@ -65,154 +65,115 @@
       <span>analysis <b>Method of Joints & Sections</b></span>
     </div>
     <p class="project-intro">
-      Course culminating design and structural optimization project for <b>MTE 219: Mechanics of Deformable Solids</b> at the University of Waterloo.
-      Engineered an ultra-lightweight balsa wood truss bridge designed to maximize payload-to-weight structural efficiency under center-point and distributed deck loading.
-      Combined analytical method-of-joints force calculations with <b>SolidWorks FEA simulations</b> using customized orthotropic balsa material properties to resolve axial tensions, compressions, and Euler buckling limits across each link.
+      Culminating structural design and optimization project for <b>MTE 219: Mechanics of Deformable Solids</b> at the University of Waterloo.
+      Engineered an ultra-lightweight balsa wood truss bridge designed to maximize payload-to-weight structural efficiency under center-point loading.
+      Combined analytical method-of-joints force calculations with <b>SolidWorks FEA simulations</b> using orthotropic balsa material properties to resolve axial tensions, compressions, and Euler buckling limits across each link.
     </p>
+
+    <ul class="achievements">
+      <li><b>Analytical Truss Equilibrium:</b> Resolved exact member force distributions (tension vs. compression) across 3D pin-connected nodes using the Method of Joints and Sections.</li>
+      <li><b>SolidWorks FEA Simulation:</b> Configured static displacement and stress finite element analyses under 32.5 N load with deformation scaling up to 112× to validate flexural stiffness.</li>
+      <li><b>Buckling & Link Sizing:</b> Tailored individual member cross-sections, reinforcing compressive top chords against out-of-plane buckling while optimizing tension diagonals.</li>
+      <li><b>Destructive Physical Testing:</b> Evaluated the assembled bridge on a laboratory load fixture with suspended deadweights, confirming high payload-to-mass performance.</li>
+    </ul>
   </section>
 
   <!-- ============ HERO ============ -->
-  <div class="fig-wide">
-    <div class="ph">
-      <div class="ph-icon">🌉</div>
-      <div class="ph-label">[ img: balsa truss bridge — full assembly & load test ]</div>
-      <div class="ph-desc">Full-span balsa wood truss bridge mounted on hydraulic test fixture undergoing ultimate payload testing</div>
+  <div class="dual-feed">
+    <div class="dual-feed-media">
+      <div class="feed-pane" style="flex:1;">
+        <span class="feed-tag">Lab Testing · Destructive Center Load Fixture</span>
+        <img src="images/balsa-bridge/bridge-load-test.jpg" alt="Balsa Truss Bridge Under Ultimate Payload Center Load Test" style="width:100%; height:auto; display:block; border-radius:3px;">
+      </div>
+      <div class="feed-pane" style="flex:1.4;">
+        <span class="feed-tag">SolidWorks CAD · Parametric 3D Truss Assembly</span>
+        <img src="images/balsa-bridge/cad-bridge-assembly.jpg" alt="SolidWorks 3D Parametric Balsa Truss Bridge Assembly Model" style="width:100%; height:auto; display:block; border-radius:3px;">
+      </div>
+    </div>
+    <div class="dual-feed-caption">
+      <span class="caption-title">Physical Load Testing &amp; 3D Assembly CAD</span> — Experimental load testing on custom center-point fixture alongside the 40 cm parametric SolidWorks bridge assembly.
     </div>
   </div>
   </div><!-- /pfold -->
 
-  <section>
-    <ul class="achievements">
-      <li><b>Analytical Truss Force Analysis:</b> Performed comprehensive static equilibrium, Method of Joints, and Method of Sections calculations to resolve exact axial loads (tension vs. compression) across every individual structural link under varying payload distributions.</li>
-      <li><b>SolidWorks FEA Simulation:</b> Configured finite element models with directional orthotropic wood material properties (longitudinal vs. transverse elastic modulus, shear modulus, and Poisson's ratios) assigned to individual members to accurately simulate balsa grain mechanics.</li>
-      <li><b>Cross-Section & Buckling Optimization:</b> Iterated link dimensions across high-load paths — reinforced compressive top chords against critical Euler buckling while slimming pure tension members to minimize deadweight.</li>
-      <li><b>Gusset Joint Shear Design:</b> Engineered double-lap balsa gusset joints with optimized contact bond area, ensuring failure occurred through structural member limits rather than premature adhesive joint shear peeling.</li>
-    </ul>
-  </section>
-
   <!-- ============ 01: MECHANICAL / CAD ============ -->
   <section class="psection">
-    <h2><span class="num">01</span>Mechanical Design & Truss Geometry CAD</h2>
-    <p class="caption" style="margin-bottom:18px">
-      Parametric SolidWorks 3D CAD modeling, multi-link truss geometry, deck load-transfer members, and precision joint layout.
-    </p>
+    <h2><span class="num">01</span>Mechanical Design &amp; Parametric Truss Geometry</h2>
 
-    <div class="sub-gallery">
-      <h3 class="sub-heading"><span class="sub-num">01.1</span> Parametric Truss Topology & SolidWorks Assembly CAD</h3>
-      <p class="caption">SolidWorks 3D model of the complete bridge assembly, featuring balanced Warren/Pratt hybrid truss webbing, transverse cross-bracing, and road deck support beams.</p>
-      <div class="fig-row">
-        <div class="ph">
-          <div class="ph-icon">📐</div>
-          <div class="ph-label">[ cad: 3d parametric bridge assembly ]</div>
-          <div class="ph-desc">Full isometric 3D view of the balsa truss bridge showing deck beams and lateral bracing</div>
-        </div>
-        <div class="ph">
-          <div class="ph-icon">⊞</div>
-          <div class="ph-label">[ cad: truss side elevation & member index ]</div>
-          <div class="ph-desc">Dimensioned side elevation with indexed member labels corresponding to analytical force models</div>
-        </div>
+    <ul class="achievements" style="margin: 14px 0 16px;">
+      <li>Modeled a 40.0 cm span, 10.0 cm tall Warren/Pratt hybrid truss in SolidWorks with lateral cross-bracing and transverse deck beams.</li>
+      <li>Parametric individual link architecture: engineered eye ends with Ø0.30 cm pin holes and Ø1.52 cm outer margins to prevent joint tear-out shear.</li>
+      <li>Calculated Method of Joints and Method of Sections force equilibriums to dictate cross-sectional thickness (0.33 cm) and member widths.</li>
+    </ul>
+
+    <div class="dual-feed-media" style="margin-top: 20px;">
+      <div class="feed-pane" style="flex:1.2;">
+        <span class="feed-tag">Full Bridge CAD · Dimensioned Isometric</span>
+        <img src="images/balsa-bridge/cad-bridge-assembly.jpg" alt="SolidWorks dimensioned bridge assembly showing span, height, and width">
+      </div>
+      <div class="feed-pane" style="flex:1;">
+        <span class="feed-tag">Parametric Member CAD · Pin Joint Link</span>
+        <img src="images/balsa-bridge/cad-member-link.jpg" alt="Parametric link member drawing with pin hole diameter and width callouts">
       </div>
     </div>
-
-    <div class="sub-gallery">
-      <h3 class="sub-heading"><span class="sub-num">01.2</span> Gusset Joint Geometry & Member Sizing</h3>
-      <p class="caption">Detailed CAD joint drawings defining gusset plate contact area, glue boundary shear margins, and precision miter angles at nodal intersections.</p>
-      <div class="fig-row">
-        <div class="ph">
-          <div class="ph-icon">⛶</div>
-          <div class="ph-label">[ cad: gusset joint detail & node overlap ]</div>
-          <div class="ph-desc">Close-up view of multi-member node intersection with reinforced double-shear gusset plates</div>
-        </div>
-        <div class="ph">
-          <div class="ph-icon">⌗</div>
-          <div class="ph-label">[ cad: member cross-section schedules ]</div>
-          <div class="ph-desc">Cross-section schedule showing tailored member thicknesses optimized for local load demands</div>
-        </div>
-      </div>
+    <div class="dual-feed-caption">
+      <span class="caption-title">3D Truss Topology &amp; Member Detailing</span> — Complete assembly envelope dimensions (40 cm × 8.5 cm × 10 cm) and single-link parametric geometry.
     </div>
   </section>
 
-  <!-- ============ 02: FEA SIMULATION & STRUCTURAL OPTIMIZATION ============ -->
+  <!-- ============ 02: FEA SIMULATION ============ -->
   <section class="psection">
-    <h2><span class="num">02</span>SolidWorks FEA Simulation & Structural Optimization</h2>
-    <p class="caption" style="margin-bottom:18px">
-      Finite element stress analysis, orthotropic wood material modeling, axial load distribution, and Euler buckling prevention.
-    </p>
+    <h2><span class="num">02</span>SolidWorks FEA Simulation &amp; Structural Optimization</h2>
 
-    <div class="sub-gallery">
-      <h3 class="sub-heading"><span class="sub-num">02.1</span> Orthotropic Material Property Definition & Mesh Setup</h3>
-      <p class="caption">Assigning customized directional stiffness parameters to reflect balsa grain orientation, paired with refined solid and beam element meshes.</p>
-      <div class="fig-row">
-        <div class="ph">
-          <div class="ph-icon">▦</div>
-          <div class="ph-label">[ fea: material setup & grain alignment ]</div>
-          <div class="ph-desc">SolidWorks Simulation material definition window displaying orthotropic moduli along the member axes</div>
-        </div>
-        <div class="ph">
-          <div class="ph-icon">⚙</div>
-          <div class="ph-label">[ fea: finite element mesh & boundary constraints ]</div>
-          <div class="ph-desc">Meshed truss geometry with pinned and roller support boundary conditions and vertical test loads</div>
-        </div>
+    <ul class="achievements" style="margin: 14px 0 16px;">
+      <li>Configured static displacement and stress finite element studies in SolidWorks Simulation applying 32.5 N test loads across central node fixtures.</li>
+      <li>Evaluated resultant displacement heatmaps (URES contour) across design iterations with deformation scales up to 112× to identify flexure hot spots.</li>
+      <li>Optimized compression top chords against Euler buckling while slimming pure tension diagonals to maximize strength-to-weight ratio.</li>
+    </ul>
+
+    <div class="dual-feed-media" style="margin-top: 20px;">
+      <div class="feed-pane" style="flex:1.5;">
+        <span class="feed-tag">FEA Study · Truss Bridge v3 Static Displacement</span>
+        <img src="images/balsa-bridge/fea-displacement-truss.jpg" alt="SolidWorks Simulation static displacement plot of Truss Bridge v3">
       </div>
     </div>
+    <div class="dual-feed-caption">
+      <span class="caption-title">Full Assembly Static FEA Simulation</span> — Resultant displacement plot under 32.5 N center point load (deformation scale 51.87×, peak deflection 0.79 mm).
+    </div>
 
-    <div class="sub-gallery">
-      <h3 class="sub-heading"><span class="sub-num">02.2</span> Von Mises Stress Contours & Euler Buckling Optimization</h3>
-      <p class="caption">FEA axial force distribution and factor-of-safety stress plots under max payload; sizing compression members against out-of-plane buckling and tension links for yield strength.</p>
-      <div class="fig-row">
-        <div class="ph">
-          <div class="ph-icon">📊</div>
-          <div class="ph-label">[ fea: von mises stress distribution ]</div>
-          <div class="ph-desc">Color stress contour plot highlighting localized peak stress concentrations at center nodes</div>
-        </div>
-        <div class="ph">
-          <div class="ph-icon">📉</div>
-          <div class="ph-label">[ fea: buckling mode shape & safety factors ]</div>
-          <div class="ph-desc">First-mode Euler buckling deformation plot showing lateral deflection margins under peak compression</div>
-        </div>
+    <div class="dual-feed-media" style="margin-top: 20px;">
+      <div class="feed-pane" style="flex:1;">
+        <span class="feed-tag">Comparative Study · Ladder Truss</span>
+        <img src="images/balsa-bridge/fea-displacement-ladder.jpg" alt="FEA static displacement analysis of ladder truss design">
       </div>
+      <div class="feed-pane" style="flex:1;">
+        <span class="feed-tag">Comparative Study · Thin Truss v3</span>
+        <img src="images/balsa-bridge/fea-displacement-thin.jpg" alt="FEA static displacement analysis of thin truss iteration">
+      </div>
+    </div>
+    <div class="dual-feed-caption">
+      <span class="caption-title">Structural Topology Iterations</span> — Comparative finite element analyses evaluating Ladder Truss vs. Thin Truss Design 3 under simulated loads.
     </div>
   </section>
 
-  <!-- ============ 03: FABRICATION & LOAD TESTING ============ -->
+  <!-- ============ 03: FABRICATION & TESTING ============ -->
   <section class="psection">
-    <h2><span class="num">03</span>Precision Fabrication & Destructive Load Testing</h2>
-    <p class="caption" style="margin-bottom:18px">
-      Balsa stock selection, razor-miter jig cutting, dual-truss assembly jigs, and hydraulic press destructive payload testing.
-    </p>
+    <h2><span class="num">03</span>Fabrication &amp; Destructive Load Testing</h2>
 
-    <div class="sub-gallery">
-      <h3 class="sub-heading"><span class="sub-num">03.1</span> Stock Grain Sorting, Miter Cutting & Template Jig Assembly</h3>
-      <p class="caption">Sorting balsa density and grain orientation, cutting precision miter angles with custom razor guides, and pinning trusses onto 1:1 scale templates.</p>
-      <div class="fig-row">
-        <div class="ph">
-          <div class="ph-icon">✂</div>
-          <div class="ph-label">[ proto: member cutting & miter jig ]</div>
-          <div class="ph-desc">Precision cutting balsa links with miter guides and sorting high-density members for compression chords</div>
-        </div>
-        <div class="ph">
-          <div class="ph-icon">🔨</div>
-          <div class="ph-label">[ proto: jig assembly & glue clamping ]</div>
-          <div class="ph-desc">Trusses pinned flat onto 1:1 drafted layout boards with cyanoacrylate adhesive clamping</div>
-        </div>
+    <ul class="achievements" style="margin: 14px 0 16px;">
+      <li>Precision fabricated structural balsa members with drilled pin joints to eliminate eccentricity and ensure uniform load sharing.</li>
+      <li>Conducted destructive load test on laboratory fixture, supporting suspended deadweight stack to determine maximum payload.</li>
+      <li>Correlated physical deflection against FEA simulation predictions, demonstrating high structural efficiency in MTE 219.</li>
+    </ul>
+
+    <div class="dual-feed-media" style="margin-top: 20px;">
+      <div class="feed-pane" style="flex:1; max-width: 650px; margin: 0 auto;">
+        <span class="feed-tag">Laboratory Load Test · Center-Point Deadweight</span>
+        <img src="images/balsa-bridge/bridge-load-test.jpg" alt="Balsa bridge supporting suspended weights on lab testing rig">
       </div>
     </div>
-
-    <div class="sub-gallery">
-      <h3 class="sub-heading"><span class="sub-num">03.2</span> Hydraulic Press Load Testing & Failure Mode Qualification</h3>
-      <p class="caption">Mounting the completed bridge in the MTE 219 load test fixture; recording load-deflection curves up to ultimate failure to validate FEA predictions.</p>
-      <div class="fig-row">
-        <div class="ph">
-          <div class="ph-icon">⚖</div>
-          <div class="ph-label">[ test: hydraulic press test setup ]</div>
-          <div class="ph-desc">Bridge placed on load cell supports with dial deflection gauge and center vertical load applicator</div>
-        </div>
-        <div class="ph">
-          <div class="ph-icon">💥</div>
-          <div class="ph-label">[ test: failure point & fea correlation ]</div>
-          <div class="ph-desc">Post-test inspection verifying catastrophic failure occurred at the analytically predicted top chord link</div>
-        </div>
-      </div>
+    <div class="dual-feed-caption">
+      <span class="caption-title">Physical Failure &amp; Deflection Testing</span> — Physical bridge loaded on rigid upright supports with suspended deadweight stack to determine ultimate load capacity.
     </div>
   </section>
 
