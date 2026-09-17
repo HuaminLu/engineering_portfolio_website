@@ -79,8 +79,67 @@
     });
   });
 
-  // 5. Scroll entrance reveal animations
+
+  // 5. Project-Page Video GIF Acceleration (1.5x - 1.75x based on length)
+  // Strictly applies to project pages only; preserves 1.0x normal speed on main gallery scroll
+  (function initProjectVideoSpeed() {
+    if (!document.querySelector(".pfold")) return;
+
+    function applyVideoSpeed(v) {
+      if (!v) return;
+      if (v.closest(".tile, .grid-tile, .tiles, .project-grid")) return;
+      function setRate() {
+        var dur = v.duration;
+        // <= 12s -> 1.5x speed, > 12s -> 1.75x speed
+        var targetRate = (dur && dur > 12) ? 1.75 : 1.5;
+        v.defaultPlaybackRate = targetRate;
+        v.playbackRate = targetRate;
+      }
+
+      if (v.readyState >= 1 && v.duration) {
+        setRate();
+      } else {
+        v.addEventListener("loadedmetadata", setRate, { once: true });
+      }
+
+      v.addEventListener("play", function () {
+        var dur = v.duration;
+        var targetRate = (dur && dur > 12) ? 1.75 : 1.5;
+        if (v.playbackRate !== targetRate) {
+          v.playbackRate = targetRate;
+        }
+      });
+
+      v.addEventListener("timeupdate", function () {
+        var dur = v.duration;
+        var targetRate = (dur && dur > 12) ? 1.75 : 1.5;
+        if (v.playbackRate !== targetRate) {
+          v.playbackRate = targetRate;
+        }
+      });
+    }
+
+    function scanVideos() {
+      document.querySelectorAll("video").forEach(applyVideoSpeed);
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", scanVideos);
+    } else {
+      scanVideos();
+    }
+
+    var observer = new MutationObserver(function () {
+      scanVideos();
+    });
+    if (document.body) {
+      observer.observe(document.body, { childList: true, subtree: true });
+    }
+  })();
+
+  // 6. Scroll entrance reveal animations
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
 
   var targets = document.querySelectorAll(
     ".grid-tile, .subproject, .fig-wide, .fig-split, .fig-row, " +
