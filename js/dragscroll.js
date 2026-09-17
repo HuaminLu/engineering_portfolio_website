@@ -9,6 +9,10 @@
   var fold = document.querySelector(".fold");
   function sizeFold() {
     if (!fold) return;
+    if (window.innerWidth <= 640) {
+      fold.style.height = "auto";
+      return;
+    }
     // distance from document top to the fold, immune to scroll position
     var topOffset = fold.getBoundingClientRect().top + window.scrollY;
     var available = window.innerHeight - topOffset;
@@ -29,6 +33,9 @@
 
   originals.forEach(function (tile) {
     var clone = tile.cloneNode(true);
+    clone.querySelectorAll('.fade-gallery').forEach(function(g) {
+      delete g.dataset.fadeInit;
+    });
     clone.classList.remove("reveal", "visible");
     clone.setAttribute("aria-hidden", "true");
     clone.setAttribute("tabindex", "-1");
@@ -36,6 +43,10 @@
   });
 
   row.appendChild(track);
+
+  if (window.initFadeGalleries) {
+    window.initFadeGalleries();
+  }
 
   // --- equalize tile text sections so all image areas are the same height ---
   function equalizeBodies() {
@@ -110,29 +121,40 @@
 
   // --- drag to scroll ---
   var moved = false;
+  var isHorizontalDrag = false;
   var startX = 0;
+  var startY = 0;
   var startPos = 0;
 
   // Kill the browser's native link/text drag that would hijack the gesture.
   row.addEventListener("dragstart", function (e) { e.preventDefault(); });
 
   row.addEventListener("pointerdown", function (e) {
-    if (e.pointerType === "mouse" && e.button !== 0) return; // touch pans natively
+    if (e.pointerType === "mouse" && e.button !== 0) return;
     pressed = true;
     moved = false;
+    isHorizontalDrag = false;
     startX = e.clientX;
+    startY = e.clientY;
     startPos = pos;
   });
 
   window.addEventListener("pointermove", function (e) {
     if (!pressed) return;
     var dx = e.clientX - startX;
-    // Only becomes a drag after real movement — a plain click stays a click.
-    if (!moved && Math.abs(dx) > 6) {
-      moved = true;
-      row.classList.add("dragging");
+    var dy = e.clientY - startY;
+
+    if (!moved) {
+      if (Math.abs(dx) > 6 && Math.abs(dx) > Math.abs(dy)) {
+        moved = true;
+        isHorizontalDrag = true;
+        row.classList.add("dragging");
+      } else if (Math.abs(dy) > 10 && Math.abs(dy) > Math.abs(dx)) {
+        pressed = false;
+        return;
+      }
     }
-    if (!moved) return;
+    if (!moved || !isHorizontalDrag) return;
     pos = startPos - dx;
     if (wrapDist > 0) {
       while (pos >= wrapDist) { pos -= wrapDist; startPos -= wrapDist; }

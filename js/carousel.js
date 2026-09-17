@@ -246,22 +246,68 @@ function initCarousels() {
       }
     });
 
-    // Touch events
+    // Touch events with vertical scroll discrimination
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let isTouchHorizontal = false;
+    let isTouchActive = false;
+
     box.addEventListener('touchstart', (e) => {
-      if (e.touches.length === 1) {
-        onPointerDown(e.touches[0].clientX);
-      }
+      if (total <= 1 || e.touches.length !== 1) return;
+      isTouchActive = true;
+      isTouchHorizontal = false;
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      dragDist = 0;
+      stopAutoTimer();
     }, { passive: true });
 
     box.addEventListener('touchmove', (e) => {
-      if (isDragging && e.touches.length === 1) {
-        onPointerMove(e.touches[0].clientX);
+      if (!isTouchActive || e.touches.length !== 1) return;
+      const touchX = e.touches[0].clientX;
+      const touchY = e.touches[0].clientY;
+      const dx = touchX - touchStartX;
+      const dy = touchY - touchStartY;
+
+      if (!isTouchHorizontal) {
+        if (Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) {
+          isTouchHorizontal = true;
+          isDragging = true;
+          startX = touchStartX;
+          box.classList.add('dragging');
+          track.style.transition = 'none';
+        } else if (Math.abs(dy) > 10 && Math.abs(dy) > Math.abs(dx)) {
+          isTouchActive = false;
+          isDragging = false;
+          resetAutoTimer();
+          return;
+        }
+      }
+
+      if (isDragging) {
+        currentX = touchX;
+        dragDist = currentX - startX;
+        const boxWidth = box.offsetWidth || 1;
+        const percentOffset = (dragDist / boxWidth) * 100;
+        track.style.transform = `translateX(calc(-${currentIndex * 100}% + ${percentOffset}%))`;
       }
     }, { passive: true });
 
     box.addEventListener('touchend', () => {
       if (isDragging) {
         onPointerUp();
+      } else {
+        isTouchActive = false;
+        resetAutoTimer();
+      }
+    }, { passive: true });
+
+    box.addEventListener('touchcancel', () => {
+      if (isDragging) {
+        onPointerUp();
+      } else {
+        isTouchActive = false;
+        resetAutoTimer();
       }
     }, { passive: true });
 

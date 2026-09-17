@@ -1,21 +1,29 @@
 // js/tile-fade.js — Automated cycling crossfade gallery for project preview tiles
-document.addEventListener('DOMContentLoaded', () => {
+function initFadeGalleries() {
   const galleries = document.querySelectorAll('.fade-gallery');
   if (!galleries.length) return;
 
   const DEFAULT_INTERVAL = 1800; // default 1.8 seconds per still photo
 
   galleries.forEach((gallery, gIdx) => {
+    if (gallery.dataset.fadeInit === 'true') return;
+    gallery.dataset.fadeInit = 'true';
+
     const images = gallery.querySelectorAll('img');
     if (images.length <= 1) return;
 
     let currentIndex = 0;
+    // If an image is already active, respect it
+    images.forEach((img, idx) => {
+      if (img.classList.contains('active')) currentIndex = idx;
+    });
+
     let timer = null;
     let startTimeout = null;
 
-    // Ensure first image is active initially
+    // Ensure initial active image is set
     images.forEach((img, idx) => {
-      if (idx === 0) img.classList.add('active');
+      if (idx === currentIndex) img.classList.add('active');
       else img.classList.remove('active');
     });
 
@@ -66,10 +74,18 @@ document.addEventListener('DOMContentLoaded', () => {
             stopTimer();
           }
         });
-      }, { rootMargin: '100px' });
+      }, { rootMargin: '200px' });
       observer.observe(gallery);
     } else {
       startTimer();
     }
   });
-});
+}
+
+window.initFadeGalleries = initFadeGalleries;
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initFadeGalleries);
+} else {
+  initFadeGalleries();
+}
