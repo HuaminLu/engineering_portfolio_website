@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=56">
+  <link rel="stylesheet" href="css/style.css?v=57">
 </head>
 <body>
 
@@ -94,49 +94,88 @@
   <section class="psection">
     <h2><span class="num">01</span>Mechanical Design — Surface Modelling &amp; Packaging</h2>
 
-    <p class="caption">
+    <p class="caption" style="margin-bottom:18px">
       Fitting ten independent servo actuators into an ergonomic human-scale hand enclosure required treating the palm as an organic sculpted shell rather than a rigid prismatic box. The outer skin was sculpted in SolidWorks using multi-guide boundary surfaces and lofts to optimize internal cavity volume while matching human anthropomorphic proportions.
     </p>
 
-    <div class="fig-row">
-      <div>
-        <img src="images/robot-hand/cad-hand-front.png" alt="SolidWorks CAD front isometric render of the 10-DOF hand" loading="lazy">
-        <p class="caption"><b>Front assembly CAD.</b> Ten micro-servos packaged into the palm cavity — four lower servos drive base knuckle articulation, four upper servos drive intermediate links, and two dedicated servos drive the 2-DOF thumb.</p>
-      </div>
-      <div>
-        <img src="images/robot-hand/cad-hand-rear.png" alt="SolidWorks CAD rear isometric render showing servo cases and electronics bay" loading="lazy">
-        <p class="caption"><b>Rear chassis &amp; lower bay.</b> The posterior enclosure features precision snap pockets for servo casings and houses the lower PCA9685 16-channel PWM driver board directly above the wrist pivot.</p>
-      </div>
-    </div>
-
-    <div class="fig-split reverse landscape">
-      <div>
-        <p class="caption"><b>Antagonistic tendon transmission.</b> Rather than heavy direct-drive linkages or single-direction spring returns, each finger digit utilizes a closed-loop antagonistic tendon path. High-tensile braided fishing wire routes around internal idler pulleys at each phalanx joint, returning to the servo spool for crisp, backlash-free bidirectional curling and extension.</p>
-        <p class="caption"><b>Integrated wire guides.</b> Internal guiding radii were extruded directly into each 3D-printed phalanx to prevent line derailment and maintain consistent moment arms throughout full 90° angular deflection.</p>
-      </div>
-      <div>
-        <img src="images/robot-hand/cad-tendon-routing.png" alt="Cross-section schematic showing red antagonistic tendon routing path through finger phalanges" loading="lazy">
-      </div>
-    </div>
-
-    <div class="fig-row">
-      <div>
-        <img src="images/robot-hand/cad-pulleys-close.png" alt="Close-up CAD model of servo pulley spools and cable horns" loading="lazy">
-        <p class="caption"><b>Precision servo spools.</b> Custom 3D-printed pulley spools press-fit onto the MG90S splines with set-screw anchors to securely lock tendon tension without slippage.</p>
-      </div>
-      <div>
-        <img src="images/robot-hand/cad-thumb-mechanism.png" alt="CAD detail of the 2-DOF thumb articulation mechanism" loading="lazy">
-        <p class="caption"><b>2-DOF opposable thumb.</b> Independent base servo provides lateral abduction/adduction sweep, while an angled knuckle servo drives primary flexion for power and pinch grasps.</p>
+    <div class="sub-gallery">
+      <h3 class="sub-heading"><span class="sub-num">01.1</span> Ergonomic Palm Sculpting &amp; 10-Actuator Packaging</h3>
+      <p class="caption">Multi-guide SolidWorks surface modelling packaging 10 micro-servos into an ergonomic human-scale palm cavity.</p>
+      <div class="carousel-box" data-autoplay="true" data-delay="2000">
+        <div class="carousel-viewport">
+          <div class="carousel-track">
+            <div class="carousel-slide" data-caption="Front Assembly: Ten MG90S micro-servos packaged into the palm cavity — four lower servos drive base knuckle articulation, four upper servos drive intermediate links, and two dedicated servos drive the 2-DOF thumb.">
+              <img src="images/robot-hand/cad-hand-front.png" alt="Front assembly CAD model showing 10 micro-servos nested in palm cavity" loading="lazy">
+            </div>
+            <div class="carousel-slide" data-caption="Chassis Architecture: Rear enclosure featuring precision snap pockets for servo casings, rigid mounting ribs, and lower electronics bay directly above the wrist pivot.">
+              <img src="images/robot-hand/cad-hand-rear.png" alt="Rear chassis CAD detailing snap-fit servo pockets and mounting ribs" loading="lazy">
+            </div>
+            <div class="carousel-slide" data-caption="Internal Packaging: Sub-millimeter clearances enclosing the PCA9685 driver board and internal servo cable harnesses within an organic human-scale hand contour.">
+              <img src="images/robot-hand/cad-palm-electronics.png" alt="Internal palm cavity CAD showing PCA9685 driver clearance and wire routing" loading="lazy">
+            </div>
+          </div>
+          <button class="carousel-btn prev" aria-label="Previous slide">&#10094;</button>
+          <button class="carousel-btn next" aria-label="Next slide">&#10095;</button>
+          <div class="carousel-caption-bar">
+            <span class="carousel-counter">[01/03]</span>
+            <span class="carousel-caption-text">Front Assembly: Ten MG90S micro-servos packaged into the palm cavity — four lower servos drive base knuckle articulation, four upper servos drive intermediate links, and two dedicated servos drive the 2-DOF thumb.</span>
+          </div>
+          <div class="carousel-dots"></div>
+        </div>
       </div>
     </div>
 
-    <div class="fig-split">
-      <div>
-        <img src="images/robot-hand/cad-forearm-buck.png" alt="Transparent SolidWorks CAD view of forearm base showing internal buck converters" loading="lazy">
+    <div class="sub-gallery">
+      <h3 class="sub-heading"><span class="sub-num">01.2</span> Antagonistic Tendon Routing &amp; Custom Pulley Spools</h3>
+      <p class="caption">Antagonistic closed-loop cable kinematics delivering zero-backlash bidirectional joint curling and extension.</p>
+      <div class="carousel-box" data-autoplay="true" data-delay="2000">
+        <div class="carousel-viewport">
+          <div class="carousel-track">
+            <div class="carousel-slide" data-caption="Tendon Routing Cross-Section: Antagonistic closed-loop braided tendon paths routing through finger phalanges for backlash-free bidirectional articulation.">
+              <img src="images/robot-hand/cad-tendon-routing.png" alt="Cross-section schematic showing red antagonistic tendon routing path through finger phalanges" loading="lazy">
+            </div>
+            <div class="carousel-slide" data-caption="Precision Servo Spools: Custom 3D-printed pulley spools press-fit onto MG90S splines with set-screw anchors to securely lock tendon tension.">
+              <img src="images/robot-hand/cad-pulleys-close.png" alt="Close-up CAD model of servo pulley spools and cable horns" loading="lazy">
+            </div>
+            <div class="carousel-slide" data-caption="Knuckle Pivot Hinge: Integrated internal line-guide radii extruded directly into printed phalanges to prevent cable derailment during 90° deflection.">
+              <img src="images/robot-hand/cad-finger-knuckle.png" alt="Finger phalanx joint CAD featuring internal line-guide radii" loading="lazy">
+            </div>
+          </div>
+          <button class="carousel-btn prev" aria-label="Previous slide">&#10094;</button>
+          <button class="carousel-btn next" aria-label="Next slide">&#10095;</button>
+          <div class="carousel-caption-bar">
+            <span class="carousel-counter">[01/03]</span>
+            <span class="carousel-caption-text">Tendon Routing Cross-Section: Antagonistic closed-loop braided tendon paths routing through finger phalanges for backlash-free bidirectional articulation.</span>
+          </div>
+          <div class="carousel-dots"></div>
+        </div>
       </div>
-      <div>
-        <p class="caption"><b>Integrated forearm &amp; buck housing.</b> The hollow forearm stand acts as both a stable mounting pedestal and a dedicated electrical housing. Dual high-efficiency buck converters are enclosed internally directly beneath the wrist pivot, minimizing DC resistance and harness length to the palm actuators.</p>
-        <p class="caption"><b>Concealed wire raceway.</b> Thirty individual servo conductors and power leads pass seamlessly through a central hollow wrist pivot into the lower base, leaving zero external wiring exposed on the finished assembly.</p>
+    </div>
+
+    <div class="sub-gallery">
+      <h3 class="sub-heading"><span class="sub-num">01.3</span> 2-DOF Opposable Thumb &amp; Forearm Enclosure</h3>
+      <p class="caption">Independent thumb opposition kinematics and integrated pedestal housing dual high-efficiency buck converters.</p>
+      <div class="carousel-box" data-autoplay="true" data-delay="2000">
+        <div class="carousel-viewport">
+          <div class="carousel-track">
+            <div class="carousel-slide" data-caption="2-DOF Thumb Mechanism: Independent base servo provides lateral abduction/adduction sweep, while an angled knuckle servo drives primary flexion for power and pinch grasps.">
+              <img src="images/robot-hand/cad-thumb-mechanism.png" alt="CAD detail of the 2-DOF thumb articulation mechanism" loading="lazy">
+            </div>
+            <div class="carousel-slide" data-caption="Forearm Pedestal CAD: Transparent SolidWorks view showing internal housing for dual high-efficiency XL4015 buck converters directly beneath the wrist pivot.">
+              <img src="images/robot-hand/cad-forearm-buck.png" alt="Transparent SolidWorks CAD view of forearm base showing internal buck converters" loading="lazy">
+            </div>
+            <div class="carousel-slide" data-caption="Internal Wiring Raceway: Central hollow wrist pivot channeling thirty individual servo conductors and power leads cleanly into the base.">
+              <img src="images/robot-hand/cad-forearm-internal.png" alt="Forearm chassis internal cavity showing central hollow wrist raceway" loading="lazy">
+            </div>
+          </div>
+          <button class="carousel-btn prev" aria-label="Previous slide">&#10094;</button>
+          <button class="carousel-btn next" aria-label="Next slide">&#10095;</button>
+          <div class="carousel-caption-bar">
+            <span class="carousel-counter">[01/03]</span>
+            <span class="carousel-caption-text">2-DOF Thumb Mechanism: Independent base servo provides lateral abduction/adduction sweep, while an angled knuckle servo drives primary flexion for power and pinch grasps.</span>
+          </div>
+          <div class="carousel-dots"></div>
+        </div>
       </div>
     </div>
   </section>
@@ -145,28 +184,58 @@
   <section class="psection">
     <h2><span class="num">02</span>Additive Manufacturing &amp; Rapid Prototyping</h2>
 
-    <p class="caption">
+    <p class="caption" style="margin-bottom:18px">
       All mechanical components — including finger phalanges, knuckle pivots, palm chassis halves, and forearm housings — were fabricated via high-resolution FDM 3D printing on an Elegoo build platform. Optimized slicing parameters and organic tree supports ensured dimensional accuracy across critical bearing pockets and heat-set insert holes.
     </p>
 
-    <div class="fig-row">
-      <div>
-        <img src="images/robot-hand/print-build-plate.jpg" alt="Elegoo 3D printer build plate with printed hand parts and organic tree supports" loading="lazy">
-        <p class="caption"><b>Elegoo build plate.</b> Printed components arranged with organic tree supports to minimize contact scarring on curved cosmetic surfaces and maintain roundness in hinge pin bores.</p>
-      </div>
-      <div>
-        <img src="images/robot-hand/print-finger-segment.jpg" alt="Close-up of printed finger segment showing hinge detail" loading="lazy">
-        <p class="caption"><b>Phalanx hinge detail.</b> Close-up of 0.12 mm layer line resolution on an intermediate finger segment, showing integrated tendon routing cavity and hinge pivot clevis.</p>
+    <div class="sub-gallery">
+      <h3 class="sub-heading"><span class="sub-num">02.1</span> High-Resolution FDM Printing &amp; Slicing Optimization</h3>
+      <p class="caption">Elegoo build platform slicing optimization with organic tree supports for clean bearing pockets and cosmetic curvature.</p>
+      <div class="carousel-box" data-autoplay="true" data-delay="2000">
+        <div class="carousel-viewport">
+          <div class="carousel-track">
+            <div class="carousel-slide" data-caption="Elegoo Build Platform: Printed components arranged with organic tree supports to minimize contact scarring on curved cosmetic surfaces and maintain roundness in hinge pin bores.">
+              <img src="images/robot-hand/print-build-plate.jpg" alt="Elegoo 3D printer build plate with printed hand parts and organic tree supports" loading="lazy">
+            </div>
+            <div class="carousel-slide" data-caption="Layer Resolution Detail: Close-up of 0.12 mm layer line resolution on an intermediate finger segment, showing integrated tendon routing cavity and hinge pivot clevis.">
+              <img src="images/robot-hand/print-finger-segment.jpg" alt="Close-up of printed finger segment showing hinge detail" loading="lazy">
+            </div>
+            <div class="carousel-slide" data-caption="Batch Production: Complete array of 3D-printed structural palm halves, finger segments, knuckle caps, and idler pulleys after printing.">
+              <img src="images/robot-hand/print-parts-batch.jpg" alt="Full batch of 3D-printed chassis shells and linkage components" loading="lazy">
+            </div>
+          </div>
+          <button class="carousel-btn prev" aria-label="Previous slide">&#10094;</button>
+          <button class="carousel-btn next" aria-label="Next slide">&#10095;</button>
+          <div class="carousel-caption-bar">
+            <span class="carousel-counter">[01/03]</span>
+            <span class="carousel-caption-text">Elegoo Build Platform: Printed components arranged with organic tree supports to minimize contact scarring on curved cosmetic surfaces and maintain roundness in hinge pin bores.</span>
+          </div>
+          <div class="carousel-dots"></div>
+        </div>
       </div>
     </div>
 
-    <div class="fig-split">
-      <div>
-        <img src="images/robot-hand/print-knolling-parts.jpg" alt="Knolled layout of 3D-printed finger components, knuckle caps, and bushings" loading="lazy">
-      </div>
-      <div>
-        <p class="caption"><b>Modular digit components knolling.</b> Layout of finished printed components prior to assembly: metal-finish finger linkages, snap-fit knuckle caps, low-friction pivot bushings, and retention collars.</p>
-        <p class="caption"><b>Heat-set insert reinforcement.</b> Critical structural fasteners thread into brass M2 and M3 heat-set inserts melted into printed bosses, eliminating stripped plastic threads during repeated tension adjustments.</p>
+    <div class="sub-gallery">
+      <h3 class="sub-heading"><span class="sub-num">02.2</span> Component Knolling &amp; Fastener Preparation</h3>
+      <p class="caption">Post-processing, brass heat-set insert installation, and mechanical knolling prior to final assembly.</p>
+      <div class="carousel-box" data-autoplay="true" data-delay="2000">
+        <div class="carousel-viewport">
+          <div class="carousel-track">
+            <div class="carousel-slide" data-caption="Modular Digit Knolling: Layout of finished printed components prior to assembly: metal-finish finger linkages, snap-fit knuckle caps, low-friction pivot bushings, and retention collars.">
+              <img src="images/robot-hand/print-knolling-parts.jpg" alt="Knolled layout of 3D-printed finger components, knuckle caps, and bushings" loading="lazy">
+            </div>
+            <div class="carousel-slide" data-caption="Digit Articulation Check: Full 5-finger bench layout verifying smooth joint articulation, knuckle tolerances, and pivot pin friction before tendon rigging.">
+              <img src="images/robot-hand/assembly-splayed-hand.jpg" alt="Assembled 5-digit robot hand laying flat on workbench with servo leads prepped" loading="lazy">
+            </div>
+          </div>
+          <button class="carousel-btn prev" aria-label="Previous slide">&#10094;</button>
+          <button class="carousel-btn next" aria-label="Next slide">&#10095;</button>
+          <div class="carousel-caption-bar">
+            <span class="carousel-counter">[01/02]</span>
+            <span class="carousel-caption-text">Modular Digit Knolling: Layout of finished printed components prior to assembly: metal-finish finger linkages, snap-fit knuckle caps, low-friction pivot bushings, and retention collars.</span>
+          </div>
+          <div class="carousel-dots"></div>
+        </div>
       </div>
     </div>
   </section>
@@ -175,41 +244,56 @@
   <section class="psection">
     <h2><span class="num">03</span>Mechanical Assembly &amp; Tendon Rigging</h2>
 
-    <p class="caption">
-      Assembly proceeded from individual digits to full palm integration. Joint pivots were press-fitted, braided line was threaded through micro-pulleys with calibrated preload, and ten actuators were nested into the sculpted palm chassis.
+    <p class="caption" style="margin-bottom:18px">
+      Assembly proceeded chronologically from individual digits to full palm integration. Joint pivots were press-fitted, braided line was threaded through micro-pulleys with calibrated preload, and ten actuators were nested into the sculpted palm chassis.
     </p>
 
-    <div class="fig-row">
-      <div>
+    <div class="sub-gallery">
+      <h3 class="sub-heading"><span class="sub-num">03.1</span> Digit Sub-Assembly &amp; Knuckle Pivots</h3>
+      <p class="caption">Press-fitting miniature hex nuts into distal phalanx retention pockets and preparing silicone contact pads for high-friction grip.</p>
+      <div class="fig-wide">
         <video autoplay loop muted playsinline poster="videos/robot-hand/assembly-fingertip.jpg">
           <source src="videos/robot-hand/assembly-fingertip.mp4" type="video/mp4">
         </video>
-        <p class="caption"><b>Fingertip &amp; nut assembly.</b> Press-fitting miniature hex nuts into distal phalanx retention pockets and preparing silicone contact pads for high-friction grip.</p>
-      </div>
-      <div>
-        <video autoplay loop muted playsinline poster="videos/robot-hand/assembly-tendons.jpg">
-          <source src="videos/robot-hand/assembly-tendons.mp4" type="video/mp4">
-        </video>
-        <p class="caption"><b>Tendon rigging &amp; servo alignment.</b> Dressing servo lead bundles, threading braided lines through pulley guides, and verifying free joint articulation before tension lock.</p>
       </div>
     </div>
 
-    <div class="fig-row">
-      <div>
+    <div class="sub-gallery">
+      <h3 class="sub-heading"><span class="sub-num">03.2</span> Palm Chassis Actuator Nesting &amp; Thumb Alignment</h3>
+      <p class="caption">Installing 8 MG90S metal-gear micro servos into the multi-tiered palm skeleton and aligning the 2-DOF opposable thumb pivot hinge.</p>
+      <div class="fig-wide">
         <video autoplay loop muted playsinline poster="videos/robot-hand/assembly-chassis.jpg">
           <source src="videos/robot-hand/assembly-chassis.mp4" type="video/mp4">
         </video>
-        <p class="caption"><b>Chassis integration.</b> Installing 8 MG90S servos into the multi-tier palm skeleton and aligning the 2-DOF thumb pivot hinge.</p>
-      </div>
-      <div>
-        <img src="images/robot-hand/assembly-splayed-hand.jpg" alt="Assembled 5-digit robot hand laying flat on workbench with servo leads prepped" loading="lazy">
-        <p class="caption"><b>Full 5-finger bench assembly.</b> Top-down view of the assembled hand on the workbench with all five articulated digits installed and servo wiring harnesses prepped for termination.</p>
       </div>
     </div>
 
-    <div class="fig-wide">
-      <img src="images/robot-hand/assembly-tendon-wire.jpg" alt="Macro close-up of braided tendon fishing wire routed through finger pulley spools" loading="lazy">
-      <p class="caption">Macro close-up: High-strength braided fishing wire routed over custom 3D-printed idler spools and anchored to the servo horn, providing high tensile strength with near-zero elongation under load.</p>
+    <div class="sub-gallery">
+      <h3 class="sub-heading"><span class="sub-num">03.3</span> High-Tensile Tendon Rigging &amp; Tension Tuning</h3>
+      <p class="caption">Dressing servo lead bundles, threading braided lines through pulley guides, and calibrating tension across all 10 channels.</p>
+      <div class="fig-wide">
+        <video autoplay loop muted playsinline poster="videos/robot-hand/assembly-tendons.jpg">
+          <source src="videos/robot-hand/assembly-tendons.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+
+    <div class="sub-gallery">
+      <h3 class="sub-heading"><span class="sub-num">03.4</span> Tendon Spool Interface &amp; Micro-Pulley Rig</h3>
+      <p class="caption">Macro inspection of high-strength braided line routed around custom idler spools and anchored to the servo horn, providing high tensile strength with near-zero elongation under load.</p>
+      <div class="carousel-box" data-autoplay="false">
+        <div class="carousel-viewport">
+          <div class="carousel-track">
+            <div class="carousel-slide" data-caption="Tendon Rigging Macro: High-strength braided fishing wire routed over custom 3D-printed idler spools and anchored to the servo horn with zero backlash.">
+              <img src="images/robot-hand/assembly-tendon-wire.jpg" alt="Macro close-up of braided tendon fishing wire routed through finger pulley spools" loading="lazy">
+            </div>
+          </div>
+          <div class="carousel-caption-bar">
+            <span class="carousel-counter">[01/01]</span>
+            <span class="carousel-caption-text">Tendon Rigging Macro: High-strength braided fishing wire routed over custom 3D-printed idler spools and anchored to the servo horn with zero backlash.</span>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -217,31 +301,41 @@
   <section class="psection">
     <h2><span class="num">04</span>Electrical Architecture — Transient-Safe Power</h2>
 
-    <p class="caption">
+    <p class="caption" style="margin-bottom:18px">
       Ten simultaneous micro-servo stalls pull over 10 A of transient current, creating severe inductive back-EMF spikes and rail sag that would instantly reset standard microcontrollers. The electrical architecture completely isolates the logic and motor power rails.
     </p>
 
-    <div class="fig-split reverse landscape">
-      <div>
-        <p class="caption"><b>Dual buck regulation.</b> The forearm pedestal houses high-current XL4015 buck converter modules stepping down external 12V DC input to a stable 6.0V servo supply capable of delivering 10A continuous.</p>
-        <p class="caption"><b>Bulk transient suppression.</b> A 4,700 µF low-ESR electrolytic capacitor bank is mounted directly adjacent to the servo distribution bus, acting as a local energy reservoir to buffer inductive stall surges and prevent voltage sag.</p>
-        <p class="caption"><b>Complete logic isolation.</b> The ESP32 3.3V logic rail connects exclusively to the VCC of the PCA9685 driver. The 6.0V high-current bus feeds only the V+ motor rail, completely decoupling inductive noise from the MCU.</p>
-      </div>
-      <div>
-        <img src="images/robot-hand/assembly-forearm-stack.jpg" alt="Forearm internal electronics stack showing buck converter and wrist servo" loading="lazy">
+    <div class="sub-gallery">
+      <h3 class="sub-heading"><span class="sub-num">04.1</span> High-Current Buck Regulation &amp; Logic Rail Isolation</h3>
+      <p class="caption">Dual XL4015 buck converters stepping down 12V DC input to a stable 6.0V servo supply, backed by 4,700 µF bulk capacitance.</p>
+      <div class="carousel-box" data-autoplay="true" data-delay="2000">
+        <div class="carousel-viewport">
+          <div class="carousel-track">
+            <div class="carousel-slide" data-caption="Forearm Electronics Stack: Heavy-gauge twisted power cabling and wrist pivot pass-through cleanly nested inside the forearm housing beneath the wrist joint.">
+              <img src="images/robot-hand/assembly-forearm-stack.jpg" alt="Forearm internal electronics stack showing buck converter and wrist servo" loading="lazy">
+            </div>
+            <div class="carousel-slide" data-caption="Buck Converter Terminal Block: High-efficiency XL4015 module and 4,700 µF bulk decoupling capacitor bank absorbing motor stall current spikes.">
+              <img src="images/robot-hand/assembly-forearm-buck.jpg" alt="Forearm buck converter module screw terminals and capacitors close-up" loading="lazy">
+            </div>
+          </div>
+          <button class="carousel-btn prev" aria-label="Previous slide">&#10094;</button>
+          <button class="carousel-btn next" aria-label="Next slide">&#10095;</button>
+          <div class="carousel-caption-bar">
+            <span class="carousel-counter">[01/02]</span>
+            <span class="carousel-caption-text">Forearm Electronics Stack: Heavy-gauge twisted power cabling and wrist pivot pass-through cleanly nested inside the forearm housing beneath the wrist joint.</span>
+          </div>
+          <div class="carousel-dots"></div>
+        </div>
       </div>
     </div>
 
-    <div class="fig-row">
-      <div>
-        <img src="images/robot-hand/assembly-forearm-buck.jpg" alt="Forearm buck converter module screw terminals and capacitors close-up" loading="lazy">
-        <p class="caption"><b>Buck converter terminal block.</b> Heavy-gauge power cabling secured into terminal blocks inside the printed forearm stand to minimize contact resistance.</p>
-      </div>
-      <div>
+    <div class="sub-gallery">
+      <h3 class="sub-heading"><span class="sub-num">04.2</span> Power Harness Wiring &amp; Wrist Conduit</h3>
+      <p class="caption">Dressing twisted-pair DC lines and routing the 6V high-current bus through the wrist pedestal up into the palm PCA9685 driver.</p>
+      <div class="fig-wide">
         <video autoplay loop muted playsinline poster="videos/robot-hand/assembly-power.jpg">
           <source src="videos/robot-hand/assembly-power.mp4" type="video/mp4">
         </video>
-        <p class="caption"><b>Power harness wiring.</b> Dressing twisted-pair DC lines and routing the 6V high-current bus through the wrist pedestal up into the palm PCA9685 driver.</p>
       </div>
     </div>
 
@@ -259,34 +353,37 @@
   <section class="psection">
     <h2><span class="num">05</span>Embedded Firmware &amp; Actuation Testing</h2>
 
-    <p class="caption">
+    <p class="caption" style="margin-bottom:18px">
       Firmware developed in C++ on the DOIT ESP32 DevKit V1 offloads 50 Hz PWM generation to the PCA9685 over the hardware I²C bus. An interactive serial control interface allows real-time keyboard calibration of servo endpoints, tendon tension, and multi-finger coordinated kinematics.
     </p>
 
-    <div class="fig-split">
-      <div>
+    <div class="sub-gallery">
+      <h3 class="sub-heading"><span class="sub-num">05.1</span> Interactive Serial Control Bench &amp; Endpoint Calibration</h3>
+      <p class="caption">Real-time keystroke mapping to individual servo channels in the Arduino Serial Monitor (`Pin 6 -> PULL`, `Pin 7 -> RELEASE`), validating tendon travel limits, zero-positioning, and stall current safety margins.</p>
+      <div class="fig-wide">
         <video autoplay loop muted playsinline poster="videos/robot-hand/demo-serial-actuation.jpg">
           <source src="videos/robot-hand/demo-serial-actuation.mp4" type="video/mp4">
         </video>
       </div>
-      <div>
-        <p class="caption"><b>Interactive serial control bench.</b> Real-time keystroke mapping to individual servo channels in the Arduino Serial Monitor (`Pin 6 -> PULL`, `Pin 7 -> RELEASE`), validating tendon travel limits, zero-positioning, and stall current safety margins.</p>
-        <p class="caption"><b>Hardware-timed pulse precision.</b> Offloading PWM pulse generation to dedicated 12-bit PCA9685 hardware registers prevents pulse jitter caused by ESP32 FreeRTOS context switching or WiFi background tasks.</p>
-      </div>
     </div>
 
-    <div class="fig-row">
-      <div>
+    <div class="sub-gallery">
+      <h3 class="sub-heading"><span class="sub-num">05.2</span> Multi-Digit Splay &amp; Kinematic Clearance</h3>
+      <p class="caption">Coordinated lateral splay across index, middle, ring, and pinky fingers, validating full kinematic range and zero mechanical collision between adjacent knuckles.</p>
+      <div class="fig-wide">
         <video autoplay loop muted playsinline poster="videos/robot-hand/demo-finger-spread.jpg">
           <source src="videos/robot-hand/demo-finger-spread.mp4" type="video/mp4">
         </video>
-        <p class="caption"><b>Multi-digit spread (abduction/adduction).</b> Coordinated lateral splay across index, middle, ring, and pinky fingers, validating full kinematic range and zero mechanical collision between adjacent knuckles.</p>
       </div>
-      <div>
+    </div>
+
+    <div class="sub-gallery">
+      <h3 class="sub-heading"><span class="sub-num">05.3</span> Full Digit Flexion &amp; Grasp Dynamics</h3>
+      <p class="caption">Smooth, proportional curling from open palm to clenched grip, demonstrating the high stiffness and responsiveness of the antagonistic tendon rigging.</p>
+      <div class="fig-wide">
         <video autoplay loop muted playsinline poster="videos/robot-hand/demo-finger-flex.jpg">
           <source src="videos/robot-hand/demo-finger-flex.mp4" type="video/mp4">
         </video>
-        <p class="caption"><b>Full digit flexion loop.</b> Smooth, proportional curling from open palm to clenched grip, demonstrating the high stiffness and responsiveness of the antagonistic tendon rigging.</p>
       </div>
     </div>
   </section>
@@ -295,27 +392,58 @@
   <section class="psection">
     <h2><span class="num">06</span>Final System Integration &amp; Showcase</h2>
 
-    <p class="caption">
+    <p class="caption" style="margin-bottom:18px">
       The completed 10-DOF dexterous hand assembled on its desktop display pedestal. The sleek white-and-silver aesthetic mirrors modern humanoid robotics, combining organic anatomical surface curvature with functional engineering durability.
     </p>
 
-    <div class="fig-split">
-      <div>
-        <img src="images/robot-hand/showcase-open-stand.jpg" alt="Fully assembled 10-DOF robot hand in open neutral pose on desktop stand" loading="lazy">
-      </div>
-      <div>
-        <img src="images/robot-hand/showcase-fist-desk.jpg" alt="Robot hand in clenched fist pose on desk showing anatomical knuckle alignment" loading="lazy">
+    <div class="sub-gallery">
+      <h3 class="sub-heading"><span class="sub-num">06.1</span> Desktop Pedestal Integration &amp; Neutral Stance</h3>
+      <p class="caption">Completed 10-DOF dexterous hand mounted on its ergonomic desktop stand, combining functional engineering with humanoid aesthetics.</p>
+      <div class="carousel-box" data-autoplay="true" data-delay="2000">
+        <div class="carousel-viewport">
+          <div class="carousel-track">
+            <div class="carousel-slide" data-caption="Neutral Pose Hero: Fully assembled 10-DOF dexterous hand in open neutral pose on its desktop stand, showcasing clean white-and-silver finish.">
+              <img src="images/robot-hand/showcase-open-stand.jpg" alt="Fully assembled 10-DOF robot hand in open neutral pose on desktop stand" loading="lazy">
+            </div>
+            <div class="carousel-slide" data-caption="Side Profile: Demonstrating natural thumb opposition plane, ergonomic palm curvature, and clean integrated forearm pedestal.">
+              <img src="images/robot-hand/showcase-side-stand.jpg" alt="Side profile view of robot hand showing thumb opposition and curved palm shell" loading="lazy">
+            </div>
+            <div class="carousel-slide" data-caption="Posterior Chassis View: Seamless dorsal enclosure with zero exposed wiring, validating the internal raceway architecture.">
+              <img src="images/robot-hand/showcase-back-stand.jpg" alt="Rear view of robot hand showing clean dorsal casing on stand" loading="lazy">
+            </div>
+          </div>
+          <button class="carousel-btn prev" aria-label="Previous slide">&#10094;</button>
+          <button class="carousel-btn next" aria-label="Next slide">&#10095;</button>
+          <div class="carousel-caption-bar">
+            <span class="carousel-counter">[01/03]</span>
+            <span class="carousel-caption-text">Neutral Pose Hero: Fully assembled 10-DOF dexterous hand in open neutral pose on its desktop stand, showcasing clean white-and-silver finish.</span>
+          </div>
+          <div class="carousel-dots"></div>
+        </div>
       </div>
     </div>
 
-    <div class="fig-row">
-      <div>
-        <img src="images/robot-hand/showcase-fist-close.jpg" alt="Close-up hero portrait of the hand in clenched fist pose" loading="lazy">
-        <p class="caption"><b>Clenched fist pose.</b> Close-up showing natural human knuckle cascading and secure opposable thumb wrap, validating the SolidWorks surface modelling palm contours.</p>
-      </div>
-      <div>
-        <img src="images/robot-hand/showcase-side-stand.jpg" alt="Side profile view of robot hand showing thumb opposition and curved palm shell" loading="lazy">
-        <p class="caption"><b>Side profile.</b> Demonstrating thumb opposition plane, ergonomic palm contouring, and clean integrated forearm pedestal.</p>
+    <div class="sub-gallery">
+      <h3 class="sub-heading"><span class="sub-num">06.2</span> Power Grasp &amp; Knuckle Alignment</h3>
+      <p class="caption">Tight clenched fist grasp validating thumb opposition wrap and human knuckle cascading.</p>
+      <div class="carousel-box" data-autoplay="true" data-delay="2000">
+        <div class="carousel-viewport">
+          <div class="carousel-track">
+            <div class="carousel-slide" data-caption="Clenched Fist Hero: Macro close-up portrait of the hand in clenched fist pose showing human knuckle cascading and secure opposable thumb wrap.">
+              <img src="images/robot-hand/showcase-fist-close.jpg" alt="Close-up hero portrait of the hand in clenched fist pose" loading="lazy">
+            </div>
+            <div class="carousel-slide" data-caption="Desktop View: Clenched fist resting on workbench demonstrating structural rigidity and natural hand geometry.">
+              <img src="images/robot-hand/showcase-fist-desk.jpg" alt="Robot hand in clenched fist pose on desk showing anatomical knuckle alignment" loading="lazy">
+            </div>
+          </div>
+          <button class="carousel-btn prev" aria-label="Previous slide">&#10094;</button>
+          <button class="carousel-btn next" aria-label="Next slide">&#10095;</button>
+          <div class="carousel-caption-bar">
+            <span class="carousel-counter">[01/02]</span>
+            <span class="carousel-caption-text">Clenched Fist Hero: Macro close-up portrait of the hand in clenched fist pose showing human knuckle cascading and secure opposable thumb wrap.</span>
+          </div>
+          <div class="carousel-dots"></div>
+        </div>
       </div>
     </div>
   </section>
@@ -336,6 +464,7 @@
   </div>
 </footer>
 
-<script src="js/reveal.js?v=56"></script>
+<script src="js/carousel.js?v=57"></script>
+<script src="js/reveal.js?v=57"></script>
 </body>
 </html>
