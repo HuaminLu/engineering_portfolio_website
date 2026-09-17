@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=51">
+  <link rel="stylesheet" href="css/style.css?v=52">
 </head>
 <body>
 
@@ -107,21 +107,8 @@
       <li>Commanded joint angles ramp smoothly each tick to prevent motor acceleration spikes.</li>
       <li>Startup seeding initializes sliders from live encoder positions to prevent zero-snap on connect.</li>
     </ul>
-
-    <p class="code-label">arm_recorder.py — 50 Hz publish loop</p>
-    <pre><code>msg.motor_cmd[<span class="nm">29</span>].q = <span class="nm">1.0</span>  <span class="cm"># arm_sdk enable flag</span>
-msg.motor_cmd[idx].q = cmd_q[i]  <span class="cm"># 50 Hz ramped joint targets</span></code></pre>
-
-    <ul class="spec-list">
-      <li><span class="k">shoulder pitch</span><span class="v">motor 15 (L) / 22 (R)</span></li>
-      <li><span class="k">shoulder roll</span><span class="v">motor 16 (L) / 23 (R)</span></li>
-      <li><span class="k">shoulder yaw (upper arm rotate)</span><span class="v">motor 17 (L) / 24 (R)</span></li>
-      <li><span class="k">elbow</span><span class="v">motor 18 (L) / 25 (R)</span></li>
-      <li><span class="k">wrist roll (forearm rotate)</span><span class="v">motor 19 (L) / 26 (R)</span></li>
-      <li><span class="k">wrist pitch</span><span class="v">motor 20 (L) / 27 (R)</span></li>
-      <li><span class="k">wrist yaw</span><span class="v">motor 21 (L) / 28 (R)</span></li>
-    </ul>
   </section>
+
 
   <!-- ============ SAFETY & ERGONOMICS ============ -->
   <section class="psection">
@@ -181,15 +168,8 @@ msg.motor_cmd[idx].q = cmd_q[i]  <span class="cm"># 50 Hz ramped joint targets</
         <span class="caption-title">Velocity Scaling &amp; Multi-Pose Replay</span> — Coordinated multi-joint trajectory execution with interactive velocity scaling and timeline scrubbing.
       </div>
     </div>
-
-    <p class="code-label">data/trajectories/left/up.yaml</p>
-    <pre><code>gesture: up; fps: <span class="nm">25</span>
-frames: [[<span class="nm">0.0</span>, <span class="nm">0.0</span>, <span class="nm">0.0</span>, <span class="nm">0.0</span>, <span class="nm">0.0</span>, <span class="nm">0.0</span>, <span class="nm">0.0</span>], [<span class="nm">0.1</span>, <span class="nm">0.05</span>, <span class="nm">0.0</span>, <span class="nm">-0.1</span>, <span class="nm">0.0</span>, <span class="nm">0.2</span>, <span class="nm">0.0</span>]]</code></pre>
-
-    <p class="code-label">build_preset_policy.py — MLP training</p>
-    <pre><code>model = <span class="fn">MLPRegressor</span>(hidden_layer_sizes=(<span class="nm">32</span>, <span class="nm">32</span>), max_iter=<span class="nm">400</span>)
-model.<span class="fn">fit</span>(X_scaled, Y_scaled)  <span class="cm"># maps 3-axis commands to 7 joint targets</span></code></pre>
   </section>
+
 
   <nav class="project-nav">
     <a href="g1-hand-recorder.html">← Hand Recorder GUI</a>
@@ -207,6 +187,6 @@ model.<span class="fn">fit</span>(X_scaled, Y_scaled)  <span class="cm"># maps 3
   </div>
 </footer>
 
-<script src="js/reveal.js?v=51"></script>
+<script src="js/reveal.js?v=52"></script>
 </body>
 </html>

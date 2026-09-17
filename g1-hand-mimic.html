@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=51">
+  <link rel="stylesheet" href="css/style.css?v=52">
 </head>
 <body>
 
@@ -107,9 +107,6 @@
       <li>Finger triplet PIP interior angles map linearly to 0–1000 integer actuator registers.</li>
     </ul>
 
-    <p class="code-label">retarget.py — landmark angle calculation</p>
-    <pre><code>v1, v2 = a - b, c - b  <span class="cm"># triplet interior vector angle</span>
-angle = np.degrees(np.arccos(np.dot(v1, v2) / (norm(v1) * norm(v2))))</code></pre>
 
     <div class="dual-feed">
       <div class="dual-feed-media">
@@ -148,25 +145,12 @@ angle = np.degrees(np.arccos(np.dot(v1, v2) / (norm(v1) * norm(v2))))</code></pr
 
   <!-- ============ RETARGETING ============ -->
   <section class="psection">
-    <h2><span class="num">02</span>Retargeting &amp; the Thumb Problem</h2>
+    <h2><span class="num">02</span>Retargeting &amp; Pinch Detection</h2>
 
     <ul class="achievements" style="margin: 14px 0 16px;">
       <li>Scale-invariant palm ratio detection snaps to calibrated hardware pinch presets automatically.</li>
       <li>Per-DOF exponential moving average smoothing suppresses sensor jitter on thumb channels.</li>
     </ul>
-
-    <ul class="spec-list">
-      <li><span class="k">pinch detection</span><span class="v">thumb-tip to index-tip &lt; 0.28 palm-widths → hardware preset snap</span></li>
-      <li><span class="k">thumb curl</span><span class="v">IP-joint angle (CMC→MCP→IP) — stable when thumb folds across palm</span></li>
-      <li><span class="k">thumb rotation</span><span class="v">normalized x-offset of thumb tip from index MCP / palm width</span></li>
-      <li><span class="k">occlusion guard</span><span class="v">fingertip within 0.6 palm-widths of palm center → clamp to 150</span></li>
-      <li><span class="k">smoothing</span><span class="v">per-DOF EMA, thumb channels get 6× wider deadband</span></li>
-      <li><span class="k">hot reload</span><span class="v">press t → hand_mimic.yaml recalibrates live, no restart</span></li>
-    </ul>
-
-    <div class="calc">
-      state_new = α · measurement + (1 − α) · state_old
-    </div>
 
     <div class="dual-feed">
       <div class="dual-feed-media">
@@ -192,17 +176,6 @@ angle = np.degrees(np.arccos(np.dot(v1, v2) / (norm(v1) * norm(v2))))</code></pr
       <li>Hardware power grasp verification securely grips irregular objects like barcode scanners.</li>
     </ul>
 
-    <ul class="spec-list">
-      <li><span class="k">protocol</span><span class="v">Modbus-style register writes over RS-485 @ 115200 baud</span></li>
-      <li><span class="k">adapter</span><span class="v">USB-to-RS485 dongle (FTDI / CH340) — /dev/ttyUSB0, /dev/ttyUSB1 per hand</span></li>
-      <li><span class="k">power</span><span class="v">24 V to the hand; internal firmware runs the PD servo loop per DOF</span></li>
-      <li><span class="k">connector</span><span class="v">GX12 4-pin aviation — RS-485 A+/B− plus 24 V power</span></li>
-      <li><span class="k">channel order</span><span class="v">[pinky, ring, middle, index, thumb_bend, thumb_rot]</span></li>
-    </ul>
-
-    <p class="code-label">inspire_hand.py — serial register write</p>
-    <pre><code>hand = <span class="fn">InspireHand</span>(port=<span class="st">"/dev/ttyUSB0"</span>, baud=<span class="nm">115200</span>, hand_id=<span class="nm">1</span>)
-hand.<span class="fn">set_angles</span>([pinky, ring, middle, index, thumb_bend, thumb_rot])</code></pre>
 
     <div class="dual-feed">
       <div class="dual-feed-media">
@@ -235,6 +208,6 @@ hand.<span class="fn">set_angles</span>([pinky, ring, middle, index, thumb_bend,
   </div>
 </footer>
 
-<script src="js/reveal.js?v=51"></script>
+<script src="js/reveal.js?v=52"></script>
 </body>
 </html>

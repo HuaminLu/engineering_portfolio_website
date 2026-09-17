@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=51">
+  <link rel="stylesheet" href="css/style.css?v=52">
 </head>
 <body>
 
@@ -127,10 +127,8 @@
       </div>
     </div>
 
-    <p class="code-label">recorder.py — streaming loop constants</p>
-    <pre><code>JOINT_NAMES = [<span class="st">"pinky"</span>, <span class="st">"ring"</span>, <span class="st">"middle"</span>, <span class="st">"index"</span>, <span class="st">"thumb_bend"</span>, <span class="st">"thumb_rot"</span>]
-SEND_HZ, SEND_DT = <span class="nm">25</span>, <span class="nm">1.0</span> / <span class="nm">25</span>  <span class="cm"># 25 Hz low-latency serial streaming</span></code></pre>
   </section>
+
 
   <!-- ============ RECORDING WORKFLOW ============ -->
   <section class="psection">
@@ -160,19 +158,8 @@ SEND_HZ, SEND_DT = <span class="nm">25</span>, <span class="nm">1.0</span> / <sp
         <span class="caption-title">Keyframe Recording</span> — Keyframe timeline recording each joint pose with automatic trajectory smoothing.
       </div>
     </div>
-
-    <ul class="spec-list">
-      <li><span class="k">REC</span><span class="v">samples the 6-DOF pose at 25 Hz into a Take (list of frames)</span></li>
-      <li><span class="k">STOP</span><span class="v">auto-smoothing applied — linear interpolation or EMA</span></li>
-      <li><span class="k">COMBINE</span><span class="v">parallel merge — two selected Takes play simultaneously</span></li>
-      <li><span class="k">SAVE PRESET</span><span class="v">concatenates all items into presets/&lt;name&gt;/animation.yaml</span></li>
-      <li><span class="k">play speed</span><span class="v">slider linearly resamples the frame timeline — 0.5× to 2×</span></li>
-    </ul>
-
-    <p class="code-label">presets/2finger_pinch/animation.yaml</p>
-    <pre><code>gesture: 2finger_pinch; fps: <span class="nm">25</span>
-frames: [[<span class="nm">800</span>, <span class="nm">800</span>, <span class="nm">800</span>, <span class="nm">800</span>, <span class="nm">500</span>, <span class="nm">300</span>], [<span class="nm">820</span>, <span class="nm">820</span>, <span class="nm">820</span>, <span class="nm">830</span>, <span class="nm">480</span>, <span class="nm">320</span>]]</code></pre>
   </section>
+
 
   <!-- ============ GESTURE LIBRARY & PRESETS ============ -->
   <section class="psection">
@@ -264,6 +251,6 @@ frames: [[<span class="nm">800</span>, <span class="nm">800</span>, <span class=
   </div>
 </footer>
 
-<script src="js/reveal.js?v=51"></script>
+<script src="js/reveal.js?v=52"></script>
 </body>
 </html>

@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=51">
+  <link rel="stylesheet" href="css/style.css?v=52">
 </head>
 <body>
 
@@ -133,9 +133,6 @@
       </div>
     </div>
 
-    <p class="code-label">safety_port.h — hardware damping pin definition</p>
-    <pre><code>#define G1_ESTOP_PIN_STATE()  (gpio_read(PIN_PC1_GH_ESTOP) == 0)
-// LOW (0V / shorted) -> transition FSM to PERMANENT_DAMPED_MODE</code></pre>
   </section>
 
   <!-- ============ FAIL-SAFE DAMPING ============ -->
@@ -146,15 +143,8 @@
       <li>Zero-torque compliant damping eliminates violent kickback while tether prevents floor collision.</li>
       <li>Redundant dual remotes allow independent safety observers stationed on opposite sides of the gantry.</li>
     </ul>
-
-    <ul class="spec-list">
-      <li><span class="k">trigger latency</span><span class="v">&lt; 15 ms mechanical relay contact closure</span></li>
-      <li><span class="k">RF frequency</span><span class="v">433.92 MHz with dual handheld transmitter fobs</span></li>
-      <li><span class="k">power source</span><span class="v">12 V DC auxiliary bus via yellow XT30 connector</span></li>
-      <li><span class="k">FSM state</span><span class="v">Permanent Damped Mode — zero torque on all 29 joints</span></li>
-      <li><span class="k">splicing</span><span class="v">2× WAGO 221-413 inline 3-conductor lever connectors</span></li>
-    </ul>
   </section>
+
 
   <nav class="project-nav">
     <a href="g1-walk.html">← WASDQE Walk</a>
@@ -172,6 +162,6 @@
   </div>
 </footer>
 
-<script src="js/reveal.js?v=51"></script>
+<script src="js/reveal.js?v=52"></script>
 </body>
 </html>

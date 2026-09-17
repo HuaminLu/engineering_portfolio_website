@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=51">
+  <link rel="stylesheet" href="css/style.css?v=52">
 </head>
 <body>
 
@@ -129,14 +129,8 @@
   <section class="psection">
     <h2><span class="num">02</span>Electrical — Transient-Safe Power</h2>
 
-    <ul class="spec-list">
-      <li><span class="k">supply</span><span class="v">12V 10A DC</span></li>
-      <li><span class="k">servo rail</span><span class="v">6V via XL4015 CC/CV buck converter</span></li>
-      <li><span class="k">worst-case load</span><span class="v">10 servos stalled ≈ 10 A</span></li>
-      <li><span class="k">protection</span><span class="v">10A automotive blade fuse on 12V input</span></li>
-      <li><span class="k">bulk capacitance</span><span class="v">4700 µF electrolytic across 6V rail</span></li>
-      <li><span class="k">decoupling</span><span class="v">0.1 µF ceramics for switching noise</span></li>
-    </ul>
+    <p class="caption">Dedicated 6V high-current bus powered through an XL4015 buck converter with 4,700 µF bulk capacitance, isolating the 10-servo inductive load from the ESP32 microcontroller logic rail.</p>
+
 
     <div class="fig-split reverse landscape">
       <div>
@@ -168,10 +162,6 @@
       <li>Hardware-timed 12-bit registers maintain pulse stability during heavy wireless telemetry.</li>
     </ul>
 
-    <p class="code-label">hand_control.cpp — 50 Hz I²C PWM dispatch</p>
-    <pre><code>Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(<span class="nm">0x40</span>);
-pwm.<span class="fn">setPWM</span>(fingerID, <span class="nm">0</span>, map(angle, <span class="nm">0</span>, <span class="nm">180</span>, <span class="nm">150</span>, <span class="nm">600</span>));  <span class="cm"># 12-bit hardware pulse</span></code></pre>
-
     <div class="fig-wide">
       <div class="ph">
         <div class="ph-icon">▶</div>
@@ -197,6 +187,6 @@ pwm.<span class="fn">setPWM</span>(fingerID, <span class="nm">0</span>, map(angl
   </div>
 </footer>
 
-<script src="js/reveal.js?v=51"></script>
+<script src="js/reveal.js?v=52"></script>
 </body>
 </html>

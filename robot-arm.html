@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=51">
+  <link rel="stylesheet" href="css/style.css?v=52">
 </head>
 <body>
 
@@ -131,25 +131,11 @@
     </div>
   </section>
 
-  <!-- ============ CALCULATIONS ============ -->
+  <!-- ============ SPECIFICATIONS ============ -->
   <section class="psection">
-    <h2><span class="num">02</span>Structural &amp; Torque Analysis</h2>
+    <h2><span class="num">02</span>Structural Specifications &amp; Payload</h2>
 
-    <ul class="spec-list">
-      <li><span class="k">arm mass (m_arm)</span><span class="v">10 kg</span></li>
-      <li><span class="k">max reach (L)</span><span class="v">1.113 m</span></li>
-      <li><span class="k">center of mass (r_cm)</span><span class="v">≈ 0.555 m (L/2)</span></li>
-      <li><span class="k">shoulder actuator</span><span class="v">RobStride RS04 — 120 Nm peak</span></li>
-    </ul>
-
-    <div class="calc">
-      <p class="calc-title">worst-case: full horizontal extension</p>
-      <p class="eq">τ_arm = m_arm · g · r_cm = 10 × 9.81 × 0.555 ≈ <span class="result">54.4 Nm</span></p>
-      <p class="eq">τ_total = τ_arm + τ_payload ≤ 120 Nm</p>
-      <p class="eq">120 = ((10 × 0.555) + (m_payload × 1.11)) × 9.81</p>
-      <p class="eq">m_payload ≈ <span class="result">~10 kg peak</span> → payload-to-weight ratio ≈ 1:1</p>
-      <p class="note">With inverse kinematics keeping the elbow slightly flexed (shorter moment arm), the arm sustains continuous industrial payloads of 3–5 kg without exceeding the motor’s 40 Nm continuous thermal rating — on par with commercial cobots.</p>
-    </div>
+    <p class="caption">The custom 3D-printed arm was designed with an industrial cobot layout — featuring uniform cylindrical links, 700 mm reach, 10 kg structural weight, and ~10 kg peak payload capacity.</p>
 
     <div class="fig-wide">
       <div class="ph">
@@ -159,6 +145,7 @@
       </div>
     </div>
   </section>
+
 
   <!-- ============ ELECTRICAL ============ -->
   <section class="psection">
@@ -205,10 +192,6 @@
       <li>ESP32 TWAI peripheral transmits frames at 1 kHz across the daisy-chained RobStride actuators.</li>
     </ul>
 
-    <p class="code-label">can_motor_control.cpp — 1 kHz CAN frame dispatch</p>
-    <pre><code>CanFrame frame = { .identifier = motorID, .data_length_code = <span class="nm">8</span> };
-pack_qdd_command(frame.data, pos, vel, kp, kd, torque); ESP32Can.<span class="fn">writeFrame</span>(frame);</code></pre>
-
     <div class="fig-wide">
       <div class="ph">
         <div class="ph-icon">▶</div>
@@ -234,6 +217,6 @@ pack_qdd_command(frame.data, pos, vel, kp, kd, torque); ESP32Can.<span class="fn
   </div>
 </footer>
 
-<script src="js/reveal.js?v=51"></script>
+<script src="js/reveal.js?v=52"></script>
 </body>
 </html>

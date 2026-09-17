@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=51">
+  <link rel="stylesheet" href="css/style.css?v=52">
 </head>
 <body>
 
@@ -101,15 +101,6 @@
       <li>24-D observation space encompasses joint angles, velocities, end-effector pose, and target deltas.</li>
       <li>Incremental joint deltas bounded to ±0.05 rad prevent jerk and ensure smooth physical execution.</li>
     </ul>
-
-    <ul class="spec-list">
-      <li><span class="k">q (7)</span><span class="v">current joint angles (rad)</span></li>
-      <li><span class="k">dq (7)</span><span class="v">current joint velocities (rad/s)</span></li>
-      <li><span class="k">p_hand (3)</span><span class="v">end-effector position from forward kinematics (m)</span></li>
-      <li><span class="k">p_goal (3)</span><span class="v">goal position (m)</span></li>
-      <li><span class="k">Δp (3)</span><span class="v">p_goal − p_hand error vector</span></li>
-      <li><span class="k">step_frac (1)</span><span class="v">episode progress ∈ [0, 1]</span></li>
-    </ul>
   </section>
 
   <!-- ============ REWARD ============ -->
@@ -120,10 +111,6 @@
       <li>Dense reward shaping combines Euclidean goal distance with regularizers for upright wrist pitch.</li>
       <li>Self-collision avoidance penalty prevents damaging contact with the robot torso.</li>
     </ul>
-
-    <p class="code-label">g1_arm_rl_env.py — dense reward formulation</p>
-    <pre><code>reward = -<span class="nm">5.0</span> * dist - <span class="nm">0.1</span> * <span class="fn">norm</span>(action)  <span class="cm"># goal reaching + effort penalty</span>
-<span class="kw">if</span> dist &lt; <span class="nm">0.02</span>: reward += <span class="nm">1.0</span>  <span class="cm"># 2 cm tolerance arrival bonus</span></code></pre>
   </section>
 
   <!-- ============ SIM-TO-REAL ============ -->
@@ -135,13 +122,6 @@
       <li>Streaming mode broadcasts LowCmd_ packets over rt/arm_sdk to actuate the real robot.</li>
     </ul>
 
-    <p class="code-label">g1_arm_policy_controller.py — inference &amp; DDS streaming</p>
-    <pre><code>action, _ = policy.<span class="fn">predict</span>(obs, deterministic=<span class="kw">True</span>); q += action
-msg.motor_cmd[idx].q = q[i]; msg.motor_cmd[<span class="nm">29</span>].q = <span class="nm">1.0</span>  <span class="cm"># DDS stream</span></code></pre>
-
-    <div class="calc">
-      τ_applied = kp·(q_cmd − q_measured) + kd·(dq_cmd − dq_measured) + tau_ff
-    </div>
 
     <div class="dual-feed">
       <div class="dual-feed-media">
@@ -174,6 +154,6 @@ msg.motor_cmd[idx].q = q[i]; msg.motor_cmd[<span class="nm">29</span>].q = <span
   </div>
 </footer>
 
-<script src="js/reveal.js?v=51"></script>
+<script src="js/reveal.js?v=52"></script>
 </body>
 </html>

@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=51">
+  <link rel="stylesheet" href="css/style.css?v=52">
 </head>
 <body>
 
@@ -108,10 +108,6 @@
       <li>Intuitive WASDQE mapping drives forward, strafe, and yaw rotation with immediate feedback.</li>
     </ul>
 
-    <p class="code-label">drive_loop.py — 15 Hz velocity dispatch</p>
-    <pre><code>code = loco_client.<span class="fn">SetVelocity</span>(vx, vy, omega, duration=<span class="nm">864000.0</span>)
-<span class="cm"># vx = forward (m/s), vy = strafe (m/s), omega = yaw rate (rad/s)</span></code></pre>
-
     <div class="dual-feed">
       <div class="dual-feed-media">
         <div class="feed-pane">
@@ -142,18 +138,6 @@
       <li>Layered emergency stop handles immediate freeze, compliant damping, and motor cutoff.</li>
     </ul>
 
-    <ul class="spec-list">
-      <li><span class="k">SPEED_MIN</span><span class="v">0.15 m/s — minimum tap pulse velocity</span></li>
-      <li><span class="k">SPEED_MAX</span><span class="v">1.20 m/s — maximum tap pulse velocity</span></li>
-      <li><span class="k">ANG_RATIO</span><span class="v">1.25 rad/s of turn per 1 m/s linear</span></li>
-      <li><span class="k">PULSE_SECS</span><span class="v">0.45 s — each keypress drives one pulse, then auto-stops</span></li>
-      <li><span class="k">hard clamps</span><span class="v">VMAX_LIN 1.4 m/s · VMAX_ANG 2.0 rad/s</span></li>
-    </ul>
-
-    <p class="code-label">fsm_safety.py — FSM state transitions</p>
-    <pre><code>bot.<span class="fn">SetFsmId</span>(<span class="nm">200</span>); bot.<span class="fn">SetBalanceMode</span>(<span class="nm">1</span>)  <span class="cm"># enter gait walking mode</span>
-bot.<span class="fn">StopMove</span>()  <span class="cm"># SPACE key triggers immediate standstill</span></code></pre>
-
     <div class="dual-feed">
       <div class="dual-feed-media">
         <div class="feed-pane" style="flex:1;">
@@ -177,10 +161,6 @@ bot.<span class="fn">StopMove</span>()  <span class="cm"># SPACE key triggers im
       <li>Patched ai_sport firmware mismatch that caused 3102 RPC send errors on startup.</li>
       <li>Linux ioctl interface scanner eliminates hardcoded Ethernet device names across workstations.</li>
     </ul>
-
-    <p class="code-label">service_name_fix.py — SDK runtime override</p>
-    <pre><code><span class="kw">import</span> unitree_sdk2py.g1.loco.g1_loco_api <span class="kw">as</span> _loco_api
-_loco_api.LOCO_SERVICE_NAME = <span class="st">"sport"</span>  <span class="cm"># override for firmware ≥ 8.2</span></code></pre>
   </section>
 
   <nav class="project-nav">
@@ -199,6 +179,6 @@ _loco_api.LOCO_SERVICE_NAME = <span class="st">"sport"</span>  <span class="cm">
   </div>
 </footer>
 
-<script src="js/reveal.js?v=51"></script>
+<script src="js/reveal.js?v=52"></script>
 </body>
 </html>
