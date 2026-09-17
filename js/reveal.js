@@ -80,20 +80,19 @@
   });
 
 
-  // 5. Project-Page Video GIF Acceleration (1.5x - 1.75x based on length)
-  // Strictly applies to project pages only; preserves 1.0x normal speed on main gallery scroll
-  (function initProjectVideoSpeed() {
-    if (!document.querySelector(".pfold")) return;
-
+  // 5. Global Video GIF Acceleration (1.75x - 2.0x)
+  // Accelerates all looping preview videos across the main gallery scroll, project tiles, and showcase carousels
+  (function initVideoSpeed() {
     function applyVideoSpeed(v) {
       if (!v) return;
-      if (v.closest(".tile, .grid-tile, .tiles, .project-grid")) return;
       function setRate() {
         var dur = v.duration;
-        // <= 12s -> 1.5x speed, > 12s -> 1.75x speed
-        var targetRate = (dur && dur > 12) ? 1.75 : 1.5;
-        v.defaultPlaybackRate = targetRate;
-        v.playbackRate = targetRate;
+        // >= 10s -> 2.0x speed, < 10s -> 1.75x speed
+        var targetRate = (dur && dur >= 10) ? 2.0 : 1.75;
+        try {
+          v.defaultPlaybackRate = targetRate;
+          v.playbackRate = targetRate;
+        } catch (e) {}
       }
 
       if (v.readyState >= 1 && v.duration) {
@@ -104,17 +103,17 @@
 
       v.addEventListener("play", function () {
         var dur = v.duration;
-        var targetRate = (dur && dur > 12) ? 1.75 : 1.5;
+        var targetRate = (dur && dur >= 10) ? 2.0 : 1.75;
         if (v.playbackRate !== targetRate) {
-          v.playbackRate = targetRate;
+          try { v.playbackRate = targetRate; } catch (e) {}
         }
       });
 
       v.addEventListener("timeupdate", function () {
         var dur = v.duration;
-        var targetRate = (dur && dur > 12) ? 1.75 : 1.5;
+        var targetRate = (dur && dur >= 10) ? 2.0 : 1.75;
         if (v.playbackRate !== targetRate) {
-          v.playbackRate = targetRate;
+          try { v.playbackRate = targetRate; } catch (e) {}
         }
       });
     }

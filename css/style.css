@@ -543,6 +543,17 @@ body { overflow-x: hidden; } /* full-bleed row must never cause sideways page sc
   aspect-ratio: 3 / 4;
   max-width: 340px;
   margin-top: 12px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  overflow: hidden;
+  position: relative;
+}
+
+.about-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .about p { color: var(--fg-dim); font-size: 21px; }
