@@ -103,25 +103,14 @@
     </ul>
   </section>
 
-  <!-- ============ REWARD ============ -->
-  <section class="psection">
-    <h2><span class="num">02</span>Reward Design — Dense Shaping</h2>
-
-    <ul class="achievements" style="margin: 14px 0 16px;">
-      <li>Dense reward shaping combines Euclidean goal distance with regularizers for upright wrist pitch.</li>
-      <li>Self-collision avoidance penalty prevents damaging contact with the robot torso.</li>
-    </ul>
-  </section>
-
   <!-- ============ SIM-TO-REAL ============ -->
   <section class="psection">
-    <h2><span class="num">03</span>Sim-to-Real Deployment — DDS Streaming</h2>
+    <h2><span class="num">02</span>Sim-to-Real Deployment — DDS Streaming</h2>
 
     <ul class="achievements" style="margin: 14px 0 16px;">
       <li>Policy inference executes at 25 Hz against the live simulation state.</li>
       <li>Streaming mode broadcasts LowCmd_ packets over rt/arm_sdk to actuate the real robot.</li>
     </ul>
-
 
     <div class="dual-feed">
       <div class="dual-feed-media">
@@ -136,6 +125,16 @@
         <span class="caption-title">Physical Arm Mirroring</span> — Real Unitree G1 arm mirroring MuJoCo policy joint trajectories over low-latency DDS.
       </div>
     </div>
+  </section>
+
+  <!-- ============ REWARD ============ -->
+  <section class="psection">
+    <h2><span class="num">03</span>Reward Design — Dense Shaping</h2>
+
+    <ul class="achievements" style="margin: 14px 0 16px;">
+      <li>Dense reward shaping combines Euclidean goal distance with regularizers for upright wrist pitch.</li>
+      <li>Self-collision avoidance penalty prevents damaging contact with the robot torso.</li>
+    </ul>
   </section>
 
   <nav class="project-nav">
