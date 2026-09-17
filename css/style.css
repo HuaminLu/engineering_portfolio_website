@@ -606,6 +606,8 @@ body { overflow-x: hidden; } /* full-bleed row must never cause sideways page sc
 }
 
 .grid-tile {
+  display: flex;
+  flex-direction: column;
   border: 1px solid var(--line);
   background: var(--bg-card);
   transition: border-color 0.22s ease, background 0.22s ease, transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.22s ease;
@@ -624,7 +626,7 @@ body { overflow-x: hidden; } /* full-bleed row must never cause sideways page sc
   transform: translateY(-1px);
 }
 
-.grid-tile .tile-img { aspect-ratio: 1 / 1; }
+.grid-tile .tile-img { aspect-ratio: 3 / 4; }
 
 .grid-tile .tile-body { padding: 10px 12px 12px; }
 .grid-tile .tile-body h2 { font-size: 15px; font-weight: 700; line-height: 1.25; }
