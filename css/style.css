@@ -431,6 +431,46 @@ body { overflow-x: hidden; } /* full-bleed row must never cause sideways page sc
   transform: scale(1.03);
 }
 
+/* 2x2 Grid preview for Unitree G1 overview tile */
+.tile-img.g1-grid-preview {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 2px;
+  background: #1e1e1e;
+  overflow: hidden;
+  position: relative;
+}
+
+.g1-cell.fade-gallery {
+  position: relative;
+  overflow: hidden;
+  background: #080808;
+  width: 100%;
+  height: 100%;
+}
+
+.g1-cell.fade-gallery img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.45s ease-in-out, transform 0.25s ease;
+  pointer-events: none;
+}
+
+.g1-cell.fade-gallery img.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.tile:hover .g1-cell.fade-gallery img.active,
+.grid-tile:hover .g1-cell.fade-gallery img.active {
+  transform: scale(1.04);
+}
+
 .tile-body {
   padding: 10px 12px 10px;
   flex-shrink: 0;
