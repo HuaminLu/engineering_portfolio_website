@@ -18,16 +18,16 @@ SPECS = [
         "src": "videos/unitree-g1/mimic-both-take1-phone.mp4",
         "out": "grid-hand-mimic.gif",
         "start": 6.0,
-        "duration": 5.2,
-        "speed": 1.4,
+        "duration": 12.0,
+        "speed": 3.5, # 1.75x real-life speed
         "crop": "ih*3/4:ih:(iw-ih*3/4)/2:0" # crop center 3:4 from landscape
     },
     {
         "src": "videos/unitree-g1/walk-2-phone.mp4",
         "out": "grid-g1-walk.gif",
-        "start": 21.0,
-        "duration": 6.0,
-        "speed": 1.4,
+        "start": 24.0,
+        "duration": 14.0,
+        "speed": 3.5,
         "crop": "iw:iw*4/3:0:(ih-iw*4/3)/2" # crop center 3:4 from portrait
     },
 
@@ -35,17 +35,17 @@ SPECS = [
     {
         "src": "videos/unitree-g1/arm-policy-real.mp4",
         "out": "grid-arm-policy.gif",
-        "start": 8.0,
-        "duration": 6.2,
-        "speed": 1.4,
+        "start": 12.0,
+        "duration": 13.0,
+        "speed": 3.5,
         "crop": "ih*3/4:ih:(iw-ih*3/4)/2:0" # crop center 3:4
     },
     {
         "src": "videos/unitree-g1/estop-remote-demo.mp4",
         "out": "grid-estop.gif",
-        "start": 3.0,
-        "duration": 4.8,
-        "speed": 1.25,
+        "start": 2.0,
+        "duration": 10.0,
+        "speed": 3.0,
         "crop": "iw:iw*4/3:0:(ih-iw*4/3)/2" # crop center 3:4
     },
 
@@ -53,17 +53,17 @@ SPECS = [
     {
         "src": "videos/unitree-g1/hands-seq-recorder-phone-only.mp4",
         "out": "grid-hand-recorder.gif",
-        "start": 7.0,
-        "duration": 5.8,
-        "speed": 1.4,
+        "start": 8.0,
+        "duration": 13.0,
+        "speed": 3.5,
         "crop": "ih*3/4:ih:(iw-ih*3/4)/2:0" # crop center 3:4
     },
     {
         "src": "videos/unitree-g1/barcode-scanner-grasp-1.mp4",
         "out": "grid-barcode-grasp.gif",
-        "start": 3.0,
-        "duration": 5.2,
-        "speed": 1.35,
+        "start": 4.0,
+        "duration": 11.0,
+        "speed": 3.2,
         "crop": "iw:iw*4/3:0:(ih-iw*4/3)/2" # crop center 3:4
     },
 
@@ -71,17 +71,17 @@ SPECS = [
     {
         "src": "videos/unitree-g1/arm-gui-1-phone.mp4",
         "out": "grid-arm-recorder.gif",
-        "start": 12.0,
-        "duration": 6.2,
-        "speed": 1.4,
+        "start": 14.0,
+        "duration": 13.0,
+        "speed": 3.5,
         "crop": "iw:iw*4/3:0:(ih-iw*4/3)/2" # crop center 3:4
     },
     {
         "src": "videos/unitree-g1/one-hand-pinch.mp4",
         "out": "grid-hand-pinch.gif",
-        "start": 3.0,
-        "duration": 5.0,
-        "speed": 1.35,
+        "start": 4.0,
+        "duration": 11.0,
+        "speed": 3.2,
         "crop": "iw:iw*4/3:0:(ih-iw*4/3)/2" # crop center 3:4
     },
 ]
