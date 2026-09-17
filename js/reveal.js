@@ -80,15 +80,14 @@
   });
 
 
-  // 5. Global Video GIF Acceleration (1.75x - 2.0x)
-  // Accelerates all looping preview videos across the main gallery scroll, project tiles, and showcase carousels
+  // 5. Global Video Acceleration (Clean 1.5x speed)
+  // Plays all looping preview videos across the main gallery scroll and project pages at crisp 1.5x speed
   (function initVideoSpeed() {
     function applyVideoSpeed(v) {
       if (!v) return;
+      var targetRate = 1.5;
+
       function setRate() {
-        var dur = v.duration;
-        // >= 10s -> 2.0x speed, < 10s -> 1.75x speed
-        var targetRate = (dur && dur >= 10) ? 2.0 : 1.75;
         try {
           v.defaultPlaybackRate = targetRate;
           v.playbackRate = targetRate;
@@ -102,16 +101,12 @@
       }
 
       v.addEventListener("play", function () {
-        var dur = v.duration;
-        var targetRate = (dur && dur >= 10) ? 2.0 : 1.75;
         if (v.playbackRate !== targetRate) {
           try { v.playbackRate = targetRate; } catch (e) {}
         }
       });
 
       v.addEventListener("timeupdate", function () {
-        var dur = v.duration;
-        var targetRate = (dur && dur >= 10) ? 2.0 : 1.75;
         if (v.playbackRate !== targetRate) {
           try { v.playbackRate = targetRate; } catch (e) {}
         }
