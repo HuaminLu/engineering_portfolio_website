@@ -152,17 +152,27 @@ function initCarousels() {
       });
     }
 
-    // Auto-scroll loop — continuously sliding every 2 seconds when in view
+    // Auto-scroll loop — continuously sliding when in view (supports per-slide data-duration or container data-delay)
+    function getSlideDelay() {
+      const realIdx = getRealIndex(currentIndex);
+      const activeSlide = origSlides[realIdx];
+      if (activeSlide && activeSlide.dataset.duration) {
+        return parseInt(activeSlide.dataset.duration, 10) || delay;
+      }
+      return delay;
+    }
+
     function startAutoTimer() {
       if (autoTimer || !isVisible || total <= 1) return;
-      autoTimer = setInterval(() => {
+      autoTimer = setTimeout(() => {
+        autoTimer = null;
         nextSlide();
-      }, delay);
+      }, getSlideDelay());
     }
 
     function stopAutoTimer() {
       if (autoTimer) {
-        clearInterval(autoTimer);
+        clearTimeout(autoTimer);
         autoTimer = null;
       }
     }
