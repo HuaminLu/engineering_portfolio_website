@@ -1,13 +1,14 @@
 /**
  * Huamin Lu Engineering Portfolio - Visitor & Analytics Tracker
  * Features:
- * - Silent, lightweight tracking on page load.
- * - Exact project-level identification (Unitree G1, 7-DOF Arm, 10-DOF Hand, etc.).
- * - Duration tracking: tracks time spent on each project page and total session time.
+ * - Real-time Google Sheet logging for each pageview.
+ * - Journey Tracking: Records each project visited and exact dwell time.
+ * - Consolidated Recruiter Dossier Email:
+ *   1. Triggered immediately when visitor closes or leaves the website.
+ *   2. Triggered if visitor remains idle for 10 minutes without activity.
  * - Admin Exclusion: Visit with `?admin=true` to exclude your browser.
- * - Test Mode: Visit with `?test=true` to trigger an immediate test alert with live charts.
- * - Status Check: Visit with `?admin=status` to check your current mode.
- * - Sends data to Google Apps Script Web App for Google Sheets logging and Gmail alerts.
+ * - Test Mode: Visit with `?test=true` to trigger an immediate test dossier email.
+ * - Status Check: Visit with `?admin=status`.
  */
 
 (function () {
@@ -19,10 +20,10 @@
   const STORAGE_KEY_ADMIN = 'portfolio_admin_ignore';
   const SESSION_KEY = 'portfolio_session_id';
   const SESSION_START_KEY = 'portfolio_session_start';
-  const PREV_PAGE_KEY = 'portfolio_prev_page';
-  const PREV_TIME_KEY = 'portfolio_prev_time';
+  const SESSION_JOURNEY_KEY = 'portfolio_session_journey';
+  const SUMMARY_SENT_KEY = 'portfolio_summary_sent';
+  const INTERNAL_NAV_KEY = 'portfolio_internal_nav';
 
-  // Project lookup
   const PROJECT_MAP = {
     'index.html': 'Homepage / Overview',
     'projects.html': 'All Projects Directory',
@@ -77,69 +78,42 @@
     }
   }
 
-  // 1. If Admin flag is set and not running explicit test, ignore this visit
+  // 1. If Admin flag is set and not test mode, ignore
   if (!isTestMode && localStorage.getItem(STORAGE_KEY_ADMIN) === 'true') {
     return;
   }
 
-  // 2. Ignore local development environments (unless test mode is forced)
+  // 2. Ignore local development environments (unless test mode)
   const hostname = window.location.hostname;
   if (!isTestMode && (hostname === 'localhost' || hostname === '127.0.0.1' || window.location.protocol === 'file:')) {
     return;
   }
 
-  // 3. Session & Duration tracking
+  // Clear internal navigation flag upon landing
+  sessionStorage.removeItem(INTERNAL_NAV_KEY);
+
+  // 3. Session & Journey initialization
   const now = Date.now();
   let sessionId = sessionStorage.getItem(SESSION_KEY);
   let sessionStart = sessionStorage.getItem(SESSION_START_KEY);
-  let isNewSession = false;
 
   if (!sessionId || isTestMode) {
     sessionId = 's_' + Math.random().toString(36).substring(2, 10) + '_' + now;
     sessionStart = now.toString();
     sessionStorage.setItem(SESSION_KEY, sessionId);
     sessionStorage.setItem(SESSION_START_KEY, sessionStart);
-    isNewSession = true;
+    sessionStorage.setItem(SESSION_JOURNEY_KEY, JSON.stringify([]));
+    sessionStorage.removeItem(SUMMARY_SENT_KEY);
   }
 
-  // Calculate session duration so far
-  const totalSessionSecs = Math.max(0, Math.round((now - parseInt(sessionStart || now, 10)) / 1000));
-  const sessionDurationStr = formatDuration(totalSessionSecs);
-
-  // Calculate previous page dwell time
-  const prevPage = sessionStorage.getItem(PREV_PAGE_KEY);
-  const prevTime = sessionStorage.getItem(PREV_TIME_KEY);
-  let prevPageInfo = 'Session Start';
-
-  if (prevPage && prevTime) {
-    const dwellSecs = Math.max(1, Math.round((now - parseInt(prevTime, 10)) / 1000));
-    prevPageInfo = `${prevPage} (${formatDuration(dwellSecs)})`;
+  let journey = [];
+  try {
+    journey = JSON.parse(sessionStorage.getItem(SESSION_JOURNEY_KEY) || '[]');
+  } catch (e) {
+    journey = [];
   }
 
-  // Record current page enter time for next navigation
-  const pageEnterTime = now;
-  sessionStorage.setItem(PREV_PAGE_KEY, currentProjectName);
-  sessionStorage.setItem(PREV_TIME_KEY, pageEnterTime.toString());
-
-  // Listen for page exit / navigation to update exit duration
-  function onPageExit() {
-    const elapsedSecs = Math.max(1, Math.round((Date.now() - pageEnterTime) / 1000));
-    const durationStr = formatDuration(elapsedSecs);
-    sessionStorage.setItem(PREV_TIME_KEY, pageEnterTime.toString());
-
-    if (navigator.sendBeacon && GOOGLE_SCRIPT_URL) {
-      const exitData = JSON.stringify({
-        type: 'exit',
-        session_id: sessionId,
-        project_name: currentProjectName,
-        duration_str: durationStr
-      });
-      navigator.sendBeacon(GOOGLE_SCRIPT_URL, exitData);
-    }
-  }
-
-  window.addEventListener('pagehide', onPageExit);
-  window.addEventListener('beforeunload', onPageExit);
+  const pageEnterTime = Date.now();
 
   // Helper duration formatter
   function formatDuration(sec) {
@@ -152,12 +126,8 @@
   // Determine Device Type
   function getDeviceType() {
     const ua = navigator.userAgent;
-    if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
-      return 'Tablet';
-    }
-    if (/Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/i.test(ua)) {
-      return 'Mobile';
-    }
+    if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) return 'Tablet';
+    if (/Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/i.test(ua)) return 'Mobile';
     return 'Desktop';
   }
 
@@ -167,20 +137,11 @@
       const banner = document.createElement('div');
       banner.textContent = msg;
       banner.style.cssText = [
-        'position: fixed',
-        'bottom: 16px',
-        'right: 16px',
-        'background: #111',
-        'color: #00ff66',
-        'font-family: monospace',
-        'font-size: 12px',
-        'padding: 10px 16px',
-        'border: 1px solid #00ff66',
-        'border-radius: 4px',
-        'z-index: 99999',
-        'box-shadow: 0 4px 12px rgba(0,0,0,0.5)',
-        'pointer-events: none',
-        'transition: opacity 0.5s ease'
+        'position: fixed', 'bottom: 16px', 'right: 16px', 'background: #111',
+        'color: #00ff66', 'font-family: monospace', 'font-size: 12px',
+        'padding: 10px 16px', 'border: 1px solid #00ff66', 'border-radius: 4px',
+        'z-index: 99999', 'box-shadow: 0 4px 12px rgba(0,0,0,0.5)',
+        'pointer-events: none', 'transition: opacity 0.5s ease'
       ].join(';');
       document.body.appendChild(banner);
       setTimeout(() => {
@@ -195,21 +156,38 @@
     }
   }
 
-  // 4. Gather visitor data and transmit
-  async function trackVisit() {
-    if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes('YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE')) {
-      return;
-    }
+  // Intercept internal link clicks so we don't trigger the exit beacon while navigating
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('a');
+    if (!link || !link.href) return;
+    try {
+      const url = new URL(link.href, window.location.href);
+      if (url.hostname === window.location.hostname) {
+        sessionStorage.setItem(INTERNAL_NAV_KEY, 'true');
+        // Record current step into journey before navigating
+        recordCurrentStep();
+      }
+    } catch (err) {}
+  }, true);
 
-    let geoData = {
-      ip: '',
-      city: 'Unknown',
-      region: 'Unknown',
-      country: 'Unknown',
-      isp: 'Unknown',
-      org: 'Unknown'
-    };
+  function recordCurrentStep() {
+    const dwellSecs = Math.max(1, Math.round((Date.now() - pageEnterTime) / 1000));
+    try {
+      const j = JSON.parse(sessionStorage.getItem(SESSION_JOURNEY_KEY) || '[]');
+      j.push({
+        name: currentProjectName,
+        path: pagePath,
+        seconds: dwellSecs,
+        duration_str: formatDuration(dwellSecs)
+      });
+      sessionStorage.setItem(SESSION_JOURNEY_KEY, JSON.stringify(j));
+    } catch (e) {}
+  }
 
+  // Cached Geolocation Data
+  let geoCache = null;
+  async function getGeoData() {
+    if (geoCache) return geoCache;
     try {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 2500);
@@ -218,7 +196,7 @@
       if (res.ok) {
         const json = await res.json();
         if (json && json.success) {
-          geoData = {
+          geoCache = {
             ip: json.ip || '',
             city: json.city || 'Unknown',
             region: json.region || 'Unknown',
@@ -226,58 +204,155 @@
             isp: (json.connection && json.connection.isp) || 'Unknown',
             org: (json.connection && json.connection.org) || 'Unknown'
           };
+          return geoCache;
         }
       }
-    } catch (e) {
-      // IP lookup timeout or adblock; proceed with default geoData
-    }
+    } catch (e) {}
+    geoCache = { ip: '', city: 'Unknown', region: 'Unknown', country: 'Unknown', isp: 'Unknown', org: 'Unknown' };
+    return geoCache;
+  }
 
-    const pageTitle = (isTestMode ? '[TEST] ' : '') + currentProjectName;
+  // 4. Send Pageview to Google Sheets (Real-time silent log)
+  async function logPageview() {
+    if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes('YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE')) return;
+    const geo = await getGeoData();
+    const totalSessionSecs = Math.max(0, Math.round((Date.now() - parseInt(sessionStart || now, 10)) / 1000));
 
     const payload = {
+      type: 'pageview',
       timestamp: new Date().toISOString(),
       local_time: new Date().toLocaleString('en-US', { timeZone: 'America/Toronto', hour12: true }),
       project_name: currentProjectName,
-      page_title: pageTitle,
+      page_title: currentProjectName,
       page_path: pagePath,
-      page_url: window.location.href,
-      prev_page_info: prevPageInfo,
-      session_duration: sessionDurationStr,
+      dwell_time: '< 5s',
+      session_duration: formatDuration(totalSessionSecs),
       referrer: document.referrer || (isTestMode ? 'Manual Test Trigger' : 'Direct / Resume / Bookmark'),
       device: getDeviceType(),
       user_agent: navigator.userAgent,
       screen_res: `${window.screen.width}x${window.screen.height}`,
       session_id: sessionId,
-      is_new_session: isNewSession,
-      ip: geoData.ip,
-      city: geoData.city,
-      region: geoData.region,
-      country: geoData.country,
-      isp: geoData.isp,
-      org: geoData.org
+      ip: geo.ip,
+      city: geo.city,
+      region: geo.region,
+      country: geo.country,
+      isp: geo.isp,
+      org: geo.org
     };
 
     try {
       await fetch(GOOGLE_SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
-        headers: {
-          'Content-Type': 'text/plain;charset=utf-8'
-        },
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify(payload)
       });
-      if (isTestMode) {
-        showNotice('🧪 Test visit sent to your Gmail and Google Sheet!');
-      }
-    } catch (err) {
-      // Fail silently
+    } catch (e) {}
+  }
+
+  // 5. Send Consolidated Recruiter Session Dossier
+  async function sendSummaryDossier(triggerReason) {
+    if (sessionStorage.getItem(SUMMARY_SENT_KEY) === 'true' && !isTestMode) {
+      return;
+    }
+    sessionStorage.setItem(SUMMARY_SENT_KEY, 'true');
+
+    recordCurrentStep();
+    let currentJourney = [];
+    try {
+      currentJourney = JSON.parse(sessionStorage.getItem(SESSION_JOURNEY_KEY) || '[]');
+    } catch (e) {
+      currentJourney = [];
+    }
+
+    // In test mode, populate realistic sample journey if only 1 page
+    if (isTestMode && currentJourney.length <= 1) {
+      currentJourney = [
+        { name: 'Unitree G1 Humanoid', path: 'unitree-g1.html', seconds: 190, duration_str: '3m 10s' },
+        { name: '7-DOF QDD Robotic Arm', path: 'robot-arm.html', seconds: 135, duration_str: '2m 15s' },
+        { name: '10-DOF Dexterous Hand', path: 'robot-hand.html', seconds: 80, duration_str: '1m 20s' }
+      ];
+    }
+
+    const geo = await getGeoData();
+    const totalSecs = Math.max(1, Math.round((Date.now() - parseInt(sessionStart || now, 10)) / 1000));
+    const totalDurationStr = isTestMode ? '6m 45s' : formatDuration(totalSecs);
+
+    const summaryPayload = {
+      type: 'session_summary',
+      is_test: isTestMode,
+      trigger_reason: triggerReason || 'Website closed by visitor',
+      session_id: sessionId,
+      timestamp: new Date().toISOString(),
+      local_time: new Date().toLocaleString('en-US', { timeZone: 'America/Toronto', hour12: true }),
+      total_duration_str: totalDurationStr,
+      referrer: document.referrer || (isTestMode ? 'WaterlooWorks' : 'Direct / Resume'),
+      device: getDeviceType(),
+      screen_res: `${window.screen.width}x${window.screen.height}`,
+      city: geo.city,
+      region: geo.region,
+      country: geo.country,
+      isp: geo.isp,
+      org: isTestMode ? 'Tesla Inc. / Waterloo' : geo.org,
+      journey: currentJourney
+    };
+
+    const payloadString = JSON.stringify(summaryPayload);
+
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon(GOOGLE_SCRIPT_URL, payloadString);
+    } else {
+      fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: payloadString,
+        keepalive: true
+      });
+    }
+
+    if (isTestMode) {
+      showNotice('🧪 Test Recruiter Dossier sent to your Gmail!');
     }
   }
 
+  // --- TRIGGER 1: ON WEBSITE CLOSE / LEAVE ---
+  function onWindowUnload() {
+    // If the user clicked an internal link to another page on the portfolio, do not trigger exit
+    if (sessionStorage.getItem(INTERNAL_NAV_KEY) === 'true') {
+      return;
+    }
+    // Visitor is actually leaving the site or closing tab
+    sendSummaryDossier('Website closed or navigated away');
+  }
+
+  window.addEventListener('pagehide', onWindowUnload);
+  window.addEventListener('beforeunload', onWindowUnload);
+
+  // --- TRIGGER 2: 10 MINUTES INACTIVITY TIMER ---
+  const INACTIVITY_LIMIT_MS = 10 * 60 * 1000; // 10 minutes
+  let idleTimer = null;
+
+  function resetIdleTimer() {
+    if (idleTimer) clearTimeout(idleTimer);
+    idleTimer = setTimeout(() => {
+      sendSummaryDossier('10 minutes of no activity');
+    }, INACTIVITY_LIMIT_MS);
+  }
+
+  ['mousemove', 'scroll', 'keydown', 'touchstart', 'click'].forEach(evt => {
+    window.addEventListener(evt, resetIdleTimer, { passive: true });
+  });
+  resetIdleTimer();
+
   // Run on page load
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', trackVisit);
+    document.addEventListener('DOMContentLoaded', () => {
+      logPageview();
+      if (isTestMode) sendSummaryDossier('Manual Test Trigger (?test=true)');
+    });
   } else {
-    trackVisit();
+    logPageview();
+    if (isTestMode) sendSummaryDossier('Manual Test Trigger (?test=true)');
   }
 })();
