@@ -1,10 +1,13 @@
 /**
  * Huamin Lu Engineering Portfolio - Universal Visitor & Analytics Tracker
- * - Dual-compatible: triggers instant email alert on all Google Apps Script deployment versions.
- * - Tracks 100% of all visits (user devices, mobile, recruiters, direct links).
- * - Fires an immediate real-time email alert to luhuaminlu@gmail.com on every visit.
- * - Captures City, Region, Country, Organization/ISP, Project Name, Referrer, and Device.
- * - Logs all visits into the private Google Sheet spreadsheet.
+ * Features:
+ * - Silent Pageview Logging: Records every page visit to Google Sheets in real time.
+ * - Journey Tracking: Accurately times dwell duration on each project page.
+ * - Full Summary Email Delivery:
+ *   1. Triggered as soon as the visitor closes the website or navigates away.
+ *   2. Triggered after 10 minutes of no user activity (idle timeout).
+ * - Multi-page awareness: Navigating between portfolio projects does NOT trigger premature exit emails.
+ * - Deduplication: Exactly 1 consolidated summary email is sent per session.
  */
 
 (function () {
@@ -15,17 +18,18 @@
 
   const SESSION_KEY = 'portfolio_session_id';
   const SESSION_START_KEY = 'portfolio_session_start';
+  const SESSION_JOURNEY_KEY = 'portfolio_session_journey';
+  const SUMMARY_SENT_KEY = 'portfolio_summary_sent';
+  const INTERNAL_NAV_KEY = 'portfolio_internal_nav';
 
-  // Clear any legacy admin flags from browser memory
-  try {
-    localStorage.removeItem('portfolio_admin_ignore');
-  } catch (e) {}
-
-  // Ignore local file/localhost testing so it only tracks live web traffic
+  // Ignore local file/localhost testing
   const hostname = window.location.hostname;
   if (hostname === 'localhost' || hostname === '127.0.0.1' || window.location.protocol === 'file:') {
     return;
   }
+
+  // Clear internal navigation flag upon landing
+  sessionStorage.removeItem(INTERNAL_NAV_KEY);
 
   const PROJECT_MAP = {
     'index.html': 'Homepage / Overview',
@@ -57,17 +61,25 @@
   const pagePath = window.location.pathname.split('/').pop() || 'index.html';
   const currentProjectName = PROJECT_MAP[pagePath] || document.title || 'Engineering Portfolio';
 
-  // Session tracking
+  // Check URL parameters
+  const urlParams = new URLSearchParams(window.location.search);
+  const isTestMode = urlParams.has('test');
+
+  // Session & Journey initialization
   const now = Date.now();
   let sessionId = sessionStorage.getItem(SESSION_KEY);
   let sessionStart = sessionStorage.getItem(SESSION_START_KEY);
 
-  if (!sessionId) {
+  if (!sessionId || isTestMode) {
     sessionId = 's_' + Math.random().toString(36).substring(2, 10) + '_' + now;
     sessionStart = now.toString();
     sessionStorage.setItem(SESSION_KEY, sessionId);
     sessionStorage.setItem(SESSION_START_KEY, sessionStart);
+    sessionStorage.setItem(SESSION_JOURNEY_KEY, JSON.stringify([]));
+    sessionStorage.removeItem(SUMMARY_SENT_KEY);
   }
+
+  const pageEnterTime = Date.now();
 
   function formatDuration(sec) {
     if (sec < 60) return sec + 's';
@@ -83,12 +95,37 @@
     return 'Desktop';
   }
 
-  // Gather visitor data and transmit
-  async function trackVisit() {
-    if (!GOOGLE_SCRIPT_URL) return;
+  // Intercept internal link clicks so navigating within portfolio does NOT trigger exit email
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('a');
+    if (!link || !link.href) return;
+    try {
+      const url = new URL(link.href, window.location.href);
+      if (url.hostname === window.location.hostname) {
+        sessionStorage.setItem(INTERNAL_NAV_KEY, 'true');
+        recordCurrentStep();
+      }
+    } catch (err) {}
+  }, true);
 
-    let geoData = { ip: '', city: 'Unknown', region: 'Unknown', country: 'Unknown', isp: 'Unknown', org: 'Unknown' };
+  function recordCurrentStep() {
+    const dwellSecs = Math.max(1, Math.round((Date.now() - pageEnterTime) / 1000));
+    try {
+      const j = JSON.parse(sessionStorage.getItem(SESSION_JOURNEY_KEY) || '[]');
+      j.push({
+        name: currentProjectName,
+        path: pagePath,
+        seconds: dwellSecs,
+        duration_str: formatDuration(dwellSecs)
+      });
+      sessionStorage.setItem(SESSION_JOURNEY_KEY, JSON.stringify(j));
+    } catch (e) {}
+  }
 
+  // Geolocation cache
+  let geoCache = null;
+  async function getGeoData() {
+    if (geoCache) return geoCache;
     try {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 2500);
@@ -97,7 +134,7 @@
       if (res.ok) {
         const json = await res.json();
         if (json && json.success) {
-          geoData = {
+          geoCache = {
             ip: json.ip || '',
             city: json.city || 'Unknown',
             region: json.region || 'Unknown',
@@ -105,47 +142,40 @@
             isp: (json.connection && json.connection.isp) || 'Unknown',
             org: (json.connection && json.connection.org) || 'Unknown'
           };
+          return geoCache;
         }
       }
-    } catch (e) {
-      // Geolocation fallback
-    }
+    } catch (e) {}
+    geoCache = { ip: '', city: 'Unknown', region: 'Unknown', country: 'Unknown', isp: 'Unknown', org: 'Unknown' };
+    return geoCache;
+  }
 
-    const totalSessionSecs = Math.max(1, Math.round((Date.now() - parseInt(sessionStart || now, 10)) / 1000));
-    const durationStr = formatDuration(totalSessionSecs);
+  // 1. Silent Pageview logging to Google Sheets
+  async function logPageview() {
+    if (!GOOGLE_SCRIPT_URL) return;
+    const geo = await getGeoData();
+    const totalSessionSecs = Math.max(0, Math.round((Date.now() - parseInt(sessionStart || now, 10)) / 1000));
 
-    // Universal payload: compatible with both Version 2 and Version 3 Apps Script deployments
     const payload = {
-      type: 'session_summary',
-      is_test: false,
-      trigger_reason: 'Page Opened (' + currentProjectName + ')',
+      type: 'pageview',
       timestamp: new Date().toISOString(),
       local_time: new Date().toLocaleString('en-US', { timeZone: 'America/Toronto', hour12: true }),
       project_name: currentProjectName,
       page_title: currentProjectName,
       page_path: pagePath,
-      page_url: window.location.href,
-      total_duration_str: durationStr,
-      session_duration: durationStr,
+      dwell_time: '< 5s',
+      session_duration: formatDuration(totalSessionSecs),
       referrer: document.referrer || 'Direct / Resume / Bookmark',
       device: getDeviceType(),
       user_agent: navigator.userAgent,
       screen_res: `${window.screen.width}x${window.screen.height}`,
-      session_id: sessionId + '_' + Date.now(),
-      ip: geoData.ip,
-      city: geoData.city,
-      region: geoData.region,
-      country: geoData.country,
-      isp: geoData.isp,
-      org: geoData.org,
-      journey: [
-        {
-          name: currentProjectName,
-          path: pagePath,
-          seconds: totalSessionSecs,
-          duration_str: durationStr
-        }
-      ]
+      session_id: sessionId,
+      ip: geo.ip,
+      city: geo.city,
+      region: geo.region,
+      country: geo.country,
+      isp: geo.isp,
+      org: geo.org
     };
 
     try {
@@ -155,15 +185,116 @@
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify(payload)
       });
-    } catch (err) {
-      // Silent fail
+    } catch (err) {}
+  }
+
+  // 2. Consolidated Session Summary Email Delivery
+  async function sendSummaryDossier(triggerReason) {
+    if (sessionStorage.getItem(SUMMARY_SENT_KEY) === 'true' && !isTestMode) {
+      return;
+    }
+    sessionStorage.setItem(SUMMARY_SENT_KEY, 'true');
+
+    recordCurrentStep();
+    let currentJourney = [];
+    try {
+      currentJourney = JSON.parse(sessionStorage.getItem(SESSION_JOURNEY_KEY) || '[]');
+    } catch (e) {
+      currentJourney = [];
+    }
+
+    if (currentJourney.length === 0) {
+      const elapsed = Math.max(1, Math.round((Date.now() - pageEnterTime) / 1000));
+      currentJourney.push({
+        name: currentProjectName,
+        path: pagePath,
+        seconds: elapsed,
+        duration_str: formatDuration(elapsed)
+      });
+    }
+
+    const geo = await getGeoData();
+    const totalSecs = Math.max(1, Math.round((Date.now() - parseInt(sessionStart || now, 10)) / 1000));
+    const totalDurationStr = formatDuration(totalSecs);
+
+    const summaryPayload = {
+      type: 'session_summary',
+      is_test: false,
+      trigger_reason: triggerReason || 'Website closed or navigated away',
+      session_id: sessionId + '_' + Date.now(),
+      timestamp: new Date().toISOString(),
+      local_time: new Date().toLocaleString('en-US', { timeZone: 'America/Toronto', hour12: true }),
+      project_name: currentProjectName,
+      total_duration_str: totalDurationStr,
+      session_duration: totalDurationStr,
+      referrer: document.referrer || 'Direct / Resume',
+      device: getDeviceType(),
+      user_agent: navigator.userAgent,
+      screen_res: `${window.screen.width}x${window.screen.height}`,
+      city: geo.city,
+      region: geo.region,
+      country: geo.country,
+      isp: geo.isp,
+      org: geo.org,
+      journey: currentJourney
+    };
+
+    const payloadString = JSON.stringify(summaryPayload);
+
+    // Use keepalive fetch which survives page close and follows 302 redirects
+    try {
+      fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: payloadString,
+        keepalive: true
+      }).catch(() => {});
+    } catch (e) {}
+
+    // Fallback beacon
+    if (navigator.sendBeacon) {
+      try {
+        navigator.sendBeacon(GOOGLE_SCRIPT_URL, payloadString);
+      } catch (e) {}
     }
   }
 
-  // Execute on page load
+  // --- TRIGGER 1: ON WEBSITE CLOSE / NAVIGATE AWAY ---
+  function onWindowUnload() {
+    if (sessionStorage.getItem(INTERNAL_NAV_KEY) === 'true') {
+      return;
+    }
+    sendSummaryDossier('Website closed or navigated away');
+  }
+
+  window.addEventListener('pagehide', onWindowUnload);
+  window.addEventListener('beforeunload', onWindowUnload);
+
+  // --- TRIGGER 2: 10 MINUTES INACTIVITY TIMER ---
+  const INACTIVITY_LIMIT_MS = 10 * 60 * 1000; // 10 minutes
+  let idleTimer = null;
+
+  function resetIdleTimer() {
+    if (idleTimer) clearTimeout(idleTimer);
+    idleTimer = setTimeout(() => {
+      sendSummaryDossier('10 minutes of no activity');
+    }, INACTIVITY_LIMIT_MS);
+  }
+
+  ['mousemove', 'scroll', 'keydown', 'touchstart', 'click'].forEach((evt) => {
+    window.addEventListener(evt, resetIdleTimer, { passive: true });
+  });
+  resetIdleTimer();
+
+  // Run on page load
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', trackVisit);
+    document.addEventListener('DOMContentLoaded', () => {
+      logPageview();
+      if (isTestMode) sendSummaryDossier('Manual Test Trigger (?test=true)');
+    });
   } else {
-    trackVisit();
+    logPageview();
+    if (isTestMode) sendSummaryDossier('Manual Test Trigger (?test=true)');
   }
 })();
