@@ -117,7 +117,7 @@
     // Universal payload: compatible with both Version 2 and Version 3 Apps Script deployments
     const payload = {
       type: 'session_summary',
-      is_test: true,
+      is_test: false,
       trigger_reason: 'Page Opened (' + currentProjectName + ')',
       timestamp: new Date().toISOString(),
       local_time: new Date().toLocaleString('en-US', { timeZone: 'America/Toronto', hour12: true }),

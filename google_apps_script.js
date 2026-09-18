@@ -115,10 +115,9 @@ function sendEmailNotification(data, sheetUrl, stats) {
   const page = data.page_path || 'index.html';
   const ref = data.referrer || 'Direct / Resume';
   const sessionDuration = data.session_duration || '< 1m';
+  const timeStr = data.local_time || new Date().toLocaleString('en-US', { timeZone: 'America/Toronto', hour12: true });
 
-  const isTest = data.page_title && data.page_title.startsWith('[TEST]');
-  const prefix = isTest ? '🧪 [TEST] ' : '🚀 ';
-  const subject = `${prefix}Portfolio View: ${project} — ${loc} (${ref})`;
+  const subject = `Portfolio Website Visit: ${project} — ${loc} — ${timeStr}`;
 
   const chartUrl = generateVisitorChartUrl(stats.top, stats.total);
   const colors = ['#2ea043', '#58a6ff', '#a371f7', '#f0883e', '#d29922', '#388bfd'];
@@ -149,8 +148,11 @@ function sendEmailNotification(data, sheetUrl, stats) {
       
       <div style="background-color: #0d1117; padding: 16px 20px; border-radius: 6px; margin-bottom: 20px;">
         <h2 style="color: #58a6ff; margin: 0; font-size: 17px; font-family: monospace;">
-          ⚡ ${isTest ? 'TEST VISIT RECORDED' : 'RECRUITER / VISITOR DETECTED'}
+          ⚡ PORTFOLIO WEBSITE VISIT
         </h2>
+        <div style="color: #8b949e; font-size: 12px; margin-top: 4px; font-family: monospace;">
+          ${project} • ${timeStr} EDT
+        </div>
       </div>
 
       <table style="width: 100%; border-collapse: collapse; font-size: 14px; margin-bottom: 22px;">
