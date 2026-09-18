@@ -1,9 +1,14 @@
-// js/tile-fade.js — Automated cycling crossfade gallery for project preview tiles
+// js/tile-fade.js — Cycling crossfade gallery for project preview tiles
+// - On projects.html (.grid-tile): Cycles preview images & gifs ONLY when hovered; resets to first main image when not hovered.
+// - On index.html (gallery track): Automated continuous cycling via IntersectionObserver.
+
 function initFadeGalleries() {
   const galleries = document.querySelectorAll('.fade-gallery');
   if (!galleries.length) return;
 
-  const DEFAULT_INTERVAL = 1800; // default 1.8 seconds per still photo
+  const DEFAULT_INTERVAL = 1800; // default 1.8 seconds per photo for main page scroll
+  const HOVER_CYCLE_INTERVAL = 1300; // snappier 1.3s cycle while hovering over a project tile
+  const HOVER_START_DELAY = 600; // slight delay before first transition so glancing mouse movements don't flicker
 
   galleries.forEach((gallery, gIdx) => {
     if (gallery.dataset.fadeInit === 'true') return;
@@ -13,19 +18,34 @@ function initFadeGalleries() {
     if (images.length <= 1) return;
 
     let currentIndex = 0;
-    // If an image is already active, respect it
-    images.forEach((img, idx) => {
-      if (img.classList.contains('active')) currentIndex = idx;
-    });
-
     let timer = null;
     let startTimeout = null;
 
-    // Ensure initial active image is set
-    images.forEach((img, idx) => {
-      if (idx === currentIndex) img.classList.add('active');
-      else img.classList.remove('active');
-    });
+    // Check if this gallery is part of the project catalog (.grid-tile / .project-grid)
+    const gridTile = gallery.closest('.grid-tile, .project-grid');
+    const isHoverOnly = !!gridTile;
+
+    function resetToFirst() {
+      stopTimer();
+      currentIndex = 0;
+      images.forEach((img, idx) => {
+        if (idx === 0) img.classList.add('active');
+        else img.classList.remove('active');
+      });
+    }
+
+    // Set initial active state
+    if (isHoverOnly) {
+      resetToFirst();
+    } else {
+      images.forEach((img, idx) => {
+        if (img.classList.contains('active')) currentIndex = idx;
+      });
+      images.forEach((img, idx) => {
+        if (idx === currentIndex) img.classList.add('active');
+        else img.classList.remove('active');
+      });
+    }
 
     function nextImage() {
       images[currentIndex].classList.remove('active');
@@ -37,7 +57,8 @@ function initFadeGalleries() {
       if (timer) clearTimeout(timer);
       const currentImg = images[currentIndex];
       const customDuration = currentImg ? parseInt(currentImg.dataset.duration, 10) : NaN;
-      const currentInterval = (!isNaN(customDuration) && customDuration > 0) ? customDuration : DEFAULT_INTERVAL;
+      const baseInterval = isHoverOnly ? HOVER_CYCLE_INTERVAL : DEFAULT_INTERVAL;
+      const currentInterval = (!isNaN(customDuration) && customDuration > 0) ? customDuration : baseInterval;
 
       timer = setTimeout(() => {
         nextImage();
@@ -65,19 +86,39 @@ function initFadeGalleries() {
       }
     }
 
-    if ('IntersectionObserver' in window) {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            startTimer();
-          } else {
-            stopTimer();
-          }
-        });
-      }, { rootMargin: '200px' });
-      observer.observe(gallery);
+    if (isHoverOnly) {
+      // Hover-only mode for projects page (.grid-tile)
+      const hoverTarget = gridTile || gallery;
+
+      hoverTarget.addEventListener('mouseenter', () => {
+        stopTimer();
+        // Wait briefly before starting the cycle so brief mouse passes don't trigger
+        startTimeout = setTimeout(() => {
+          startTimeout = null;
+          nextImage();
+          scheduleNext();
+        }, HOVER_START_DELAY);
+      });
+
+      hoverTarget.addEventListener('mouseleave', () => {
+        resetToFirst();
+      });
     } else {
-      startTimer();
+      // Continuous automated cycling for index.html main horizontal track
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              startTimer();
+            } else {
+              stopTimer();
+            }
+          });
+        }, { rootMargin: '200px' });
+        observer.observe(gallery);
+      } else {
+        startTimer();
+      }
     }
   });
 }
