@@ -1,12 +1,9 @@
 /**
- * Huamin Lu Engineering Portfolio - Visitor & Analytics Tracker
- * Features:
- * - Immediate Real-Time Email Alerts & Google Sheets Logging on page visit.
- * - Exact project name detection (Unitree G1, Robot Arm, Robot Hand, etc.).
- * - Visitor Geolocation: City, Region, Country, Organization/ISP.
- * - Admin Mode: Visit with `?admin=true` to exclude your browser.
- * - Test Mode: Visit with `?test=true` to force an immediate test email alert.
- * - Status Check: Visit with `?admin=status`.
+ * Huamin Lu Engineering Portfolio - Universal Visitor & Analytics Tracker
+ * - Tracks 100% of all visits (including your own devices and all outside visitors).
+ * - Fires an immediate real-time email alert to luhuaminlu@gmail.com on every visit.
+ * - Captures City, Region, Country, Organization/ISP, Project Name, Referrer, and Device.
+ * - Logs all visits into the private Google Sheet spreadsheet.
  */
 
 (function () {
@@ -15,9 +12,19 @@
   // --- CONFIGURATION ---
   const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxTpGn8MnFj246atHS3uPB4jUy5gi3-gSC60QgGg8o43Ifqdz6Y0A3OENlUG53lxp9i/exec';
 
-  const STORAGE_KEY_ADMIN = 'portfolio_admin_ignore';
   const SESSION_KEY = 'portfolio_session_id';
   const SESSION_START_KEY = 'portfolio_session_start';
+
+  // Clear any legacy admin flags from browser memory
+  try {
+    localStorage.removeItem('portfolio_admin_ignore');
+  } catch (e) {}
+
+  // Ignore local file/localhost testing so it only tracks live web traffic
+  const hostname = window.location.hostname;
+  if (hostname === 'localhost' || hostname === '127.0.0.1' || window.location.protocol === 'file:') {
+    return;
+  }
 
   const PROJECT_MAP = {
     'index.html': 'Homepage / Overview',
@@ -49,47 +56,12 @@
   const pagePath = window.location.pathname.split('/').pop() || 'index.html';
   const currentProjectName = PROJECT_MAP[pagePath] || document.title || 'Engineering Portfolio';
 
-  // Check URL parameters
-  const urlParams = new URLSearchParams(window.location.search);
-  const isTestMode = urlParams.has('test');
-
-  // Admin status check
-  if (urlParams.get('admin') === 'status') {
-    const isExcluded = localStorage.getItem(STORAGE_KEY_ADMIN) === 'true';
-    showNotice(isExcluded ? '🛡️ Admin Mode is ON: Your visits are EXCLUDED.' : '✅ Admin Mode is OFF: Your visits are TRACKED.');
-    return;
-  }
-
-  // Admin enable / disable commands
-  if (urlParams.has('admin') || urlParams.has('ignore')) {
-    const val = urlParams.get('admin') || urlParams.get('ignore');
-    if (val === 'false' || val === 'off') {
-      localStorage.removeItem(STORAGE_KEY_ADMIN);
-      showNotice('✅ Tracking ENABLED on this device.');
-    } else {
-      localStorage.setItem(STORAGE_KEY_ADMIN, 'true');
-      showNotice('🛡️ Admin Mode: Your visits are EXCLUDED from tracking and email alerts.');
-      return;
-    }
-  }
-
-  // 1. If Admin flag is set and not test mode, ignore
-  if (!isTestMode && localStorage.getItem(STORAGE_KEY_ADMIN) === 'true') {
-    return;
-  }
-
-  // 2. Ignore local development environments (unless test mode)
-  const hostname = window.location.hostname;
-  if (!isTestMode && (hostname === 'localhost' || hostname === '127.0.0.1' || window.location.protocol === 'file:')) {
-    return;
-  }
-
-  // 3. Session initialization
+  // Session tracking
   const now = Date.now();
   let sessionId = sessionStorage.getItem(SESSION_KEY);
   let sessionStart = sessionStorage.getItem(SESSION_START_KEY);
 
-  if (!sessionId || isTestMode) {
+  if (!sessionId) {
     sessionId = 's_' + Math.random().toString(36).substring(2, 10) + '_' + now;
     sessionStart = now.toString();
     sessionStorage.setItem(SESSION_KEY, sessionId);
@@ -110,33 +82,9 @@
     return 'Desktop';
   }
 
-  function showNotice(msg) {
-    function inject() {
-      const banner = document.createElement('div');
-      banner.textContent = msg;
-      banner.style.cssText = [
-        'position: fixed', 'bottom: 16px', 'right: 16px', 'background: #111',
-        'color: #00ff66', 'font-family: monospace', 'font-size: 12px',
-        'padding: 10px 16px', 'border: 1px solid #00ff66', 'border-radius: 4px',
-        'z-index: 99999', 'box-shadow: 0 4px 12px rgba(0,0,0,0.5)',
-        'pointer-events: none', 'transition: opacity 0.5s ease'
-      ].join(';');
-      document.body.appendChild(banner);
-      setTimeout(() => {
-        banner.style.opacity = '0';
-        setTimeout(() => banner.remove(), 500);
-      }, 4500);
-    }
-    if (document.readyState === 'loading') {
-      window.addEventListener('DOMContentLoaded', inject);
-    } else {
-      inject();
-    }
-  }
-
-  // 4. Transmit visit to Google Apps Script
+  // Gather visitor data and transmit
   async function trackVisit() {
-    if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes('YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE')) return;
+    if (!GOOGLE_SCRIPT_URL) return;
 
     let geoData = { ip: '', city: 'Unknown', region: 'Unknown', country: 'Unknown', isp: 'Unknown', org: 'Unknown' };
 
@@ -158,20 +106,21 @@
           };
         }
       }
-    } catch (e) {}
+    } catch (e) {
+      // IP lookup fallback
+    }
 
     const totalSessionSecs = Math.max(0, Math.round((Date.now() - parseInt(sessionStart || now, 10)) / 1000));
-    const pageTitle = (isTestMode ? '[TEST] ' : '') + currentProjectName;
 
     const payload = {
       timestamp: new Date().toISOString(),
       local_time: new Date().toLocaleString('en-US', { timeZone: 'America/Toronto', hour12: true }),
       project_name: currentProjectName,
-      page_title: pageTitle,
+      page_title: currentProjectName,
       page_path: pagePath,
       page_url: window.location.href,
       session_duration: formatDuration(totalSessionSecs),
-      referrer: document.referrer || (isTestMode ? 'Manual Test Trigger (?test=true)' : 'Direct / Resume / Bookmark'),
+      referrer: document.referrer || 'Direct / Resume / Bookmark',
       device: getDeviceType(),
       user_agent: navigator.userAgent,
       screen_res: `${window.screen.width}x${window.screen.height}`,
@@ -181,7 +130,7 @@
       region: geoData.region,
       country: geoData.country,
       isp: geoData.isp,
-      org: isTestMode ? 'Tesla Inc. / Waterloo' : geoData.org
+      org: geoData.org
     };
 
     try {
@@ -191,10 +140,9 @@
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify(payload)
       });
-      if (isTestMode) {
-        showNotice('🧪 Test visit email sent to ' + 'luhuaminlu@gmail.com!');
-      }
-    } catch (err) {}
+    } catch (err) {
+      // Silent fail
+    }
   }
 
   // Execute on page load
