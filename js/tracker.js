@@ -1,6 +1,7 @@
 /**
  * Huamin Lu Engineering Portfolio - Universal Visitor & Analytics Tracker
- * - Tracks 100% of all visits (including your own devices and all outside visitors).
+ * - Dual-compatible: triggers instant email alert on all Google Apps Script deployment versions.
+ * - Tracks 100% of all visits (user devices, mobile, recruiters, direct links).
  * - Fires an immediate real-time email alert to luhuaminlu@gmail.com on every visit.
  * - Captures City, Region, Country, Organization/ISP, Project Name, Referrer, and Device.
  * - Logs all visits into the private Google Sheet spreadsheet.
@@ -107,30 +108,44 @@
         }
       }
     } catch (e) {
-      // IP lookup fallback
+      // Geolocation fallback
     }
 
-    const totalSessionSecs = Math.max(0, Math.round((Date.now() - parseInt(sessionStart || now, 10)) / 1000));
+    const totalSessionSecs = Math.max(1, Math.round((Date.now() - parseInt(sessionStart || now, 10)) / 1000));
+    const durationStr = formatDuration(totalSessionSecs);
 
+    // Universal payload: compatible with both Version 2 and Version 3 Apps Script deployments
     const payload = {
+      type: 'session_summary',
+      is_test: true,
+      trigger_reason: 'Page Opened (' + currentProjectName + ')',
       timestamp: new Date().toISOString(),
       local_time: new Date().toLocaleString('en-US', { timeZone: 'America/Toronto', hour12: true }),
       project_name: currentProjectName,
       page_title: currentProjectName,
       page_path: pagePath,
       page_url: window.location.href,
-      session_duration: formatDuration(totalSessionSecs),
+      total_duration_str: durationStr,
+      session_duration: durationStr,
       referrer: document.referrer || 'Direct / Resume / Bookmark',
       device: getDeviceType(),
       user_agent: navigator.userAgent,
       screen_res: `${window.screen.width}x${window.screen.height}`,
-      session_id: sessionId,
+      session_id: sessionId + '_' + Date.now(),
       ip: geoData.ip,
       city: geoData.city,
       region: geoData.region,
       country: geoData.country,
       isp: geoData.isp,
-      org: geoData.org
+      org: geoData.org,
+      journey: [
+        {
+          name: currentProjectName,
+          path: pagePath,
+          seconds: totalSessionSecs,
+          duration_str: durationStr
+        }
+      ]
     };
 
     try {
