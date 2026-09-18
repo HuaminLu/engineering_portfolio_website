@@ -1,13 +1,16 @@
 /**
  * Huamin Lu Engineering Portfolio - Universal Visitor & Analytics Tracker
+ * Mobile & Desktop Optimized (Android Chrome, Android Edge, iOS Safari, Desktop)
+ * 
  * Features:
- * - Silent Pageview Logging: Records every page visit to Google Sheets in real time.
- * - Journey Tracking: Accurately times dwell duration on each project page.
+ * - Silent Pageview Logging to Google Sheets on every page.
+ * - Journey Tracking: Times dwell duration on each project.
  * - Full Summary Email Delivery:
- *   1. Triggered as soon as the visitor closes the website or navigates away.
- *   2. Triggered after 10 minutes of no user activity (idle timeout).
- * - Multi-page awareness: Navigating between portfolio projects does NOT trigger premature exit emails.
- * - Deduplication: Exactly 1 consolidated summary email is sent per session.
+ *   1. Android & Mobile: Fires synchronously on `visibilitychange` (when app is backgrounded, switched, or closed).
+ *   2. Desktop: Fires on `pagehide` / `beforeunload` when tab is closed.
+ *   3. Idle timeout: Fires after 10 minutes of no activity.
+ * - Multi-page navigation awareness: Internal clicks do NOT trigger premature exit emails.
+ * - Synchronous exit dispatch: No async awaits during unload, guaranteeing transmission on mobile OS.
  */
 
 (function () {
@@ -21,14 +24,21 @@
   const SESSION_JOURNEY_KEY = 'portfolio_session_journey';
   const SUMMARY_SENT_KEY = 'portfolio_summary_sent';
   const INTERNAL_NAV_KEY = 'portfolio_internal_nav';
+  const GEO_CACHE_KEY = 'portfolio_geo_cache';
 
-  // Ignore local file/localhost testing
+  // Clear any legacy admin flags from browser memory
+  try {
+    localStorage.removeItem('portfolio_admin_ignore');
+    sessionStorage.removeItem('portfolio_admin_ignore');
+  } catch (e) {}
+
+  // Ignore local development environments
   const hostname = window.location.hostname;
   if (hostname === 'localhost' || hostname === '127.0.0.1' || window.location.protocol === 'file:') {
     return;
   }
 
-  // Clear internal navigation flag upon landing
+  // Clear internal navigation flag upon landing on a new page
   sessionStorage.removeItem(INTERNAL_NAV_KEY);
 
   const PROJECT_MAP = {
@@ -95,7 +105,39 @@
     return 'Desktop';
   }
 
-  // Intercept internal link clicks so navigating within portfolio does NOT trigger exit email
+  // --- SYNCHRONOUS GEOLOCATION HANDLING ---
+  let cachedGeo = { ip: '', city: 'Unknown', region: 'Unknown', country: 'Unknown', isp: 'Unknown', org: 'Unknown' };
+  try {
+    const stored = sessionStorage.getItem(GEO_CACHE_KEY);
+    if (stored) cachedGeo = JSON.parse(stored);
+  } catch (e) {}
+
+  // Fetch and cache geolocation asynchronously in background so it is instantly ready
+  async function prefetchGeo() {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 2500);
+      const res = await fetch('https://ipwho.is/', { signal: controller.signal });
+      clearTimeout(timeoutId);
+      if (res.ok) {
+        const json = await res.json();
+        if (json && json.success) {
+          cachedGeo = {
+            ip: json.ip || '',
+            city: json.city || 'Unknown',
+            region: json.region || 'Unknown',
+            country: json.country || 'Unknown',
+            isp: (json.connection && json.connection.isp) || 'Unknown',
+            org: (json.connection && json.connection.org) || 'Unknown'
+          };
+          sessionStorage.setItem(GEO_CACHE_KEY, JSON.stringify(cachedGeo));
+        }
+      }
+    } catch (e) {}
+  }
+  prefetchGeo();
+
+  // Intercept internal link clicks so navigating between pages does NOT trigger exit email
   document.addEventListener('click', (e) => {
     const link = e.target.closest('a');
     if (!link || !link.href) return;
@@ -122,38 +164,9 @@
     } catch (e) {}
   }
 
-  // Geolocation cache
-  let geoCache = null;
-  async function getGeoData() {
-    if (geoCache) return geoCache;
-    try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 2500);
-      const res = await fetch('https://ipwho.is/', { signal: controller.signal });
-      clearTimeout(timeoutId);
-      if (res.ok) {
-        const json = await res.json();
-        if (json && json.success) {
-          geoCache = {
-            ip: json.ip || '',
-            city: json.city || 'Unknown',
-            region: json.region || 'Unknown',
-            country: json.country || 'Unknown',
-            isp: (json.connection && json.connection.isp) || 'Unknown',
-            org: (json.connection && json.connection.org) || 'Unknown'
-          };
-          return geoCache;
-        }
-      }
-    } catch (e) {}
-    geoCache = { ip: '', city: 'Unknown', region: 'Unknown', country: 'Unknown', isp: 'Unknown', org: 'Unknown' };
-    return geoCache;
-  }
-
   // 1. Silent Pageview logging to Google Sheets
   async function logPageview() {
     if (!GOOGLE_SCRIPT_URL) return;
-    const geo = await getGeoData();
     const totalSessionSecs = Math.max(0, Math.round((Date.now() - parseInt(sessionStart || now, 10)) / 1000));
 
     const payload = {
@@ -170,12 +183,12 @@
       user_agent: navigator.userAgent,
       screen_res: `${window.screen.width}x${window.screen.height}`,
       session_id: sessionId,
-      ip: geo.ip,
-      city: geo.city,
-      region: geo.region,
-      country: geo.country,
-      isp: geo.isp,
-      org: geo.org
+      ip: cachedGeo.ip,
+      city: cachedGeo.city,
+      region: cachedGeo.region,
+      country: cachedGeo.country,
+      isp: cachedGeo.isp,
+      org: cachedGeo.org
     };
 
     try {
@@ -188,8 +201,8 @@
     } catch (err) {}
   }
 
-  // 2. Consolidated Session Summary Email Delivery
-  async function sendSummaryDossier(triggerReason) {
+  // 2. Consolidated Session Summary Email Delivery (100% SYNCHRONOUS DISPATCH)
+  function sendSummaryDossier(triggerReason) {
     if (sessionStorage.getItem(SUMMARY_SENT_KEY) === 'true' && !isTestMode) {
       return;
     }
@@ -213,14 +226,13 @@
       });
     }
 
-    const geo = await getGeoData();
     const totalSecs = Math.max(1, Math.round((Date.now() - parseInt(sessionStart || now, 10)) / 1000));
     const totalDurationStr = formatDuration(totalSecs);
 
     const summaryPayload = {
       type: 'session_summary',
       is_test: false,
-      trigger_reason: triggerReason || 'Website closed or navigated away',
+      trigger_reason: triggerReason || 'Website closed or backgrounded',
       session_id: sessionId + '_' + Date.now(),
       timestamp: new Date().toISOString(),
       local_time: new Date().toLocaleString('en-US', { timeZone: 'America/Toronto', hour12: true }),
@@ -231,17 +243,17 @@
       device: getDeviceType(),
       user_agent: navigator.userAgent,
       screen_res: `${window.screen.width}x${window.screen.height}`,
-      city: geo.city,
-      region: geo.region,
-      country: geo.country,
-      isp: geo.isp,
-      org: geo.org,
+      city: cachedGeo.city,
+      region: cachedGeo.region,
+      country: cachedGeo.country,
+      isp: cachedGeo.isp,
+      org: cachedGeo.org,
       journey: currentJourney
     };
 
     const payloadString = JSON.stringify(summaryPayload);
 
-    // Use keepalive fetch which survives page close and follows 302 redirects
+    // Synchronous keepalive fetch: Survives mobile app switching, tab close, and 302 redirects
     try {
       fetch(GOOGLE_SCRIPT_URL, {
         method: 'POST',
@@ -252,7 +264,7 @@
       }).catch(() => {});
     } catch (e) {}
 
-    // Fallback beacon
+    // Synchronous sendBeacon fallback
     if (navigator.sendBeacon) {
       try {
         navigator.sendBeacon(GOOGLE_SCRIPT_URL, payloadString);
@@ -260,16 +272,24 @@
     }
   }
 
-  // --- TRIGGER 1: ON WEBSITE CLOSE / NAVIGATE AWAY ---
-  function onWindowUnload() {
+  // --- TRIGGER 1: ON WEBSITE CLOSE / APP SWITCH / BACKGROUND (Mobile & Desktop) ---
+  function onWindowUnload(reason) {
     if (sessionStorage.getItem(INTERNAL_NAV_KEY) === 'true') {
       return;
     }
-    sendSummaryDossier('Website closed or navigated away');
+    sendSummaryDossier(reason || 'Website closed or backgrounded');
   }
 
-  window.addEventListener('pagehide', onWindowUnload);
-  window.addEventListener('beforeunload', onWindowUnload);
+  // Mobile Android Chrome/Edge lifecycle: visibilitychange is the ONLY guaranteed event
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') {
+      onWindowUnload('Mobile app switched or screen locked');
+    }
+  });
+
+  // Desktop & Safari events
+  window.addEventListener('pagehide', () => onWindowUnload('Page hide'));
+  window.addEventListener('beforeunload', () => onWindowUnload('Before unload'));
 
   // --- TRIGGER 2: 10 MINUTES INACTIVITY TIMER ---
   const INACTIVITY_LIMIT_MS = 10 * 60 * 1000; // 10 minutes
