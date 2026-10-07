@@ -85,12 +85,14 @@
   (function initVideoSpeed() {
     var targetRate = 1.5;
 
-    // Smart viewport observer: pauses off-screen videos, resumes visible ones
+    // Smart viewport observer: pauses standalone project videos when scrolled out of view vertically
     var videoObserver = null;
     if ("IntersectionObserver" in window) {
       videoObserver = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
           var v = entry.target;
+          // Skip videos inside the horizontal marquee (.tiles) - those are managed by the section observer
+          if (v.closest(".tiles")) return;
           if (entry.isIntersecting) {
             var playPromise = v.play();
             if (playPromise !== undefined) {
@@ -100,7 +102,7 @@
             v.pause();
           }
         });
-      }, { rootMargin: "150px 0px" });
+      }, { rootMargin: "200px 0px" });
     }
 
     function applyVideoSpeed(v) {
@@ -118,7 +120,8 @@
       v.addEventListener("loadedmetadata", setRate, { once: true });
       v.addEventListener("play", setRate);
 
-      if (videoObserver) {
+      // Only observe standalone vertical videos, avoiding continuous thrashing on horizontal marquee tiles
+      if (videoObserver && !v.closest(".tiles")) {
         videoObserver.observe(v);
       }
     }

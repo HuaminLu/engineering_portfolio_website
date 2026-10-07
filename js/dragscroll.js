@@ -109,14 +109,29 @@
   row.addEventListener("touchstart", pauseNow, { passive: true });
   row.addEventListener("touchend", function () { resumeAfter(1200); });
 
-  // Pause rAF and GPU transforms when off-screen or tab hidden
+  // Pause rAF, GPU transforms, and marquee video decoding when off-screen or tab hidden
   var inView = true;
+
+  function setMarqueeVideosPlaying(play) {
+    row.querySelectorAll("video").forEach(function (v) {
+      if (play) {
+        var p = v.play();
+        if (p !== undefined) p.catch(function () {});
+      } else {
+        v.pause();
+      }
+    });
+  }
+
   if ("IntersectionObserver" in window) {
     var rowObserver = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         inView = entry.isIntersecting;
         if (inView) {
           lastTime = performance.now();
+          setMarqueeVideosPlaying(true);
+        } else {
+          setMarqueeVideosPlaying(false);
         }
       });
     }, { rootMargin: "150px 0px" });
@@ -126,6 +141,11 @@
   document.addEventListener("visibilitychange", function () {
     if (!document.hidden) {
       lastTime = performance.now();
+      if (inView) {
+        setMarqueeVideosPlaying(true);
+      }
+    } else {
+      setMarqueeVideosPlaying(false);
     }
   });
 
