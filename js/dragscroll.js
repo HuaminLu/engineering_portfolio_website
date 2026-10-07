@@ -36,6 +36,9 @@
     clone.querySelectorAll('.fade-gallery').forEach(function(g) {
       delete g.dataset.fadeInit;
     });
+    clone.querySelectorAll('video').forEach(function(v) {
+      delete v.dataset.speedInit;
+    });
     clone.classList.remove("reveal", "visible");
     clone.setAttribute("aria-hidden", "true");
     clone.setAttribute("tabindex", "-1");
@@ -46,6 +49,9 @@
 
   if (window.initFadeGalleries) {
     window.initFadeGalleries();
+  }
+  if (window.scanVideos) {
+    window.scanVideos();
   }
 
   // --- equalize tile text sections so all image areas are the same height ---
@@ -103,12 +109,32 @@
   row.addEventListener("touchstart", pauseNow, { passive: true });
   row.addEventListener("touchend", function () { resumeAfter(1200); });
 
+  // Pause rAF and GPU transforms when off-screen or tab hidden
+  var inView = true;
+  if ("IntersectionObserver" in window) {
+    var rowObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        inView = entry.isIntersecting;
+        if (inView) {
+          lastTime = performance.now();
+        }
+      });
+    }, { rootMargin: "150px 0px" });
+    rowObserver.observe(row);
+  }
+
+  document.addEventListener("visibilitychange", function () {
+    if (!document.hidden) {
+      lastTime = performance.now();
+    }
+  });
+
   function tick(now) {
     if (!lastTime) lastTime = now;
     var dt = Math.min((now - lastTime) / 1000, 0.1);
     lastTime = now;
 
-    if (!reduced && !paused && !pressed) {
+    if (!reduced && !paused && !pressed && inView && !document.hidden) {
       pos += SPEED * dt;
       if (wrapDist > 0 && pos >= wrapDist) {
         pos -= wrapDist;

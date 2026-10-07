@@ -294,8 +294,14 @@
   // --- TRIGGER 2: 10 MINUTES INACTIVITY TIMER ---
   const INACTIVITY_LIMIT_MS = 10 * 60 * 1000; // 10 minutes
   let idleTimer = null;
+  let lastActivityReset = 0;
 
   function resetIdleTimer() {
+    const now = Date.now();
+    // Throttle to at most once every 5 seconds to prevent timer thrashing on high-frequency events (mousemove, scroll)
+    if (now - lastActivityReset < 5000) return;
+    lastActivityReset = now;
+
     if (idleTimer) clearTimeout(idleTimer);
     idleTimer = setTimeout(() => {
       sendSummaryDossier('10 minutes of no activity');

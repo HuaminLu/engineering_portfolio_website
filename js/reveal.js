@@ -80,12 +80,32 @@
   });
 
 
-  // 5. Global Video Acceleration (Clean 1.5x speed)
-  // Plays all looping preview videos across the main gallery scroll and project pages at crisp 1.5x speed
+  // 5. Global Video Acceleration & Smart Viewport Playback
+  // Plays all looping preview videos at crisp 1.5x speed, but ONLY when in view to prevent browser GPU hangs
   (function initVideoSpeed() {
+    var targetRate = 1.5;
+
+    // Smart viewport observer: pauses off-screen videos, resumes visible ones
+    var videoObserver = null;
+    if ("IntersectionObserver" in window) {
+      videoObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          var v = entry.target;
+          if (entry.isIntersecting) {
+            var playPromise = v.play();
+            if (playPromise !== undefined) {
+              playPromise.catch(function () {});
+            }
+          } else {
+            v.pause();
+          }
+        });
+      }, { rootMargin: "150px 0px" });
+    }
+
     function applyVideoSpeed(v) {
-      if (!v) return;
-      var targetRate = 1.5;
+      if (!v || v.dataset.speedInit === "true") return;
+      v.dataset.speedInit = "true";
 
       function setRate() {
         try {
@@ -94,23 +114,13 @@
         } catch (e) {}
       }
 
-      if (v.readyState >= 1 && v.duration) {
-        setRate();
-      } else {
-        v.addEventListener("loadedmetadata", setRate, { once: true });
+      setRate();
+      v.addEventListener("loadedmetadata", setRate, { once: true });
+      v.addEventListener("play", setRate);
+
+      if (videoObserver) {
+        videoObserver.observe(v);
       }
-
-      v.addEventListener("play", function () {
-        if (v.playbackRate !== targetRate) {
-          try { v.playbackRate = targetRate; } catch (e) {}
-        }
-      });
-
-      v.addEventListener("timeupdate", function () {
-        if (v.playbackRate !== targetRate) {
-          try { v.playbackRate = targetRate; } catch (e) {}
-        }
-      });
     }
 
     function scanVideos() {
@@ -123,12 +133,8 @@
       scanVideos();
     }
 
-    var observer = new MutationObserver(function () {
-      scanVideos();
-    });
-    if (document.body) {
-      observer.observe(document.body, { childList: true, subtree: true });
-    }
+    // Expose so dynamic loaders (like dragscroll) can register new videos cleanly
+    window.scanVideos = scanVideos;
   })();
 
   // 6. Scroll entrance reveal animations
