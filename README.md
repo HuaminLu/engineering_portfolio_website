@@ -212,6 +212,7 @@ css/style.css                  the entire design system (tokens at top)
 js/reveal.js                   scroll-fade animations (IntersectionObserver)
 js/dragscroll.js               marquee: fold sizing, loop cloning, autoscroll, drag
 images/                        media (see pipeline above)
+scripts/make_offline_copy.py   builds a no-internet copy of the whole site (default: Desktop)
 Unitree G1 Work Upload/        real source code of the 5 G1 projects + AGENTS.md each
 AGENTS.md                      ← agent bootstrap: conventions, workflows, backlog
 ```
