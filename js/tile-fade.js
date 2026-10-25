@@ -1,6 +1,9 @@
 // js/tile-fade.js — Cycling crossfade gallery for project preview tiles
 // - On projects.html (.grid-tile): Cycles preview images & gifs ONLY when hovered; resets to first main image when not hovered.
 // - On index.html (gallery track): Automated continuous cycling via IntersectionObserver.
+// - Each gallery exposes a small `_fade` API (park/unpark/syncFrom) so the home
+//   marquee (js/dragscroll.js) can stop galleries in off-screen tiles and keep a
+//   tile and its clone showing the same frame across the loop seam.
 
 function initFadeGalleries() {
   const galleries = document.querySelectorAll('.fade-gallery');
@@ -20,18 +23,25 @@ function initFadeGalleries() {
     let currentIndex = 0;
     let timer = null;
     let startTimeout = null;
+    let nextAt = 0;       // performance.now() of the next scheduled switch (0 = none)
+    let parked = false;   // set by the marquee while the tile is off screen
+    let inView = true;    // last IntersectionObserver result (index.html mode)
 
     // Check if this gallery is part of the project catalog (.grid-tile / .project-grid)
     const gridTile = gallery.closest('.grid-tile, .project-grid');
     const isHoverOnly = !!gridTile;
 
-    function resetToFirst() {
-      stopTimer();
-      currentIndex = 0;
-      images.forEach((img, idx) => {
-        if (idx === 0) img.classList.add('active');
+    function showIndex(idx) {
+      currentIndex = idx;
+      images.forEach((img, i) => {
+        if (i === idx) img.classList.add('active');
         else img.classList.remove('active');
       });
+    }
+
+    function resetToFirst() {
+      stopTimer();
+      showIndex(0);
     }
 
     // Set initial active state
@@ -41,32 +51,32 @@ function initFadeGalleries() {
       images.forEach((img, idx) => {
         if (img.classList.contains('active')) currentIndex = idx;
       });
-      images.forEach((img, idx) => {
-        if (idx === currentIndex) img.classList.add('active');
-        else img.classList.remove('active');
-      });
+      showIndex(currentIndex);
     }
 
     function nextImage() {
-      images[currentIndex].classList.remove('active');
-      currentIndex = (currentIndex + 1) % images.length;
-      images[currentIndex].classList.add('active');
+      showIndex((currentIndex + 1) % images.length);
     }
 
-    function scheduleNext() {
+    function scheduleNext(remainingMs) {
       if (timer) clearTimeout(timer);
       const currentImg = images[currentIndex];
       const customDuration = currentImg ? parseInt(currentImg.dataset.duration, 10) : NaN;
       const baseInterval = isHoverOnly ? HOVER_CYCLE_INTERVAL : DEFAULT_INTERVAL;
-      const currentInterval = (!isNaN(customDuration) && customDuration > 0) ? customDuration : baseInterval;
+      const fullInterval = (!isNaN(customDuration) && customDuration > 0) ? customDuration : baseInterval;
+      const currentInterval = (typeof remainingMs === 'number' && remainingMs > 0) ? remainingMs : fullInterval;
 
+      nextAt = performance.now() + currentInterval;
       timer = setTimeout(() => {
+        timer = null;
+        nextAt = 0;
         nextImage();
         scheduleNext();
       }, currentInterval);
     }
 
     function startTimer() {
+      if (parked) return;
       if (timer || startTimeout) return;
       const staggerDelay = (gIdx % 4) * 350;
       startTimeout = setTimeout(() => {
@@ -84,6 +94,7 @@ function initFadeGalleries() {
         clearTimeout(timer);
         timer = null;
       }
+      nextAt = 0;
     }
 
     if (isHoverOnly) {
@@ -108,7 +119,8 @@ function initFadeGalleries() {
       if ('IntersectionObserver' in window) {
         const observer = new IntersectionObserver((entries) => {
           entries.forEach((entry) => {
-            if (entry.isIntersecting) {
+            inView = entry.isIntersecting;
+            if (inView) {
               startTimer();
             } else {
               stopTimer();
@@ -120,6 +132,34 @@ function initFadeGalleries() {
         startTimer();
       }
     }
+
+    // Marquee control surface (used by js/dragscroll.js on index.html only)
+    gallery._fade = {
+      state() {
+        return {
+          index: currentIndex,
+          remaining: nextAt ? Math.max(40, nextAt - performance.now()) : null
+        };
+      },
+      park() {
+        parked = true;
+        stopTimer();
+      },
+      unpark() {
+        parked = false;
+        if (!isHoverOnly && inView) startTimer();
+      },
+      // Show the same frame as `other` and switch at the same moment it will.
+      syncFrom(other) {
+        const st = other.state();
+        stopTimer();
+        showIndex(st.index);
+        if (!parked && !isHoverOnly && inView) {
+          if (st.remaining !== null) scheduleNext(st.remaining);
+          else startTimer();
+        }
+      }
+    };
   });
 }
 

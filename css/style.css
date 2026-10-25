@@ -284,6 +284,12 @@ body { overflow-x: hidden; } /* full-bleed row must never cause sideways page sc
 .tiles.dragging .tile { pointer-events: none; }
 .tiles img { -webkit-user-drag: none; }
 
+/* Marquee media virtualization (js/dragscroll.js): a tile parked more than one
+   tile-width off screen keeps its layout box but its image area is not painted,
+   so its video / animated images stop decoding. It is un-parked before it can
+   scroll into view, so this is never visible to the visitor. */
+.tiles .tile.is-offscreen .tile-img { visibility: hidden; }
+
 /* inside the fold, tiles absorb the majority of height for portrait display */
 .fold .tiles {
   flex: 1;
