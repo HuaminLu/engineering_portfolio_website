@@ -86,8 +86,10 @@ def main():
 
     # --- 1. copy the site ---------------------------------------------------
     for f in os.listdir(ROOT):
-        if f.endswith(".html") or f in ("favicon.svg", "resume.pdf"):
+        if f.endswith(".html") or f in ("favicon.svg", "favicon.ico", "resume.pdf"):
             shutil.copy2(os.path.join(ROOT, f), dest)
+    # friendly-named entry point (a copy of index.html) for Start-menu / desktop shortcuts
+    shutil.copy2(os.path.join(ROOT, "index.html"), os.path.join(dest, "Portfolio Website - Huamin Lu.html"))
     for d in ("css", "js", "images", "videos", "demos"):
         src = os.path.join(ROOT, d)
         if os.path.isdir(src):
@@ -163,7 +165,9 @@ def main():
 =========================================================
 
 HOW TO OPEN
-  Double-click  index.html  (opens in your default browser).
+  Double-click  index.html  or  "Portfolio Website - Huamin Lu.html"
+  (same page, opens in your default browser). favicon.ico is the icon
+  to use for a shortcut.
   Everything works without internet: all pages, photos, videos,
   the auto-scrolling project marquee, carousels, the Brookfield demo.
 
