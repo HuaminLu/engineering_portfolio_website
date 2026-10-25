@@ -64,6 +64,7 @@ There is **no build step, no package.json, no dependencies**. Never introduce on
 | `g1-*.html` (×5) | Deep-dive sub-pages, one per G1 project |
 | `css/style.css` | The whole design system. Tokens in `:root` at the top. ~700 lines |
 | `js/reveal.js` | Scroll-in fade animation. Adds `.reveal`→`.visible` via IntersectionObserver |
+| `offline.html`, `js/offline.js`, `sw.js`, `manifest.json` | Opt-in offline / installable-app support for phones. The service worker is registered only from `offline.html`; pages/CSS/JS stay network-first so deploys are never masked. Don't link `offline.html` into the nav; it is reached by URL |
 | `js/dragscroll.js` | Home marquee: **exact fold sizing** (measures viewport, sets `.fold` height), tile cloning for the seamless loop, float-accumulator autoscroll (~48 px/s, pauses on hover, resumes after 1 s), drag-to-pan that still lets plain clicks navigate |
 | `images/` | Media. Pipeline: `README.md`. Raw dumps land in `images/_inbox/` |
 | `Unitree G1 Work Upload/` | Real source of the 5 G1 projects, each with its own `AGENTS.md`. This is *content*, not site infrastructure — don't refactor it |

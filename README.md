@@ -195,6 +195,16 @@ unplaced, total added size.
 
 ---
 
+# Phone / offline (installable web app)
+
+Open `offline.html` on the phone while online, tap **save for offline** (about 190 MB,
+Wi-Fi recommended) and then **add to home screen**. The page registers `sw.js` for that
+browser only, so normal visitors are untouched. The worker is network-first for pages,
+CSS and JS (a deploy shows up immediately when online) and cache-first for media. Saving
+again later refreshes the copy. **remove offline data** on the same page undoes everything.
+If the caching strategy ever changes, bump `CACHE` in `sw.js` (old caches are deleted on
+activate).
+
 # Repo map
 
 ```
@@ -212,6 +222,8 @@ css/style.css                  the entire design system (tokens at top)
 js/reveal.js                   scroll-fade animations (IntersectionObserver)
 js/dragscroll.js               marquee: fold sizing, loop cloning, autoscroll, drag
 images/                        media (see pipeline above)
+offline.html + js/offline.js   "save for offline" page: stores the whole site on a phone, installs to home screen
+sw.js, manifest.json           opt-in service worker (registered only from offline.html) + web-app manifest
 scripts/make_offline_copy.py   builds a no-internet copy of the whole site (default: Desktop)
 Unitree G1 Work Upload/        real source code of the 5 G1 projects + AGENTS.md each
 AGENTS.md                      ← agent bootstrap: conventions, workflows, backlog

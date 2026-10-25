@@ -86,7 +86,7 @@ def main():
 
     # --- 1. copy the site ---------------------------------------------------
     for f in os.listdir(ROOT):
-        if f.endswith(".html") or f in ("favicon.svg", "favicon.ico", "resume.pdf"):
+        if f.endswith(".html") or f in ("favicon.svg", "favicon.ico", "resume.pdf", "manifest.json", "sw.js"):
             shutil.copy2(os.path.join(ROOT, f), dest)
     # friendly-named entry point (a copy of index.html) for Start-menu / desktop shortcuts
     shutil.copy2(os.path.join(ROOT, "index.html"), os.path.join(dest, "Portfolio Website - Huamin Lu.html"))
